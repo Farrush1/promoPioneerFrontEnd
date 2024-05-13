@@ -30,7 +30,7 @@ export default function Navbar() {
 
   return (
     <nav className="bg-gradient-to-b from-orange-600 to-orange-500 py-0.5 fixed w-full z-20 top-0 start-0 shadow-md">
-      <div className="xl:max-w-6xl md:gap-12 gap-3 mx-auto xl:px-0 flex flex-wrap flex-row w-full items-center justify-between py-2 px-4">
+      <div className="xl:max-w-6xl md:gap-12 gap-3 mx-auto xl:px-0 flex flex-wrap flex-row w-full items-center justify-between py-3 px-4">
         <Link
           href="/"
           className="flex items-end gap-1">
@@ -78,24 +78,24 @@ export default function Navbar() {
             </Link>
           ) : (
             <Link href="/profile">
-              <div className="dropdown dropdown-hover dropdown-end ">
+              <div className="dropdown dropdown-hover dropdown-end">
                 <div
                   tabIndex={0}
                   role="button"
-                  className="btn px-0 bg-transparent border-none hover:bg-transparent shadow-none">
+                  className="btn px-0 bg-transparent border-none hover:bg-transparent shadow-none h-0 min-h-0">
                   <FaUserCircle
                     size={28}
-                    className="text-white"
+                    className="text-white translate-y-0.5"
                   />
                 </div>
                 <ul
                   tabIndex={0}
-                  className="dropdown-content z-[1] menu p-2 shadow bg-base-100 text-black rounded-box w-52">
+                  className="dropdown-content z-[1] menu shadow bg-base-100 text-black rounded-box w-52">
                   <li>
                     <a>Profile</a>
                   </li>
                   <li>
-                    <a>Log Out</a>
+                    <button onClick={handleLogOut}>Log Out</button>
                   </li>
                 </ul>
               </div>
