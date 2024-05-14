@@ -40,7 +40,7 @@ export default function Carousel() {
   }, []);
 
   return (
-    <div className="my-8 sm:mx-4 xl:mx-0">
+    <div className="my-8 ">
       <Swiper
         effect={"fade"}
         autoplay={{ delay: 5000, pauseOnMouseEnter: true }}
@@ -56,7 +56,7 @@ export default function Carousel() {
                     background: `url(${listing.url}) center no-repeat`,
                     backgroundSize: "cover",
                   }}
-                  className="h-96 object-cover sm:rounded-lg"
+                  className="h-72 sm:h-96 object-cover rounded-lg lg:h-[460px]"
                   key={listing.id}></div>
               </Link>
             </SwiperSlide>
