@@ -1,5 +1,4 @@
 /** @type {import('tailwindcss').Config} */
-import daisyui from "daisyui";
 
 module.exports = {
   content: [
@@ -17,5 +16,5 @@ module.exports = {
       themes: ["light", "dark", "cupcake"],
     },
   },
-  plugins: [daisyui],
+  plugins: [require("daisyui")],
 };
