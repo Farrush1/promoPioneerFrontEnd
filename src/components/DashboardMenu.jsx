@@ -9,8 +9,7 @@ import { FaUser } from "react-icons/fa";
 export default function DashboardMenu() {
   return (
     <>
-      <nav className="md:hidden w-full h-[97px]"></nav>
-      <nav className="md:hidden fixed w-full bg-orange-600 text-white rounded-lg shadow-lg p-2">
+      <nav className="md:hidden w-full sticky top-4 bg-orange-600 text-white rounded-lg shadow-lg p-2 mx-auto">
         <div className="flex items-end justify-between px-6 pb-2 border-b border-orange-400">
           <h1 className="font-bold">Dashboard Menu</h1>
           <p className="text-sm">Admin</p>
@@ -18,6 +17,7 @@ export default function DashboardMenu() {
         <div className="flex flex-row justify-around pt-2">
           <Link
             href={"/dashboard"}
+            title="Dashboard"
             className="flex p-3 gap-3 items-center hover:font-semibold cursor-pointer hover:bg-white hover:text-slate-800 rounded-full hover:shadow-md duration-300">
             <span>
               <AiFillHome />
@@ -25,6 +25,7 @@ export default function DashboardMenu() {
           </Link>
           <Link
             href={"/dashboard/product"}
+            title="Product"
             className="flex p-3 gap-3 items-center hover:font-semibold cursor-pointer hover:bg-white hover:text-slate-800 rounded-full hover:shadow-md duration-300">
             <span>
               <FaCartShopping />
@@ -32,6 +33,7 @@ export default function DashboardMenu() {
           </Link>
           <Link
             href={"/dashboard/promo"}
+            title="Promo"
             className="flex p-3 gap-3 items-center hover:font-semibold cursor-pointer hover:bg-white hover:text-slate-800 rounded-full hover:shadow-md duration-300">
             <span>
               <RiDiscountPercentFill />
@@ -39,6 +41,7 @@ export default function DashboardMenu() {
           </Link>
           <Link
             href={"/dashboard/warehouse"}
+            title="Warehouse"
             className="flex p-3 gap-3 items-center hover:font-semibold cursor-pointer hover:bg-white hover:text-slate-800 rounded-full hover:shadow-md duration-300">
             <span>
               <FaWarehouse />
@@ -46,6 +49,7 @@ export default function DashboardMenu() {
           </Link>
           <Link
             href={"/dashboard/order"}
+            title="Order"
             className="flex p-3 gap-3 items-center hover:font-semibold cursor-pointer hover:bg-white hover:text-slate-800 rounded-full hover:shadow-md duration-300">
             <span>
               <GiCardboardBoxClosed />
@@ -53,6 +57,7 @@ export default function DashboardMenu() {
           </Link>
           <Link
             href={"/dashboard/user"}
+            title="User"
             className="flex p-3 gap-3 items-center hover:font-semibold cursor-pointer hover:bg-white hover:text-slate-800 rounded-full hover:shadow-md duration-300">
             <span>
               <FaUser />
