@@ -14,7 +14,7 @@ export default function RootLayout({ children }) {
     <html
       lang="en"
       data-theme="light">
-      <body className={(inter.className, "xl:max-w-6xl mx-auto px-4 xl:px-0")}>
+      <body className={(inter.className)}>
         <Navbar />
         {children}
       </body>

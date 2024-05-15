@@ -1,10 +1,9 @@
 import CardProduct from "@/components/CardProduct";
 import Carousel from "@/components/Carousel";
-import Image from "next/image";
 
 export default function Home() {
   return (
-    <main className="h-[9999px]">
+    <main className="h-[9999px] xl:max-w-6xl mx-auto px-4 xl:px-0">
       <Carousel />
 
       {/* contoh penggunaan card menggunakan grid */}
