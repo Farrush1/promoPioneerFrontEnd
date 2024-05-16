@@ -66,7 +66,7 @@ export default function DashboardMenu() {
         </div>
       </nav>
 
-      <div className="hidden w-1/4 md:flex flex-col p-4 gap-8 shadow-xl rounded-lg h-full bg-orange-600 text-white">
+      <div className="hidden h-[95vh] sticky top-4 w-1/4 md:flex flex-col p-4 gap-8 shadow-xl rounded-lg bg-orange-600 text-white">
         <div className="admin mx-auto">
           <div className="bg-gray-400 rounded-full w-20 h-20 p-6 text-center my-6">
             img
