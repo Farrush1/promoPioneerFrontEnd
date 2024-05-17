@@ -1,9 +1,32 @@
 /* eslint-disable react/jsx-key */
 "use client";
 
+// import { useEffect, useState } from "react";
 import { FaDeleteLeft } from "react-icons/fa6";
+// import { useCookies } from "react-cookie";
 
 export default function Cart() {
+  // const [cartList, setCartList] = useState([]);
+  // const [cookies] = useCookies(["access_token"]);
+  // useEffect(() => {
+  //   const fetchCart = async () => {
+  //     try {
+  //       const res = await fetch("http://localhost:5000/api/carts", {
+  //         method: "GET",
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //           Authorization: `Bearer ${cookies.access_token}`,
+  //         },
+  //       });
+  //       console.log(res);
+  //       const data = await res.json();
+  //       setCartList(data);
+  //     } catch (error) {
+  //       console.log(error);
+  //     }
+  //   };
+  //   fetchCart();
+  // }, [cookies.access_token]);
   const cartList = [
     {
       id: 1,
@@ -54,8 +77,8 @@ export default function Cart() {
   ];
 
   return (
-    <main className="xl:max-w-6xl mx-auto px-4 xl:px-0">
-      <h1 className="lg:text-3xl font-bold pt-24 pb-8 text-2xl">My Cart</h1>
+    <main className="xl:max-w-6xl mx-auto px-4 pt-24 xl:px-0">
+      <h1 className="lg:text-3xl font-bold pb-8 text-2xl">My Cart</h1>
       <div className="flex flex-col gap-6 md:hidden">
         {cartList &&
           cartList.length > 0 &&
@@ -67,7 +90,7 @@ export default function Cart() {
                   {listing.product}
                 </h1>
                 <div className="flex flex-col gap-1">
-                  <p className="text-orange-700 font-semibold">
+                  <p className="text-orange-700 font-bold">
                     <span>Rp </span>
                     {listing.price}
                   </p>
@@ -87,7 +110,6 @@ export default function Cart() {
             <th className="px-2 md:px-6 py-2">Product</th>
             <th className="px-2 md:px-6 py-2">Price</th>
             <th className="px-2 md:px-6 py-2">Quantity</th>
-            {/* <th className="px-2 md:px-6 py-2">Total Price</th> */}
             <th className="px-2 md:px-6 py-2"></th>
           </tr>
         </thead>
@@ -106,7 +128,6 @@ export default function Cart() {
                   {listing.quantity}
                   <button className="pl-3">+</button>
                 </td>
-                {/* <td className="px-2 md:px-6">{listing.total_price}</td> */}
                 <td>
                   <button className="text-red-600 text-sm md:text-3xl pr-2 md:pl-2 hover:-translate-x-2 duration-300">
                     <FaDeleteLeft />
@@ -118,9 +139,9 @@ export default function Cart() {
       </table>
       <div className="shadow-t w-full right-0 px-4 py-3 flex mt-4 fixed bg-white bottom-0">
         <div className="xl:max-w-6xl flex items-center justify-between gap-12 text-sm md:text-base w-full mx-auto">
-          <p className="font-bold">Total Unit Price</p>
+          <p className="font-bold">Total Price</p>
           <div className="flex gap-16 items-center">
-            <p className="font-bold">
+            <p className="font-extrabold text-lg text-orange-600">
               <span>Rp</span> 20.000
             </p>
             <button className="text-white px-4 py-2 rounded-md shadow-md hover:opacity-80 duration-300 font-bold bg-gradient-to-b from-orange-600 to-orange-500">
@@ -132,3 +153,5 @@ export default function Cart() {
     </main>
   );
 }
+
+
