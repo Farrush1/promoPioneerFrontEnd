@@ -12,7 +12,10 @@ module.exports = {
         sans: ["Cairo", "sans-serif"],
       },
       boxShadow: {
-        t: "0px -3px 15px 1px rgba(0, 0, 0, 0.1)",
+        t: "0px -2px 3px 1px rgba(0, 0, 0, 0.1)",
+      },
+      animation: {
+        "spin-slow": "spin 3s linear infinite",
       },
     },
     daisyui: {
