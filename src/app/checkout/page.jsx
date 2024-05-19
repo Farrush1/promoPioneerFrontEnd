@@ -1,3 +1,7 @@
+/* eslint-disable @next/next/no-img-element */
+"use client";
+
+import toast, { Toaster } from "react-hot-toast";
 import { IoLocation } from "react-icons/io5";
 
 export default function Checkout() {
@@ -9,6 +13,8 @@ export default function Checkout() {
       price: 20000,
       quantity: 2,
       total_price: 40000,
+      product_image:
+        "https://images.unsplash.com/photo-1519689680058-324335c77eba?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     },
     {
       id: 2,
@@ -16,6 +22,8 @@ export default function Checkout() {
       price: 30000,
       quantity: 3,
       total_price: 40000,
+      product_image:
+        "https://images.unsplash.com/photo-1519689680058-324335c77eba?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     },
     {
       id: 3,
@@ -23,6 +31,8 @@ export default function Checkout() {
       price: 40000,
       quantity: 4,
       total_price: 40000,
+      product_image:
+        "https://images.unsplash.com/photo-1519689680058-324335c77eba?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     },
     {
       id: 4,
@@ -31,6 +41,8 @@ export default function Checkout() {
       price: 20000,
       quantity: 2,
       total_price: 40000,
+      product_image:
+        "https://images.unsplash.com/photo-1519689680058-324335c77eba?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     },
     {
       id: 5,
@@ -39,6 +51,8 @@ export default function Checkout() {
       price: 20000,
       quantity: 2,
       total_price: 40000,
+      product_image:
+        "https://images.unsplash.com/photo-1519689680058-324335c77eba?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     },
     {
       id: 6,
@@ -47,12 +61,67 @@ export default function Checkout() {
       price: 20000,
       quantity: 2,
       total_price: 40000,
+      product_image:
+        "https://images.unsplash.com/photo-1519689680058-324335c77eba?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     },
   ];
-  console.log(cartList);
+
+  const cityList = () => {
+    const closeToast = e => {
+      e.preventDefault();
+      toast.dismiss();
+    };
+    console.log("cityList");
+    toast(
+      <form>
+        <div className="flex items-center justify-between mb-4 text-sm">
+          <p>City</p>
+          <div className="dropdown dropdown-bottom">
+            <select
+              id="city"
+              name="city"
+              className="block w-full p-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500 focus:ring-1 sm:text-sm">
+              {[
+                "Batam",
+                "Jakarta",
+                "Bandung",
+                "Lampung",
+                "Yogyakarta",
+                "Semarang",
+              ].map(city => (
+                <option
+                  key={city}
+                  value={city}>
+                  {city}
+                </option>
+              ))}
+            </select>
+          </div>
+        </div>
+        <input
+          type="text"
+          placeholder="Full Address"
+          className="w-80 text-sm px-3 py-1 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-orange-500 focus:border-orange-500"
+        />
+        <button
+          type="submit"
+          onClick={e => closeToast(e)}
+          className="text-sm w-full hover:opacity-70 shadow-md mt-3 duration-300 bg-gradient-to-b from-orange-700 to-orange-600 text-white px-3 py-1 rounded-md">
+          Simpan
+        </button>
+      </form>,
+      { duration: Infinity }
+    );
+  };
 
   return (
     <main className="xl:max-w-6xl mx-auto px-4 pt-24 xl:px-0">
+      <Toaster
+        reverseOrder={false}
+        containerStyle={{
+          top: "20%",
+        }}
+      />
       <h1 className="lg:text-3xl text-2xl pb-8 font-bold">Checkout</h1>
       <div className="flex flex-row gap-2 p-3 bg-orange-600 text-white rounded-lg shadow-lg mb-6 items-start">
         <IoLocation className="text-xl" />
@@ -61,17 +130,29 @@ export default function Checkout() {
           <p>Fahlan</p>
           <p>Kel Belian, Batam</p>
         </div>
-        <button className="text-sm hover:font-bold duration-300">Edit</button>
+        <button
+          onClick={() => cityList()}
+          className="text-sm hover:font-bold duration-300">
+          Edit
+        </button>
       </div>
-      <div className="flex flex-col gap-6 md:hidden">
+
+      {/* Mobile */}
+      <div className="flex flex-col gap-3 mb-36 md:hidden">
         {cartList &&
           cartList.length > 0 &&
           cartList.map(listing => (
+            // List product checkout
             <div
               key={listing.id}
-              className="p-3 bg-gray-100 rounded-lg shadow-lg">
+              className="p-3 bg-white rounded-md shadow-md">
               <div className="flex text-sm gap-3 mb-2">
-                <div className="w-24 h-24 bg-gray-300">img</div>
+                <img
+                  src={listing.product_image}
+                  width={96}
+                  height={96}
+                  alt={listing.product}
+                />
                 <div className="flex flex-col gap-1.5 flex-1 justify-between">
                   <h1 className="font-semibold line-clamp-2">
                     {listing.product}
@@ -87,39 +168,108 @@ export default function Checkout() {
                   </div>
                 </div>
               </div>
-              <div className="p-2 text-sm sm:text-base bg-green-100 rounded-md border-dashed border-2 border-green-200">
+              <div className="p-2 flex flex-row justify-between items-center text-sm sm:text-base bg-green-100 rounded-md border-dashed border-2 border-green-200">
                 <h1 className="font-semibold">Shiping Option</h1>
-                <div className="dropdown dropdown-right">
-                  <div
-                    tabIndex={0}
-                    role="button"
-                    className="btn rounded-md py-1 px-2 h-8 bg-white mx-0 my-2 min-h-0 m-1">
-                    Reguler <span>{">"}</span>
-                  </div>
-                  <ul
-                    tabIndex={0}
-                    className="dropdown-content z-[1] mt-2 menu p-2 shadow bg-base-100 rounded-md w-52">
-                    <li className="hover:bg-orange-100 hover:font-semibold rounded-md duration-300">
-                      <button>Hemat</button>
-                    </li>
-                    <li className="hover:bg-orange-100 hover:font-semibold rounded-md duration-300">
-                      <button>Cargo</button>
-                    </li>
-                  </ul>
+                <div className="">
+                  <select
+                    id="shipingOptions"
+                    name="shipingOptions"
+                    className="block w-full p-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500 focus:ring-1 sm:text-sm">
+                    {["Reguler", "Cargo", "Hemat"].map(shipingOptions => (
+                      <option
+                        key={shipingOptions}
+                        value={shipingOptions}>
+                        {shipingOptions}
+                      </option>
+                    ))}
+                  </select>
                 </div>
+              </div>
+              <div className="flex flex-row justify-between text-sm font-bold pt-2 text-orange-700">
+                <p>Subtotal Product</p>
+                <p>Rp {listing.total_price}</p>
               </div>
             </div>
           ))}
       </div>
-      <div className="shadow-t w-full right-0 px-4 py-3 flex mt-4 fixed bg-white bottom-0">
+
+      {/* Desktop */}
+      <div className="hidden md:block">
+        <div className="flex items-center bg-orange-600 px-4 text-white font-semibold py-2 rounded-md shadow-md">
+          <h1 className="w-[40%]">Product</h1>
+          <h1 className="w-1/5 text-center">Unit Price</h1>
+          <h1 className="w-1/5 text-center">Quantity</h1>
+          <h1 className="w-1/5 text-center">Subtotal Product</h1>
+        </div>
+        <div className="flex items-start mt-3 gap-3 flex-col mb-36">
+          {cartList &&
+            cartList.length > 0 &&
+            cartList.map(listing => (
+              // List product checkout
+              <div
+                key={listing.id}
+                className="w-full bg-white p-2 rounded-md shadow-md">
+                <div className="flex text-black w-full">
+                  <div className="flex w-[40%] gap-4">
+                    <img
+                      src={listing.product_image}
+                      alt={listing.product}
+                      className="w-[72px] h-[72px] object-cover"
+                    />
+                    <p className="font-semibold line-clamp-3 overflow-hidden">
+                      {listing.product}
+                    </p>
+                  </div>
+                  <p className="w-1/5 text-center">{listing.price}</p>
+                  <p className="w-1/5 text-center">{listing.quantity}</p>
+                  <p className="w-1/5 text-center text-orange-700 font-semibold">
+                    {listing.total_price}
+                  </p>
+                </div>
+                <div className="p-2 flex flex-row justify-between items-center text-sm sm:text-base mt-2 bg-green-100 rounded-md border-dashed border-2 border-green-200">
+                  <h1 className="font-semibold">Shiping Option</h1>
+                  <div className="">
+                    <select
+                      id="shipingOptions"
+                      name="shipingOptions"
+                      className="block w-full p-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500 focus:ring-1 sm:text-sm">
+                      {["Reguler", "Cargo", "Hemat"].map(shipingOptions => (
+                        <option
+                          key={shipingOptions}
+                          value={shipingOptions}>
+                          {shipingOptions}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                </div>
+              </div>
+            ))}
+        </div>
+      </div>
+
+      {/* Voucher Code and Total price */}
+      <div className="shadow-t w-full right-0 px-4 py-3 mt-4 fixed bg-white bottom-0">
+        <div className="xl:max-w-6xl flex mb-3 items-center justify-between gap-12 text-sm md:text-base w-full mx-auto">
+          <div className="flex gap-4 items-center w-10/12">
+            <p className="font-bold w-full max-w-24 md:max-w-32">Vouher Code</p>
+            <input
+              type="text"
+              className="border-2 border-orange-300 px-2 rounded-md py-1 text-sm w-full max-w-96"
+            />
+          </div>
+          <button className="text-white px-4 py-2 min-w-24 w-28 max-w-32 rounded-md shadow-md hover:opacity-80 duration-300 font-bold bg-gradient-to-b from-orange-600 to-orange-500">
+            Apply
+          </button>
+        </div>
         <div className="xl:max-w-6xl flex items-center justify-between gap-12 text-sm md:text-base w-full mx-auto">
-          <p className="font-bold">Total Payment</p>
+          <p className="font-bold">Total Price</p>
           <div className="flex gap-16 items-center">
-            <p className="font-extrabold text-lg text-orange-600">
+            <p className="font-extrabold text-orange-600">
               <span>Rp</span> 20.000
             </p>
-            <button className="text-white px-4 py-2 rounded-md shadow-md hover:opacity-80 duration-300 font-bold bg-gradient-to-b from-orange-600 to-orange-500">
-              Place Order
+            <button className="text-white px-4 py-2 flex-1 min-w-24 rounded-md w-28 max-w-32 shadow-md hover:opacity-80 duration-300 font-bold bg-gradient-to-b from-orange-600 to-orange-500">
+              Order
             </button>
           </div>
         </div>
