@@ -1,10 +1,75 @@
+"use client"
+
+import { useState } from "react";
 import { FaFileUpload } from "react-icons/fa";
 
 export default function CreateProduct() {
+  const [formData, setFormData] = useState({
+    productName: '',
+    category: '',
+    price: '',
+    description: '',
+    warehouseName: '',
+    location: '',
+    city: '',
+    file: null,
+  });
+
+  const [selectedFile, setSelectedFile] = useState(null);
+
+  const handleChange = (e) => {
+    const { name, value, files } = e.target;
+    if(files) {
+      setFormData ({ ...formData, [name]: files[0] });
+      const selectedFile = files[0];
+      const imageUrl = URL.createObjectURL(selectedFile);
+      setSelectedFile(imageUrl);
+    } else {
+      setFormData ({ ...formData, [name]: value });
+    }
+  };
+    
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    
+    const data = new FormData();
+    for (const key in formData) {
+      data.append(key, formData[key]);
+    }
+
+    try {
+      const response = await fetch('http://localhost:5000/api/products', {
+        method: 'POST',
+        body: data,
+        credentials: 'include'
+      });
+
+      if (response.ok) {
+        alert('Product added successfully!');
+        setFormData({
+          productName: '',
+          category: '',
+          price: '',
+          description: '',
+          warehouseName: '',
+          location: '',
+          city: '',
+          file: null,
+        });
+      } else {
+        alert('Failed to add product');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      alert('An error occurred');
+    }
+  };
+
   return (
     <div className="p-6">
       <h1 className="text-2xl font-bold mb-6">Create Product</h1>
-      <form className="space-y-6">
+      <form className="space-y-6" onSubmit={handleSubmit}>
         <div className="flex space-x-6">
           <div className="flex flex-col space-y-6 w-1/2">
             <label className="form-control">
@@ -13,8 +78,11 @@ export default function CreateProduct() {
               </div>
               <input
                 type="text"
+                name="productName"
                 placeholder="Type here"
                 className="input input-bordered w-full"
+                value={formData.productName}
+                onChange={handleChange}
               />
             </label>
 
@@ -22,7 +90,12 @@ export default function CreateProduct() {
               <div className="label">
                 <span className="label-text">Category</span>
               </div>
-              <select className="select select-bordered w-full">
+              <select
+                name="category"
+                className="select select-bordered w-full"
+                value={formData.category}
+                onChange={handleChange}
+              >
                 <option disabled selected>
                   Choose Category
                 </option>
@@ -40,8 +113,11 @@ export default function CreateProduct() {
               </div>
               <input
                 type="text"
+                name="price"
                 placeholder="Rp."
                 className="input input-bordered w-full"
+                value={formData.price}
+                onChange={handleChange}
               />
             </label>
 
@@ -50,8 +126,11 @@ export default function CreateProduct() {
                 <span className="label-text">Description</span>
               </div>
               <textarea
+                name="description"
                 className="textarea textarea-bordered w-full"
                 placeholder="Description"
+                value={formData.description}
+                onChange={handleChange}
               ></textarea>
             </label>
           </div>
@@ -71,7 +150,13 @@ export default function CreateProduct() {
                   SVG, PNG, JPG or GIF (MAX. 800x400px)
                 </p>
               </div>
-              <input id="dropzone-file" type="file" className="hidden" />
+              <input
+                id="dropzone-file"
+                type="file"
+                name="file"
+                className="hidden"
+                onChange={handleChange}
+              />
             </label>
           </div>
         </div>
@@ -84,8 +169,11 @@ export default function CreateProduct() {
               </div>
               <input
                 type="text"
+                name="warehouseName"
                 placeholder="Warehouse Name"
                 className="input input-bordered w-full"
+                value={formData.warehouseName}
+                onChange={handleChange}
               />
             </label>
 
@@ -95,8 +183,11 @@ export default function CreateProduct() {
               </div>
               <input
                 type="text"
+                name="location"
                 placeholder="Warehouse Location"
                 className="input input-bordered w-full"
+                value={formData.location}
+                onChange={handleChange}
               />
             </label>
           </div>
@@ -106,7 +197,12 @@ export default function CreateProduct() {
               <div className="label">
                 <span className="label-text">City</span>
               </div>
-              <select className="select select-bordered w-full">
+              <select
+                name="city"
+                className="select select-bordered w-full"
+                value={formData.city}
+                onChange={handleChange}
+              >
                 <option disabled selected>
                   Warehouse City
                 </option>
@@ -119,9 +215,9 @@ export default function CreateProduct() {
             </label>
           </div>
         </div>
-      </form>
 
-      <button className="btn btn-primary mt-6 bg-orange-600">Add Product</button>
+        <button type="submit" className="btn btn-primary mt-6 bg-orange-600">Add Product</button>
+      </form>
     </div>
   );
 }
