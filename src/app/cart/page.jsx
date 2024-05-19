@@ -7,6 +7,7 @@ import { TiDelete } from "react-icons/ti";
 import { FaDeleteLeft } from "react-icons/fa6";
 import { BiLoaderCircle } from "react-icons/bi";
 import Link from "next/link";
+import { deleteCartItem, fetchCarts, updateCartItem } from "@/libs/fetch/carts";
 
 export default function Cart() {
   const [cartList, setCartList] = useState([]);
@@ -14,63 +15,14 @@ export default function Cart() {
   console.log(cartList);
 
   useEffect(() => {
-    const fetchCart = async () => {
-      try {
-        const res = await fetch("http://localhost:5000/api/carts", {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          credentials: "include",
-        });
-        const data = await res.json();
-        setCartList(data.carts.cartItem);
-      } catch (error) {
-        console.log(error);
-      } finally {
-        setIsLoading(false);
+    const loadCart = async () => {
+      const cartItems = await fetchCarts(setIsLoading);
+      if (cartItems) {
+        setCartList(cartItems);
       }
     };
-    fetchCart();
+    loadCart();
   }, []);
-
-  const updateCartItem = async (itemId, newQuantity) => {
-    try {
-      const res = await fetch(
-        `http://localhost:5000/api/carts/cart-items/${itemId}`,
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          credentials: "include",
-          body: JSON.stringify({ quantity: newQuantity }),
-        }
-      );
-      const data = await res.json();
-      return data;
-    } catch (error) {
-      console.log(error);
-      return null;
-    }
-  };
-
-  const deleteCartItem = async itemId => {
-    try {
-      const res = await fetch(
-        `http://localhost:5000/api/carts/cart-items/${itemId}`,
-        {
-          method: "DELETE",
-          credentials: "include",
-        }
-      );
-      const data = await res.json();
-      return data;
-    } catch (error) {
-      console.log(error);
-      return null;
-    }
-  };
 
   const handleIncrement = async index => {
     const newCartList = [...cartList];
@@ -121,9 +73,9 @@ export default function Cart() {
 
   if (isLoading)
     return (
-      <p className="h-screen flex justify-center items-center text-5xl animate-spin-slow text-orange-600 duration-1000">
-        <BiLoaderCircle />
-      </p>
+      <div className="relative h-screen w-screen ">
+        <BiLoaderCircle className="absolute top-1/2 left-1/2 text-5xl animate-spin-slow duration-1000  text-orange-600" />
+      </div>
     );
 
   return (
@@ -150,8 +102,12 @@ export default function Cart() {
                   </h1>
                   <div className="flex flex-col gap-1">
                     <p className="text-orange-700 font-bold">
-                      <span>Rp </span>
-                      {item.product.price}
+                      {item.product.price.toLocaleString("id-ID", {
+                        style: "currency",
+                        currency: "IDR",
+                        minimumFractionDigits: 0,
+                        maximumFractionDigits: 0,
+                      })}
                     </p>
                     <div className="flex gap-2">
                       <button onClick={() => handleDecrement(index)}>-</button>
@@ -183,7 +139,7 @@ export default function Cart() {
             cartList.map((item, index) => {
               // List product checkout
               return (
-                <div className="w-full bg-white p-2 rounded-md shadow-md">
+                <div className="w-full bg-white p-4 rounded-md shadow-md">
                   <div className="flex text-black w-full">
                     <div className="flex flex-1 w-[40%] gap-4">
                       <img
@@ -195,7 +151,15 @@ export default function Cart() {
                         {item.product.name}
                       </p>
                     </div>
-                    <p className="w-1/5 text-center">{item.product.price}</p>
+                    <div className="w-1/5 flex justify-center">
+                      <p className="w-3/5 flex gap-2 justify-between">
+                        <span>Rp </span>
+                        {item.product.price.toLocaleString("id-ID", {
+                          minimumFractionDigits: 0,
+                          maximumFractionDigits: 0,
+                        })}
+                      </p>
+                    </div>
                     <div className="w-[10%] text-center">
                       <button
                         onClick={() => handleDecrement(index)}
@@ -209,9 +173,18 @@ export default function Cart() {
                         +
                       </button>
                     </div>
-                    <p className="w-1/5 text-center text-orange-700 font-semibold">
-                      {item.product.price * item.quantity}
-                    </p>
+                    <div className="w-1/5 flex justify-center">
+                      <p className="w-3/5 flex gap-2 justify-between text-orange-700 font-semibold">
+                        <span>Rp </span>
+                        {(item.product.price * item.quantity).toLocaleString(
+                          "id-ID",
+                          {
+                            minimumFractionDigits: 0,
+                            maximumFractionDigits: 0,
+                          }
+                        )}
+                      </p>
+                    </div>
                     <div className="w-[10%">
                       <button
                         onClick={() => handleDelete(index)}
