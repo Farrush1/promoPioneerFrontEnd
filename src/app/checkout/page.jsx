@@ -1,7 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
 
-import toast, { Toaster } from "react-hot-toast";
 import { IoLocation } from "react-icons/io5";
 
 export default function Checkout() {
@@ -66,62 +65,17 @@ export default function Checkout() {
     },
   ];
 
-  const cityList = () => {
-    const closeToast = e => {
-      e.preventDefault();
-      toast.dismiss();
-    };
-    console.log("cityList");
-    toast(
-      <form>
-        <div className="flex items-center justify-between mb-4 text-sm">
-          <p>City</p>
-          <div className="dropdown dropdown-bottom">
-            <select
-              id="city"
-              name="city"
-              className="block w-full p-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500 focus:ring-1 sm:text-sm">
-              {[
-                "Batam",
-                "Jakarta",
-                "Bandung",
-                "Lampung",
-                "Yogyakarta",
-                "Semarang",
-              ].map(city => (
-                <option
-                  key={city}
-                  value={city}>
-                  {city}
-                </option>
-              ))}
-            </select>
-          </div>
-        </div>
-        <input
-          type="text"
-          placeholder="Full Address"
-          className="w-80 text-sm px-3 py-1 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-orange-500 focus:border-orange-500"
-        />
-        <button
-          type="submit"
-          onClick={e => closeToast(e)}
-          className="text-sm w-full hover:opacity-70 shadow-md mt-3 duration-300 bg-gradient-to-b from-orange-700 to-orange-600 text-white px-3 py-1 rounded-md">
-          Simpan
-        </button>
-      </form>,
-      { duration: Infinity }
-    );
+  const handleSubmitAddress = e => {
+    e.preventDefault();
+    document.getElementById("my_modal_1").close();
+  };
+
+  const openEditAddress = () => {
+    document.getElementById("my_modal_1").showModal();
   };
 
   return (
     <main className="xl:max-w-6xl mx-auto px-4 pt-24 xl:px-0">
-      <Toaster
-        reverseOrder={false}
-        containerStyle={{
-          top: "20%",
-        }}
-      />
       <h1 className="lg:text-3xl text-2xl pb-8 font-bold">Checkout</h1>
       <div className="flex flex-row gap-2 p-3 bg-orange-600 text-white rounded-lg shadow-lg mb-6 items-start">
         <IoLocation className="text-xl" />
@@ -131,7 +85,7 @@ export default function Checkout() {
           <p>Kel Belian, Batam</p>
         </div>
         <button
-          onClick={() => cityList()}
+          onClick={openEditAddress}
           className="text-sm hover:font-bold duration-300">
           Edit
         </button>
@@ -274,6 +228,55 @@ export default function Checkout() {
           </div>
         </div>
       </div>
+
+      <dialog
+        id="my_modal_1"
+        className="modal">
+        <div className="modal-box">
+          <form>
+            <div className="flex items-center justify-between mb-4 text-sm">
+              <p>City</p>
+              <div className="dropdown dropdown-bottom">
+                <select
+                  id="city"
+                  name="city"
+                  className="block w-full p-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500 focus:ring-1 sm:text-sm">
+                  {[
+                    "Batam",
+                    "Jakarta",
+                    "Bandung",
+                    "Lampung",
+                    "Yogyakarta",
+                    "Semarang",
+                  ].map(city => (
+                    <option
+                      key={city}
+                      value={city}>
+                      {city}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            </div>
+            <input
+              type="text"
+              placeholder="Full Address"
+              className="w-full text-sm px-3 py-1.5 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-orange-500 focus:border-orange-500"
+            />
+            <div className="modal-action">
+              {/* if there is a button in form, it will close the modal */}
+              <button
+                onClick={e => {
+                  handleSubmitAddress(e);
+                }}
+                type="submit"
+                className="btn text-sm w-full hover:opacity-70 shadow-md duration-300 bg-gradient-to-b from-orange-700 to-orange-600 text-white px-3 py-1 min-h-0 h-10 rounded-md">
+                Close
+              </button>
+            </div>
+          </form>
+        </div>
+      </dialog>
     </main>
   );
 }
