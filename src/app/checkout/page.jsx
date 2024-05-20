@@ -122,10 +122,14 @@ export default function Checkout() {
                   </div>
                 </div>
               </div>
-              <div className="p-2 flex flex-row justify-between items-center text-sm sm:text-base bg-green-100 rounded-md border-dashed border-2 border-green-200">
-                <h1 className="font-semibold">Shiping Option</h1>
-                <div className="">
-                  <select
+              <div className="p-1 flex flex-row justify-between items-center text-xs bg-green-100 rounded-md border-dashed border-2 border-green-200">
+                <h1 className="font-semibold">Shiping Service</h1>
+                <div className="flex items-center min-w-36 gap-2">
+                  <p className="font-semibold w-full">Rp 40.000</p>
+                  <p className="px-3 py-1 border font-semibold border-green-300 rounded-md">
+                    Reguler
+                  </p>
+                  {/* <select
                     id="shipingOptions"
                     name="shipingOptions"
                     className="block w-full p-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500 focus:ring-1 sm:text-sm">
@@ -136,7 +140,7 @@ export default function Checkout() {
                         {shipingOptions}
                       </option>
                     ))}
-                  </select>
+                  </select> */}
                 </div>
               </div>
               <div className="flex flex-row justify-between text-sm font-bold pt-2 text-orange-700">
@@ -190,11 +194,14 @@ export default function Checkout() {
                     })}
                   </p>
                 </div>
-                <div className="p-2 flex flex-row justify-between items-center text-sm mt-2 bg-green-100 rounded-md border-dashed border-2 border-green-200">
-                  <h1 className="font-semibold">Shiping Option</h1>
-                  <div className="flex min-w-60 items-center">
-                    <p className="w-full font-semibold">Rp 40.000</p>
-                    <select
+                <div className="p-1 flex flex-row justify-between items-center text-sm mt-2 bg-green-100 rounded-md border-dashed border-2 border-green-200">
+                  <h1 className="font-semibold">Shiping Service</h1>
+                  <div className="flex min-w-44 items-center">
+                    <p className="font-semibold w-full">Rp 40.000</p>
+                    <p className="px-3 py-1 border font-semibold border-green-300 rounded-md">
+                      Reguler
+                    </p>
+                    {/* <select
                       id="shipingOptions"
                       name="shipingOptions"
                       className="block w-full p-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500 focus:ring-1 sm:text-sm">
@@ -205,7 +212,7 @@ export default function Checkout() {
                           {shipingOptions}
                         </option>
                       ))}
-                    </select>
+                    </select> */}
                   </div>
                 </div>
               </div>
@@ -215,31 +222,56 @@ export default function Checkout() {
 
       {/* Voucher Code and Total price */}
       <div className="shadow-t w-full right-0 px-4 py-3 mt-4 fixed bg-white bottom-0">
-        <div className="xl:max-w-6xl flex mb-3 items-center justify-between gap-12 text-sm md:text-base w-full mx-auto">
-          <div className="flex gap-4 items-center w-10/12">
-            <p className="font-bold w-full max-w-24 md:max-w-32">Vouher Code</p>
+        <div className="xl:max-w-6xl flex mb-3 items-center justify-between gap-6 !text-sm md:text-base w-full mx-auto">
+          <div className="flex gap-4 items-center w-full max-w-[28rem]">
+            <p className="font-bold w-full max-w-24 md:max-w-32">
+              Voucher Code
+            </p>
             <input
               type="text"
-              className="border-2 border-orange-300 px-2 rounded-md py-1 text-sm w-full max-w-96"
+              className="border-2 border-green-200 border-dashed px-2 rounded-md py-1 text-sm w-full max-w-96 focus:outline-green-400"
             />
+            <div className="dropdown dropdown-top">
+              <div
+                tabIndex={0}
+                role="button"
+                className="btn min-w-16 min-h-0 h-8 bg-green-100 text-black">
+                Code
+              </div>
+              <ul
+                tabIndex={0}
+                className="dropdown-content mb-1 z-[1] menu p-2 shadow bg-base-100 rounded-box w-36">
+                <li>
+                  <p className="hover:bg-white !cursor-text active:!bg-white active:!text-black font-semibold px-1">
+                    DSC60%
+                  </p>
+                </li>
+                <li>
+                  <p className="hover:bg-white !cursor-text active:!bg-white active:!text-black font-semibold px-1">
+                    GO30K
+                  </p>
+                </li>
+              </ul>
+            </div>
           </div>
-          <button className="text-white px-4 py-2 min-w-24 w-28 max-w-32 rounded-md shadow-md hover:opacity-80 duration-300 font-bold bg-gradient-to-b from-orange-600 to-orange-500">
+          <button className="text-white px-4 py-2  min-w-24 rounded-md shadow-md hover:opacity-80 duration-300 font-bold bg-gradient-to-b from-orange-600 to-orange-500">
             Apply
           </button>
         </div>
-        <div className="xl:max-w-6xl flex items-center justify-between gap-12 text-sm md:text-base w-full mx-auto">
+        <div className="xl:max-w-6xl flex items-center justify-between gap-12 !text-sm md:text-base w-full mx-auto">
           <p className="font-bold">Total Price</p>
           <div className="flex gap-16 items-center">
             <p className="font-extrabold text-orange-600">
               <span>Rp</span> 20.000
             </p>
-            <button className="text-white px-4 py-2 flex-1 min-w-24 rounded-md w-28 max-w-32 shadow-md hover:opacity-80 duration-300 font-bold bg-gradient-to-b from-orange-600 to-orange-500">
+            <button className="text-white px-4 py-2 flex-1  rounded-md min-w-24 shadow-md hover:opacity-80 duration-300 font-bold bg-gradient-to-b from-orange-600 to-orange-500">
               Order
             </button>
           </div>
         </div>
       </div>
 
+      {/* Modal Edit Address */}
       <dialog
         id="my_modal_1"
         className="modal">
