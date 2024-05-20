@@ -12,20 +12,20 @@ import { FaUserCircle } from "react-icons/fa";
 
 export default function Navbar() {
   const [isLogin, setIsLogin] = useState(false);
-  const [cookies, setCookies, removeCookie] = useCookies(["access_token"]);
+  const [cookies, setCookies, removeCookie] = useCookies(["accessToken"]);
   const route = useRouter();
   const pathname = usePathname();
   const isNestedDashboardRoute = pathname.startsWith("/dashboard");
 
   useEffect(() => {
-    if (cookies.access_token) {
+    if (cookies.accessToken) {
       setIsLogin(true);
     }
   }, [cookies]);
 
   const handleLogOut = () => {
     location.reload();
-    removeCookie("access_token");
+    removeCookie("accessToken");
     setIsLogin(false);
     route.push("/");
   };
@@ -34,7 +34,7 @@ export default function Navbar() {
     <>
       {!isNestedDashboardRoute && (
         <div>
-          <nav className="bg-gradient-to-b from-orange-600 to-orange-500 py-0.5 fixed w-full z-20 top-0 start-0 shadow-md">
+          <nav className="bg-orange-600 py-0.5 fixed w-full z-20 top-0 start-0 shadow-md">
             <div className="xl:max-w-6xl md:gap-12 gap-3 mx-auto xl:px-0 flex flex-wrap flex-row w-full items-center justify-between py-3 px-4">
               <Link
                 href="/"
