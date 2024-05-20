@@ -174,15 +174,26 @@ export default function Checkout() {
                       {listing.product}
                     </p>
                   </div>
-                  <p className="w-1/5 text-center">{listing.price}</p>
+                  <p className="w-1/5 text-center">
+                    Rp{" "}
+                    {listing.price.toLocaleString("id-ID", {
+                      minimumFractionDigits: 0,
+                      maximumFractionDigits: 0,
+                    })}
+                  </p>
                   <p className="w-1/5 text-center">{listing.quantity}</p>
                   <p className="w-1/5 text-center text-orange-700 font-semibold">
-                    {listing.total_price}
+                    Rp{" "}
+                    {listing.total_price.toLocaleString("id-ID", {
+                      minimumFractionDigits: 0,
+                      maximumFractionDigits: 0,
+                    })}
                   </p>
                 </div>
-                <div className="p-2 flex flex-row justify-between items-center text-sm sm:text-base mt-2 bg-green-100 rounded-md border-dashed border-2 border-green-200">
+                <div className="p-2 flex flex-row justify-between items-center text-sm mt-2 bg-green-100 rounded-md border-dashed border-2 border-green-200">
                   <h1 className="font-semibold">Shiping Option</h1>
-                  <div className="">
+                  <div className="flex min-w-60 items-center">
+                    <p className="w-full font-semibold">Rp 40.000</p>
                     <select
                       id="shipingOptions"
                       name="shipingOptions"
@@ -271,7 +282,7 @@ export default function Checkout() {
                 }}
                 type="submit"
                 className="btn text-sm w-full hover:opacity-70 shadow-md duration-300 bg-gradient-to-b from-orange-700 to-orange-600 text-white px-3 py-1 min-h-0 h-10 rounded-md">
-                Close
+                Simpan
               </button>
             </div>
           </form>
