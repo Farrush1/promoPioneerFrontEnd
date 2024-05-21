@@ -8,11 +8,12 @@ import { FaDeleteLeft } from "react-icons/fa6";
 import { BiLoaderCircle } from "react-icons/bi";
 import Link from "next/link";
 import { deleteCartItem, fetchCarts, updateCartItem } from "@/libs/fetch/carts";
+import { useRouter } from "next/router";
 
 export default function Cart() {
   const [cartList, setCartList] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  console.log(cartList);
+  // const router = useRouter();
 
   useEffect(() => {
     const loadCart = async () => {
@@ -69,6 +70,27 @@ export default function Cart() {
     return cartList.reduce((total, item) => {
       return total + item.product.price * item.quantity;
     }, 0);
+  };
+
+  const handleCheckout = () => {
+    const checkout = async () => {
+      try {
+        const res = await fetch("http://localhost:5000/api/checkouts/carts", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "include",
+          body: JSON.stringify(),
+        });
+        const data = await res.json();
+        console.log(data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    checkout();
+    // router.push("/checkout");
   };
 
   if (isLoading)
@@ -215,68 +237,14 @@ export default function Cart() {
                 maximumFractionDigits: 0,
               })}
             </p>
-            <Link
-              href={"/checkout"}
+            <button
+              onClick={handleCheckout}
               className="text-white px-4 py-2 rounded-md shadow-md hover:opacity-80 duration-300 font-bold bg-gradient-to-b from-orange-600 to-orange-500">
               Checkout
-            </Link>
+            </button>
           </div>
         </div>
       </div>
     </main>
   );
-}
-
-{
-  /* <table className="mb-28 hidden md:table table-auto w-full rounded-sm overflow-hidden shadow-lg">
-  <thead>
-    <tr className="text-left text-base text-white h-12 bg-orange-600 shadow-lg">
-      <th className="px-2 md:px-6 py-2">Product</th>
-      <th className="px-2 md:px-6 py-2 text-center">Price</th>
-      <th className="px-2 md:px-6 py-2 text-center">Quantity</th>
-      <th className="px-2 md:px-6 py-2 text-center"></th>
-    </tr>
-  </thead>
-  <tbody>
-    {cartList.length > 0 ? (
-      cartList.map((item, index) => {
-        return (
-          <tr className="border-b border-slate-200">
-            <td className="py-2 md:py-5 px-2 md:px-6 flex flex-row gap-4">
-              <img
-                src={item.product.product_image}
-                alt={item.product.name}
-                className="object-cover w-24 h-24"
-              />
-              <p className="flex-1 font-semibold">{item.product.name}</p>
-            </td>
-            <td className="px-2 md:px-6 text-center font-semibold">
-              {item.product.price}
-            </td>
-            <td className="px-2 md:px-6 text-center">
-              <button
-                onClick={() => handleDecrement(index)}
-                className="pr-3">
-                -
-              </button>
-              {item.quantity}
-              <button
-                onClick={() => handleIncrement(index)}
-                className="pl-3">
-                +
-              </button>
-            </td>
-            <td>
-              <button className="text-red-600 text-sm md:text-3xl pr-2 md:pl-2 hover:-translate-x-2 duration-300">
-                <FaDeleteLeft />
-              </button>
-            </td>
-          </tr>
-        );
-      })
-    ) : (
-      <p>Cart Empty</p>
-    )}
-  </tbody>
-</table>; */
 }
