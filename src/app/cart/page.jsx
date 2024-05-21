@@ -11,10 +11,11 @@ import { deleteCartItem, fetchCarts, updateCartItem } from "@/libs/fetch/carts";
 import storeCarts from "@/libs/fetch/checkouts";
 
 export default function Cart() {
-  const [cartList, setCartList] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const [cartList, setCartList] = useState([]); // Daftar carts
+  const [isLoading, setIsLoading] = useState(true); // State loading
   const router = useRouter();
 
+  // Rendering tampilan awal memuat daftar carts
   useEffect(() => {
     const loadCart = async () => {
       const cartItems = await fetchCarts(setIsLoading);
@@ -25,6 +26,7 @@ export default function Cart() {
     loadCart();
   }, []);
 
+  // Menambahkan quantity di button +
   const handleIncrement = async index => {
     const newCartList = [...cartList];
     newCartList[index].quantity += 1;
@@ -37,6 +39,7 @@ export default function Cart() {
     }
   };
 
+  // Mengurangi quantity di button -
   const handleDecrement = async index => {
     const newCartList = [...cartList];
     if (newCartList[index].quantity > 1) {
@@ -57,6 +60,7 @@ export default function Cart() {
     }
   };
 
+  // Menghapus item dari daftar cartList
   const handleDelete = async index => {
     const newCartList = [...cartList];
     const deletedItem = await deleteCartItem(newCartList[index].id);
@@ -66,17 +70,30 @@ export default function Cart() {
     }
   };
 
-  const handleCheckouts = () => {
-    storeCarts();
-    router.push("/checkout");
+  // Menghandle button checkouts untuk dilempar ke route checkouts sesuai id checkouts collection
+  const handleCheckouts = async () => {
+    try {
+      const data = await storeCarts(); // fungsi fetch untuk menyimpan checkouts
+      console.log(data.lasCheckColection.id);
+      if (data && data.lasCheckColection.id) {
+        const idURI = encodeURIComponent(
+          JSON.stringify(data.lasCheckColection.id)
+        );
+        router.push(`/checkout/?id=${idURI}`);
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
+  // Menghitung total price dari semua product untuk tampilan
   const calculateTotalPrice = () => {
     return cartList.reduce((total, item) => {
       return total + item.product.price * item.quantity;
     }, 0);
   };
 
+  // Untuk tampilan loading
   if (isLoading)
     return (
       <div className="relative h-screen w-screen ">
