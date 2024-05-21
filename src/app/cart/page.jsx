@@ -6,14 +6,14 @@ import { useEffect, useState } from "react";
 import { TiDelete } from "react-icons/ti";
 import { FaDeleteLeft } from "react-icons/fa6";
 import { BiLoaderCircle } from "react-icons/bi";
-import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { deleteCartItem, fetchCarts, updateCartItem } from "@/libs/fetch/carts";
-import { useRouter } from "next/router";
+import storeCarts from "@/libs/fetch/checkouts";
 
 export default function Cart() {
   const [cartList, setCartList] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  // const router = useRouter();
+  const router = useRouter();
 
   useEffect(() => {
     const loadCart = async () => {
@@ -66,31 +66,15 @@ export default function Cart() {
     }
   };
 
+  const handleCheckouts = () => {
+    storeCarts();
+    router.push("/checkout");
+  };
+
   const calculateTotalPrice = () => {
     return cartList.reduce((total, item) => {
       return total + item.product.price * item.quantity;
     }, 0);
-  };
-
-  const handleCheckout = () => {
-    const checkout = async () => {
-      try {
-        const res = await fetch("http://localhost:5000/api/checkouts/carts", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          credentials: "include",
-          body: JSON.stringify(),
-        });
-        const data = await res.json();
-        console.log(data);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    checkout();
-    // router.push("/checkout");
   };
 
   if (isLoading)
@@ -238,7 +222,7 @@ export default function Cart() {
               })}
             </p>
             <button
-              onClick={handleCheckout}
+              onClick={handleCheckouts}
               className="text-white px-4 py-2 rounded-md shadow-md hover:opacity-80 duration-300 font-bold bg-gradient-to-b from-orange-600 to-orange-500">
               Checkout
             </button>
