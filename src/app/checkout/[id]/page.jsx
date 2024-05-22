@@ -1,69 +1,98 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
 
+import { useEffect, useState } from "react";
 import { IoLocation } from "react-icons/io5";
+import { BiLoaderCircle } from "react-icons/bi";
 
-export default function Checkout() {
-  const cartList = [
-    {
-      id: 1,
-      product:
-        "The Sliding Mr. Bones (Next Stop, Pottersville) Happy Birthday To You And For Me too",
-      price: 20000,
-      quantity: 2,
-      total_price: 40000,
-      product_image:
-        "https://images.unsplash.com/photo-1519689680058-324335c77eba?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    },
-    {
-      id: 2,
-      product: "Witchy Woman",
-      price: 30000,
-      quantity: 3,
-      total_price: 40000,
-      product_image:
-        "https://images.unsplash.com/photo-1519689680058-324335c77eba?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    },
-    {
-      id: 3,
-      product: "Earth, Wind, and Fire",
-      price: 40000,
-      quantity: 4,
-      total_price: 40000,
-      product_image:
-        "https://images.unsplash.com/photo-1519689680058-324335c77eba?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    },
-    {
-      id: 4,
-      product:
-        "The Sliding Mr. Bones (Next Stop, Pottersville) Happy Birthday To You And For Me too",
-      price: 20000,
-      quantity: 2,
-      total_price: 40000,
-      product_image:
-        "https://images.unsplash.com/photo-1519689680058-324335c77eba?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    },
-    {
-      id: 5,
-      product:
-        "The Sliding Mr. Bones (Next Stop, Pottersville) Happy Birthday To You And For Me too",
-      price: 20000,
-      quantity: 2,
-      total_price: 40000,
-      product_image:
-        "https://images.unsplash.com/photo-1519689680058-324335c77eba?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    },
-    {
-      id: 6,
-      product:
-        "The Sliding Mr. Bones (Next Stop, Pottersville) Happy Birthday To You And For Me too",
-      price: 20000,
-      quantity: 2,
-      total_price: 40000,
-      product_image:
-        "https://images.unsplash.com/photo-1519689680058-324335c77eba?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    },
-  ];
+export default function Checkout({ params: { id } }) {
+  const [checkoutList, setCheckoutList] = useState([]);
+  const [loading, setLoading] = useState(true);
+  console.log(checkoutList);
+
+  // const cartList = [
+  //   {
+  //     id: 1,
+  //     product:
+  //       "The Sliding Mr. Bones (Next Stop, Pottersville) Happy Birthday To You And For Me too",
+  //     price: 20000,
+  //     quantity: 2,
+  //     total_price: 40000,
+  //     product_image:
+  //       "https://images.unsplash.com/photo-1519689680058-324335c77eba?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+  //   },
+  //   {
+  //     id: 2,
+  //     product: "Witchy Woman",
+  //     price: 30000,
+  //     quantity: 3,
+  //     total_price: 40000,
+  //     product_image:
+  //       "https://images.unsplash.com/photo-1519689680058-324335c77eba?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+  //   },
+  //   {
+  //     id: 3,
+  //     product: "Earth, Wind, and Fire",
+  //     price: 40000,
+  //     quantity: 4,
+  //     total_price: 40000,
+  //     product_image:
+  //       "https://images.unsplash.com/photo-1519689680058-324335c77eba?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+  //   },
+  //   {
+  //     id: 4,
+  //     product:
+  //       "The Sliding Mr. Bones (Next Stop, Pottersville) Happy Birthday To You And For Me too",
+  //     price: 20000,
+  //     quantity: 2,
+  //     total_price: 40000,
+  //     product_image:
+  //       "https://images.unsplash.com/photo-1519689680058-324335c77eba?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+  //   },
+  //   {
+  //     id: 5,
+  //     product:
+  //       "The Sliding Mr. Bones (Next Stop, Pottersville) Happy Birthday To You And For Me too",
+  //     price: 20000,
+  //     quantity: 2,
+  //     total_price: 40000,
+  //     product_image:
+  //       "https://images.unsplash.com/photo-1519689680058-324335c77eba?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+  //   },
+  //   {
+  //     id: 6,
+  //     product:
+  //       "The Sliding Mr. Bones (Next Stop, Pottersville) Happy Birthday To You And For Me too",
+  //     price: 20000,
+  //     quantity: 2,
+  //     total_price: 40000,
+  //     product_image:
+  //       "https://images.unsplash.com/photo-1519689680058-324335c77eba?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+  //   },
+  // ];
+
+  useEffect(() => {
+    setLoading(true);
+    const fetchCheckouts = async () => {
+      try {
+        const res = await fetch(`http://localhost:5000/api/checkouts/${id}`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "include",
+        });
+        const data = await res.json();
+        // console.log(data);
+        setCheckoutList(data.getCheckCollection);
+        setLoading(false);
+      } catch (error) {
+        console.log(error.message);
+        setLoading(false);
+      }
+    };
+    fetchCheckouts();
+  }, [id]);
 
   const handleSubmitAddress = e => {
     e.preventDefault();
@@ -73,6 +102,13 @@ export default function Checkout() {
   const openEditAddress = () => {
     document.getElementById("my_modal_1").showModal();
   };
+
+  if (loading)
+    return (
+      <div className="relative h-screen w-screen ">
+        <BiLoaderCircle className="absolute top-1/2 left-1/2 text-5xl animate-spin-slow duration-1000  text-orange-600" />
+      </div>
+    );
 
   return (
     <main className="xl:max-w-6xl mx-auto px-4 pt-24 xl:px-0">
@@ -90,34 +126,30 @@ export default function Checkout() {
           Edit
         </button>
       </div>
-
       {/* Mobile */}
-      <div className="flex flex-col gap-3 mb-36 md:hidden">
-        {cartList &&
-          cartList.length > 0 &&
-          cartList.map(listing => (
+      {/* <div className="flex flex-col gap-3 mb-36 md:hidden">
+        {checkoutList.length > 0 ? (
+          checkoutList.map(item => (
             // List product checkout
             <div
-              key={listing.id}
+              key={item.id}
               className="p-3 bg-white rounded-md shadow-md">
               <div className="flex text-sm gap-3 mb-2">
                 <img
-                  src={listing.product_image}
+                  src={item.product_image}
                   width={96}
                   height={96}
-                  alt={listing.product}
+                  alt={item.product}
                 />
                 <div className="flex flex-col gap-1.5 flex-1 justify-between">
-                  <h1 className="font-semibold line-clamp-2">
-                    {listing.product}
-                  </h1>
+                  <h1 className="font-semibold line-clamp-2">{item.product}</h1>
                   <div className="flex flex-col gap-1">
                     <p className="text-orange-700 font-semibold">
                       <span>Rp </span>
-                      {listing.price}
+                      {item.price}
                     </p>
                     <div className="flex gap-2">
-                      <p>x{listing.quantity}</p>
+                      <p>x{item.quantity}</p>
                     </div>
                   </div>
                 </div>
@@ -129,28 +161,18 @@ export default function Checkout() {
                   <p className="px-3 py-1 border font-semibold border-green-300 rounded-md">
                     Reguler
                   </p>
-                  {/* <select
-                    id="shipingOptions"
-                    name="shipingOptions"
-                    className="block w-full p-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500 focus:ring-1 sm:text-sm">
-                    {["Reguler", "Cargo", "Hemat"].map(shipingOptions => (
-                      <option
-                        key={shipingOptions}
-                        value={shipingOptions}>
-                        {shipingOptions}
-                      </option>
-                    ))}
-                  </select> */}
                 </div>
               </div>
               <div className="flex flex-row justify-between text-sm font-bold pt-2 text-orange-700">
                 <p>Subtotal Product</p>
-                <p>Rp {listing.total_price}</p>
+                <p>Rp {item.total_price}</p>
               </div>
             </div>
-          ))}
-      </div>
-
+          ))
+        ) : (
+          <p className="text-center">No Order</p>
+        )}
+      </div> */}
       {/* Desktop */}
       <div className="hidden md:block">
         <div className="flex items-center bg-orange-600 px-4 text-white font-semibold py-2 rounded-md shadow-md">
@@ -160,9 +182,9 @@ export default function Checkout() {
           <h1 className="w-1/5 text-center">Subtotal Product</h1>
         </div>
         <div className="flex items-start mt-3 gap-3 flex-col mb-36">
-          {cartList &&
-            cartList.length > 0 &&
-            cartList.map(listing => (
+          {checkoutList &&
+            checkoutList.length > 0 &&
+            checkoutList.map(listing => (
               // List product checkout
               <div
                 key={listing.id}
@@ -201,25 +223,12 @@ export default function Checkout() {
                     <p className="px-3 py-1 border font-semibold border-green-300 rounded-md">
                       Reguler
                     </p>
-                    {/* <select
-                      id="shipingOptions"
-                      name="shipingOptions"
-                      className="block w-full p-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500 focus:ring-1 sm:text-sm">
-                      {["Reguler", "Cargo", "Hemat"].map(shipingOptions => (
-                        <option
-                          key={shipingOptions}
-                          value={shipingOptions}>
-                          {shipingOptions}
-                        </option>
-                      ))}
-                    </select> */}
                   </div>
                 </div>
               </div>
             ))}
         </div>
       </div>
-
       {/* Voucher Code and Total price */}
       <div className="shadow-t w-full right-0 px-4 py-3 mt-4 fixed bg-white bottom-0">
         <div className="xl:max-w-6xl flex mb-3 items-center justify-between gap-6 !text-sm md:text-base w-full mx-auto">
@@ -270,7 +279,6 @@ export default function Checkout() {
           </div>
         </div>
       </div>
-
       {/* Modal Edit Address */}
       <dialog
         id="my_modal_1"

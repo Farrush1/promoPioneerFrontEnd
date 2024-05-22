@@ -79,7 +79,7 @@ export default function Cart() {
         const idURI = encodeURIComponent(
           JSON.stringify(data.lasCheckColection.id)
         );
-        router.push(`/checkout/?id=${idURI}`);
+        router.push(`/checkout/${id}`);
       }
     } catch (error) {
       console.log(error);
