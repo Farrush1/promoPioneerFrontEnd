@@ -10,67 +10,6 @@ export default function Checkout({ params: { id } }) {
   const [loading, setLoading] = useState(true);
   console.log(checkoutList);
 
-  // const cartList = [
-  //   {
-  //     id: 1,
-  //     product:
-  //       "The Sliding Mr. Bones (Next Stop, Pottersville) Happy Birthday To You And For Me too",
-  //     price: 20000,
-  //     quantity: 2,
-  //     total_price: 40000,
-  //     product_image:
-  //       "https://images.unsplash.com/photo-1519689680058-324335c77eba?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-  //   },
-  //   {
-  //     id: 2,
-  //     product: "Witchy Woman",
-  //     price: 30000,
-  //     quantity: 3,
-  //     total_price: 40000,
-  //     product_image:
-  //       "https://images.unsplash.com/photo-1519689680058-324335c77eba?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-  //   },
-  //   {
-  //     id: 3,
-  //     product: "Earth, Wind, and Fire",
-  //     price: 40000,
-  //     quantity: 4,
-  //     total_price: 40000,
-  //     product_image:
-  //       "https://images.unsplash.com/photo-1519689680058-324335c77eba?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-  //   },
-  //   {
-  //     id: 4,
-  //     product:
-  //       "The Sliding Mr. Bones (Next Stop, Pottersville) Happy Birthday To You And For Me too",
-  //     price: 20000,
-  //     quantity: 2,
-  //     total_price: 40000,
-  //     product_image:
-  //       "https://images.unsplash.com/photo-1519689680058-324335c77eba?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-  //   },
-  //   {
-  //     id: 5,
-  //     product:
-  //       "The Sliding Mr. Bones (Next Stop, Pottersville) Happy Birthday To You And For Me too",
-  //     price: 20000,
-  //     quantity: 2,
-  //     total_price: 40000,
-  //     product_image:
-  //       "https://images.unsplash.com/photo-1519689680058-324335c77eba?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-  //   },
-  //   {
-  //     id: 6,
-  //     product:
-  //       "The Sliding Mr. Bones (Next Stop, Pottersville) Happy Birthday To You And For Me too",
-  //     price: 20000,
-  //     quantity: 2,
-  //     total_price: 40000,
-  //     product_image:
-  //       "https://images.unsplash.com/photo-1519689680058-324335c77eba?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-  //   },
-  // ];
-
   useEffect(() => {
     setLoading(true);
     const fetchCheckouts = async () => {
@@ -84,7 +23,7 @@ export default function Checkout({ params: { id } }) {
         });
         const data = await res.json();
         // console.log(data);
-        setCheckoutList(data.getCheckCollection);
+        setCheckoutList(data.getCheckCollection.checkout);
         setLoading(false);
       } catch (error) {
         console.log(error.message);
@@ -189,33 +128,37 @@ export default function Checkout({ params: { id } }) {
               <div
                 key={listing.id}
                 className="w-full bg-white p-2 rounded-md shadow-md">
-                <div className="flex text-black w-full">
-                  <div className="flex w-[40%] gap-4">
-                    <img
-                      src={listing.product_image}
-                      alt={listing.product}
-                      className="w-[72px] h-[72px] object-cover"
-                    />
-                    <p className="font-semibold line-clamp-3 overflow-hidden">
-                      {listing.product}
+                {listing.checkout_item.map(item => (
+                  <div
+                    key={item.id}
+                    className="flex text-black w-full">
+                    <div className="flex w-[40%] gap-4">
+                      <img
+                        src={item.product.product_image}
+                        alt={item.product.name}
+                        className="w-[72px] h-[72px] object-cover"
+                      />
+                      <p className="font-semibold line-clamp-3 overflow-hidden">
+                        {item.product.name}
+                      </p>
+                    </div>
+                    <p className="w-1/5 text-center">
+                      Rp{" "}
+                      {item.product.price.toLocaleString("id-ID", {
+                        minimumFractionDigits: 0,
+                        maximumFractionDigits: 0,
+                      })}
+                    </p>
+                    <p className="w-1/5 text-center">{item.quantity}</p>
+                    <p className="w-1/5 text-center text-orange-700 font-semibold">
+                      Rp{" "}
+                      {item.total_specific_price.toLocaleString("id-ID", {
+                        minimumFractionDigits: 0,
+                        maximumFractionDigits: 0,
+                      })}
                     </p>
                   </div>
-                  <p className="w-1/5 text-center">
-                    Rp{" "}
-                    {listing.price.toLocaleString("id-ID", {
-                      minimumFractionDigits: 0,
-                      maximumFractionDigits: 0,
-                    })}
-                  </p>
-                  <p className="w-1/5 text-center">{listing.quantity}</p>
-                  <p className="w-1/5 text-center text-orange-700 font-semibold">
-                    Rp{" "}
-                    {listing.total_price.toLocaleString("id-ID", {
-                      minimumFractionDigits: 0,
-                      maximumFractionDigits: 0,
-                    })}
-                  </p>
-                </div>
+                ))}
                 <div className="p-1 flex flex-row justify-between items-center text-sm mt-2 bg-green-100 rounded-md border-dashed border-2 border-green-200">
                   <h1 className="font-semibold">Shiping Service</h1>
                   <div className="flex min-w-44 items-center">
@@ -331,3 +274,64 @@ export default function Checkout({ params: { id } }) {
     </main>
   );
 }
+
+// const cartList = [
+  //   {
+  //     id: 1,
+  //     product:
+  //       "The Sliding Mr. Bones (Next Stop, Pottersville) Happy Birthday To You And For Me too",
+  //     price: 20000,
+  //     quantity: 2,
+  //     total_price: 40000,
+  //     product_image:
+  //       "https://images.unsplash.com/photo-1519689680058-324335c77eba?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+  //   },
+  //   {
+  //     id: 2,
+  //     product: "Witchy Woman",
+  //     price: 30000,
+  //     quantity: 3,
+  //     total_price: 40000,
+  //     product_image:
+  //       "https://images.unsplash.com/photo-1519689680058-324335c77eba?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+  //   },
+  //   {
+  //     id: 3,
+  //     product: "Earth, Wind, and Fire",
+  //     price: 40000,
+  //     quantity: 4,
+  //     total_price: 40000,
+  //     product_image:
+  //       "https://images.unsplash.com/photo-1519689680058-324335c77eba?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+  //   },
+  //   {
+  //     id: 4,
+  //     product:
+  //       "The Sliding Mr. Bones (Next Stop, Pottersville) Happy Birthday To You And For Me too",
+  //     price: 20000,
+  //     quantity: 2,
+  //     total_price: 40000,
+  //     product_image:
+  //       "https://images.unsplash.com/photo-1519689680058-324335c77eba?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+  //   },
+  //   {
+  //     id: 5,
+  //     product:
+  //       "The Sliding Mr. Bones (Next Stop, Pottersville) Happy Birthday To You And For Me too",
+  //     price: 20000,
+  //     quantity: 2,
+  //     total_price: 40000,
+  //     product_image:
+  //       "https://images.unsplash.com/photo-1519689680058-324335c77eba?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+  //   },
+  //   {
+  //     id: 6,
+  //     product:
+  //       "The Sliding Mr. Bones (Next Stop, Pottersville) Happy Birthday To You And For Me too",
+  //     price: 20000,
+  //     quantity: 2,
+  //     total_price: 40000,
+  //     product_image:
+  //       "https://images.unsplash.com/photo-1519689680058-324335c77eba?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+  //   },
+  // ];
