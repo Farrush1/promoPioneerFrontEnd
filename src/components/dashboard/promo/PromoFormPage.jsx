@@ -1,9 +1,11 @@
-'use client'
+"use client";
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import toast, { Toaster } from "react-hot-toast";
+import { createPromo, editPromo } from "@/repository/promo";
 
-const CreateFormPage = () => {
-	 const router = useRouter();
+const CreateFormPage = ({ id }) => {
+  const router = useRouter();
   const [formData, setFormData] = useState({
     name: "",
     discountPercent: "",
@@ -16,6 +18,39 @@ const CreateFormPage = () => {
   });
 
   const [promoTypes, setPromoTypes] = useState([]);
+
+  useEffect(() => {
+    const fetchUpdate = async (id) => {
+      if (!id) return; // Only fetch if ID is provided
+      try {
+        const response = await fetch(`http://localhost:5000/api/promo/${id}`);
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const data = await response.json();
+        setFormData({
+          name: data.promo.name || "",
+          discountPercent: data.promo.discount_percent || "",
+          quantity: data.promo.quantity || "",
+          isLimitedQuantity: data.promo.isLimitedQuantity || false,
+          isLimitedTime: data.promo.isLimitedTime || false,
+          // problem date
+          startDate: data.promo.startDate
+            ? formatDateTimeLocal(data.promo.start_date)
+            : "",
+          endDate: data.promo.endDate
+            ? formatDateTimeLocal(data.promo.end_date)
+            : "",
+          // end problem date
+          promoTypeId: data.promo.PromoType.id || "",
+        });
+      } catch (error) {
+        console.error("There was an error fetching the promo!", error);
+      }
+    };
+
+    fetchUpdate(id);
+  }, [id]);
 
   useEffect(() => {
     const fetchPromoTypes = async () => {
@@ -44,7 +79,6 @@ const CreateFormPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const url = "http://localhost:5000/api/promo";
     const payload = {
       name: formData.name,
       discountPercent: parseInt(formData.discountPercent),
@@ -55,21 +89,12 @@ const CreateFormPage = () => {
       endDate: new Date(formData.endDate).toISOString(),
       promoTypeId: parseInt(formData.promoTypeId),
     };
-	console.log(payload);
     try {
-      const response = await fetch(url, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(payload),
-      });
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+      if (id) {
+        await editPromo(id, payload);
+      } else {
+        await createPromo(payload);
       }
-      const data = await response.json();
-      console.log("Promo created:", data);
-      // Reset form
       setFormData({
         name: "",
         discountPercent: "",
@@ -80,16 +105,32 @@ const CreateFormPage = () => {
         endDate: "",
         promoTypeId: "",
       });
-	  router.push('/dashboard/promo')
+      toast.success("Successfully created promo!");
+      setTimeout(() => {
+        router.push("/dashboard/promo");
+      }, 3000); // 3-second delay
+      // router.push("/dashboard/promo");
     } catch (error) {
       console.error("There was an error creating the promo!", error);
     }
   };
 
+  const formatDateTimeLocal = (dateString) => {
+    const date = new Date(dateString);
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
+    const hours = String(date.getHours()).padStart(2, "0");
+    const minutes = String(date.getMinutes()).padStart(2, "0");
+    return `${year}-${month}-${day}T${hours}:${minutes}`;
+  };
+
   return (
     <div className="max-w-md mx-auto mt-10">
       <Toaster position="top-right" reverseOrder={false} />
-      <h1 className="text-2xl font-bold mb-5">Create Promo</h1>
+      <h1 className="text-2xl font-bold mb-5">
+        {id ? "Update" : "Create"} Promo
+      </h1>
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
           <label className="block text-sm font-medium text-gray-700">
@@ -206,7 +247,7 @@ const CreateFormPage = () => {
             type="submit"
             className="mt-2 w-full py-2 px-4 bg-blue-600 text-white rounded-md shadow-sm"
           >
-            Create Promo
+            {id ? "Update" : "Create"} Promo
           </button>
         </div>
       </form>

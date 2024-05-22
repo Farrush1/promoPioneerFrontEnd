@@ -4,11 +4,13 @@ import { FaRegTrashCan } from "react-icons/fa6";
 import Link from "next/link";
 
 import React, { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 
 export default function PromoTablePage() {
+  const router = useRouter();
   const [promo, setPromo] = useState([]);
   useEffect(() => {
-    const fetchBio = async () => {
+    const fetchPromo = async () => {
       const promo = await fetch("http://localhost:5000/api/promo", {
         method: "GET",
         headers: {
@@ -20,9 +22,28 @@ export default function PromoTablePage() {
       console.log(data.promo);
       setPromo(data.promo);
     };
-    fetchBio();
+    fetchPromo();
   }, []);
   // console.log(promo, "-----------")
+  const handleDelete = async (id) => {
+    console.log(id);
+    const promo = await fetch(`http://localhost:5000/api/promo/${id}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+    });
+    const data = await promo.json();
+    console.log(data);
+    if (data.message === 'success') {
+      setPromo((prevPromo) => prevPromo.filter((item) => item.id !== id));
+    }
+  };
+  const handleUpdate = async (id) => {
+    console.log(id);
+    router.push(`/dashboard/promo/update/${id}`)
+  };
   return (
     <div>
       <h1>Promo</h1>
@@ -48,9 +69,9 @@ export default function PromoTablePage() {
           </thead>
           <tbody>
             {/* row 1 */}
-            {promo.map((items) => (
+            {promo.map((items, index) => (
               <tr key={items.id}>
-                <th>{items.id}</th>
+                <th>{index + 1}</th>
                 <td>{items.name}</td>
                 <td>{items.discount_percent}%</td>
                 <td>{items.isLimitedQuantity ? "Yes" : "No"}</td>
@@ -64,10 +85,18 @@ export default function PromoTablePage() {
                 </td>
                 <td>All Product</td>
                 <td className="flex gap-1">
-                  <button className="btn btn-sm btn-warning">
+                  <button
+                    onClick={() => handleUpdate(items.id)}
+                    className="btn btn-sm btn-warning"
+                    disabled={items.name === "SPECIAL_USER"}
+                  >
                     <FaPen />
                   </button>
-                  <button className="btn btn-sm btn-error">
+                  <button
+                    onClick={() => handleDelete(items.id)}
+                    className="btn btn-sm btn-error"
+                    disabled={items.name === "SPECIAL_USER"}
+                  >
                     <FaRegTrashCan />
                   </button>
                 </td>
