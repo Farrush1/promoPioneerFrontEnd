@@ -9,7 +9,7 @@ export default function Page() {
           <p className="mt-2 text-center text-sm text-gray-600">
             or
             <a
-              href="#"
+              href="./register"
               className="text-blue-500 hover:text-blue-600hover:text-indigo-500 px-2"
             >
               Register
@@ -49,7 +49,7 @@ export default function Page() {
             </div>
             
             <div className="flex items-center justify-center">
-              <a href="#" className="text-blue-500 hover:text-blue-600hover:text-indigo-500 px-2">Forgot password?</a>
+              <a href="./password" className="text-blue-500 hover:text-blue-600hover:text-indigo-500 px-2">Forgot password?</a>
             </div>
           </div>
           <div>
