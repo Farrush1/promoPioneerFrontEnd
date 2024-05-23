@@ -64,4 +64,35 @@ const fetchBio = async () => {
   }
 };
 
-module.exports = { storeCarts, fetchCheckouts, fetchCities, fetchBio };
+const fetchPostPayment = async (id) => {
+  await fetch(`http://localhost:5000/api/payments`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    credentials: "include",
+    body: JSON.stringify({
+      checkoutColectionId: +id,
+    }),
+  });
+};
+
+const fecthChangeAddress = async newAddress => {
+  await fetch(`http://localhost:5000/api/users/change-address`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    credentials: "include",
+    body: JSON.stringify(newAddress),
+  });
+};
+
+module.exports = {
+  storeCarts,
+  fetchCheckouts,
+  fetchCities,
+  fetchBio,
+  fetchPostPayment,
+  fecthChangeAddress,
+};

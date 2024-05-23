@@ -4,7 +4,14 @@
 import { useEffect, useState } from "react";
 import { IoLocation } from "react-icons/io5";
 import { BiLoaderCircle } from "react-icons/bi";
-import { fetchBio, fetchCheckouts, fetchCities } from "@/libs/fetch/checkouts";
+import {
+  fecthChangeAddress,
+  fetchBio,
+  fetchCheckouts,
+  fetchCities,
+  fetchPostPayment,
+} from "@/libs/fetch/checkouts";
+import { useRouter } from "next/navigation";
 
 export default function Checkout({ params: { id } }) {
   const [checkoutList, setCheckoutList] = useState([]);
@@ -14,6 +21,8 @@ export default function Checkout({ params: { id } }) {
   const [fullAddress, setFullAddress] = useState("");
   const [bioList, setBioList] = useState({});
   const [selectedCityName, setSelectedCityName] = useState("");
+  const [disableOrder, setDisableOrder] = useState("");
+  const router = useRouter();
 
   useEffect(() => {
     setLoading(true);
@@ -59,17 +68,7 @@ export default function Checkout({ params: { id } }) {
         fullAddress: `${fullAddress}`,
         cityId: +selectedCity,
       };
-      const res = await fetch(
-        `http://localhost:5000/api/users/change-address`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          credentials: "include",
-          body: JSON.stringify(newAddress),
-        }
-      );
+      fecthChangeAddress(newAddress);
     } catch (error) {
       console.log(error.message);
     }
@@ -97,6 +96,12 @@ export default function Checkout({ params: { id } }) {
 
   const openEditAddress = () => {
     document.getElementById("my_modal_1").showModal();
+  };
+
+  const handleOrder = () => {
+    setDisableOrder(true);
+    fetchPostPayment(id);
+    router.push(`/payment/${id}`);
   };
 
   if (loading)
@@ -354,21 +359,29 @@ export default function Checkout({ params: { id } }) {
               </ul>
             </div>
           </div>
-          <button className="text-white px-4 py-2  min-w-24 rounded-md shadow-md hover:opacity-80 duration-300 font-bold bg-gradient-to-b from-orange-600 to-orange-500">
+          <button className="text-white text-center py-2 sm:px-4 min-w-16 rounded-md shadow-md hover:opacity-80 duration-300 font-bold bg-gradient-to-b from-orange-600 to-orange-500">
             Apply
           </button>
         </div>
-        <div className="xl:max-w-6xl flex items-center justify-between gap-12 !text-sm md:text-base w-full mx-auto">
+        <div className="xl:max-w-6xl flex items-center justify-between gap-6 !text-sm md:text-base w-full mx-auto">
           <p className="font-bold">Total Price</p>
-          <div className="flex gap-16 items-center">
-            <p className="font-extrabold text-orange-600">
+          <div className="flex gap-3 sm:gap-6 items-center">
+            <p className="font-extrabold text-orange-700">
+              {checkoutList.CheckoutDiscount[0].discount_percent}% OFF
+            </p>
+            <p className="font-extrabold text-orange-700">
               Rp{" "}
-              {checkoutList.total_price.toLocaleString("id-ID", {
+              {(
+                checkoutList.total_shipping_price +
+                checkoutList.CheckoutDiscount[0].discount_price
+              ).toLocaleString("id-ID", {
                 minimumFractionDigits: 0,
                 maximumFractionDigits: 0,
               })}
             </p>
-            <button className="text-white px-4 py-2 flex-1  rounded-md min-w-24 shadow-md hover:opacity-80 duration-300 font-bold bg-gradient-to-b from-orange-600 to-orange-500">
+            <button
+              onClick={handleOrder}
+              className="text-white text-center sm:px-4 py-2 flex-1  rounded-md min-w-16 shadow-md hover:opacity-80 duration-300 font-bold bg-gradient-to-b from-orange-600 to-orange-500">
               Order
             </button>
           </div>

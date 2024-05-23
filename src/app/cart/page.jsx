@@ -15,7 +15,6 @@ export default function Cart() {
   const [isLoading, setIsLoading] = useState(true); // State loading
   const [disableCheckout, setDisableCheckout] = useState("");
   const router = useRouter();
-  console.log(disableCheckout);
 
   // Rendering tampilan awal memuat daftar carts
   useEffect(() => {
