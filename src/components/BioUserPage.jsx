@@ -27,7 +27,7 @@ export default function BioUserPage() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          email: "johndoe@example.com",
+          email: "admin@gmail.com",
           password: "12345678",
         }),
       });
