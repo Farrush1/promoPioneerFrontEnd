@@ -4,6 +4,7 @@
 import { useEffect, useState } from "react";
 import { IoLocation } from "react-icons/io5";
 import { BiLoaderCircle } from "react-icons/bi";
+import { fetchBio, fetchCheckouts, fetchCities } from "@/libs/fetch/checkouts";
 
 export default function Checkout({ params: { id } }) {
   const [checkoutList, setCheckoutList] = useState([]);
@@ -12,65 +13,67 @@ export default function Checkout({ params: { id } }) {
   const [selectedCity, setSelectedCity] = useState("");
   const [fullAddress, setFullAddress] = useState("");
   const [bioList, setBioList] = useState({});
-  console.log(selectedCity);
+  const [selectedCityName, setSelectedCityName] = useState("");
 
   useEffect(() => {
     setLoading(true);
-    const fetchCheckouts = async () => {
-      try {
-        const res = await fetch(`http://localhost:5000/api/checkouts/${id}`, {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          credentials: "include",
-        });
-        const data = await res.json();
-        // console.log(data);
-        setCheckoutList(data.getCheckCollection.checkout);
-        setLoading(false);
-      } catch (error) {
-        console.log(error.message);
+    const loadCheckouts = async () => {
+      const checkoutsData = await fetchCheckouts(id);
+      if (checkoutsData) {
+        setCheckoutList(checkoutsData);
         setLoading(false);
       }
     };
 
-    const fetchCities = async () => {
-      try {
-        const res = await fetch(`http://localhost:5000/api/cities`, {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          credentials: "include",
-        });
-        const data = await res.json();
-        setCitiesList(data.city);
-      } catch (error) {
-        console.log(error.message);
+    const loadCities = async () => {
+      const citiesData = await fetchCities();
+      if (citiesData) {
+        setCitiesList(citiesData);
       }
     };
 
-    const fetchBio = async () => {
-      try {
-        const res = await fetch(`http://localhost:5000/api/users/bio`, {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          credentials: "include",
-        });
-        const data = await res.json();
-        setBioList(data.users);
-      } catch (error) {
-        console.log(error.message);
+    const loadBio = async () => {
+      const bioData = await fetchBio();
+      if (bioData) {
+        setBioList(bioData);
       }
     };
 
-    fetchCheckouts();
-    fetchCities();
-    fetchBio();
+    loadCheckouts();
+    loadCities();
+    loadBio();
   }, [id]);
+
+  useEffect(() => {
+    if (selectedCity) {
+      const cityName = citiesList.filter(city => city.id == selectedCity)[0]
+        ?.name;
+      setSelectedCityName(cityName);
+    }
+    // console.log("cityname :", +cityName);
+  }, [citiesList, selectedCity]);
+
+  const editBioAddress = async () => {
+    try {
+      const newAddress = {
+        fullAddress: `${fullAddress}`,
+        cityId: +selectedCity,
+      };
+      const res = await fetch(
+        `http://localhost:5000/api/users/change-address`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "include",
+          body: JSON.stringify(newAddress),
+        }
+      );
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
 
   const handleCityChange = e => {
     setSelectedCity(e.target.value);
@@ -84,8 +87,11 @@ export default function Checkout({ params: { id } }) {
     e.preventDefault();
     setBioList(prevBioList => ({
       ...prevBioList,
-      full_address: `${fullAddress}, ${selectedCity}`, // Menggabungkan city.id dengan alamat penuh
+      city_id: selectedCity,
+      full_address: `${fullAddress}`,
     }));
+
+    editBioAddress();
     document.getElementById("my_modal_1").close();
   };
 
@@ -102,13 +108,73 @@ export default function Checkout({ params: { id } }) {
 
   return (
     <main className="xl:max-w-6xl mx-auto px-4 pt-24 xl:px-0">
+      {/* Modal Edit Address */}
+      <dialog
+        id="my_modal_1"
+        className="modal">
+        <div className="modal-box">
+          <form>
+            <div className="flex items-center justify-between mb-4 text-sm">
+              <p>City</p>
+              <div className="dropdown dropdown-bottom">
+                <select
+                  id="city"
+                  name="city"
+                  onChange={handleCityChange}
+                  className="block w-full p-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500 focus:ring-1 sm:text-sm">
+                  {citiesList
+                    .sort((a, b) => a.name.localeCompare(b.name)) // Mengurutkan berdasarkan nama kota
+                    .map(city => (
+                      <option
+                        key={city.id}
+                        value={city.id}>
+                        {city.name}
+                      </option>
+                    ))}
+                </select>
+              </div>
+            </div>
+            <input
+              type="text"
+              placeholder="Full Address"
+              onChange={handleAddressChange}
+              className="w-full text-sm px-3 py-1.5 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-orange-500 focus:border-orange-500"
+            />
+            <div className="modal-action">
+              {/* if there is a button in form, it will close the modal */}
+              <button
+                onClick={handleSubmitAddress}
+                type="submit"
+                className="btn text-sm w-full hover:opacity-70 shadow-md duration-300 bg-gradient-to-b from-orange-700 to-orange-600 text-white px-3 py-1 min-h-0 h-10 rounded-md">
+                Simpan
+              </button>
+            </div>
+          </form>
+        </div>
+      </dialog>
+
       <h1 className="lg:text-3xl text-2xl pb-8 font-bold">Checkout</h1>
       <div className="flex flex-row gap-2 p-3 bg-orange-600 text-white rounded-lg shadow-lg mb-6 items-start">
         <IoLocation className="text-xl" />
         <div className="text-sm flex-1">
           <p className="pb-1 font-semibold">Delivery Address</p>
           <p>{bioList.name}</p>
-          {bioList && <p>{`${bioList.full_address}`}</p>}
+          {bioList && (
+            <p>
+              {`${bioList.full_address}`}
+              {selectedCityName ? (
+                <span>{`, ${selectedCityName}`}</span>
+              ) : (
+                <span>
+                  ,{" "}
+                  {
+                    citiesList.filter(city => city.id == bioList.city_id)[0]
+                      ?.name
+                  }
+                </span>
+              )}
+            </p>
+          )}
         </div>
         <button
           onClick={openEditAddress}
@@ -120,8 +186,8 @@ export default function Checkout({ params: { id } }) {
       {/* Mobile */}
       <div className="flex flex-col gap-3 mb-36 md:hidden">
         {checkoutList &&
-          checkoutList.length > 0 &&
-          checkoutList.map(listing => (
+          checkoutList.checkout.length > 0 &&
+          checkoutList.checkout.map(listing => (
             // List product checkout
             <div
               key={listing.id}
@@ -197,8 +263,8 @@ export default function Checkout({ params: { id } }) {
         </div>
         <div className="flex items-start mt-3 gap-3 flex-col mb-36">
           {checkoutList &&
-            checkoutList.length > 0 &&
-            checkoutList.map(listing => (
+            checkoutList.checkout.length > 0 &&
+            checkoutList.checkout.map(listing => (
               // List product checkout
               <div
                 key={listing.id}
@@ -244,7 +310,7 @@ export default function Checkout({ params: { id } }) {
                         maximumFractionDigits: 0,
                       })}
                     </p>
-                    <p className="px-3 uppercase py-1 border font-semibold border-green-300 rounded-md">
+                    <p className="px-3 uppercase text-xs text-center py-1 border font-semibold border-green-300 rounded-md">
                       {listing.shippingCheckout.service}
                     </p>
                   </div>
@@ -296,7 +362,11 @@ export default function Checkout({ params: { id } }) {
           <p className="font-bold">Total Price</p>
           <div className="flex gap-16 items-center">
             <p className="font-extrabold text-orange-600">
-              <span>Rp</span> 20.000
+              Rp{" "}
+              {checkoutList.total_price.toLocaleString("id-ID", {
+                minimumFractionDigits: 0,
+                maximumFractionDigits: 0,
+              })}
             </p>
             <button className="text-white px-4 py-2 flex-1  rounded-md min-w-24 shadow-md hover:opacity-80 duration-300 font-bold bg-gradient-to-b from-orange-600 to-orange-500">
               Order
@@ -304,51 +374,6 @@ export default function Checkout({ params: { id } }) {
           </div>
         </div>
       </div>
-
-      {/* Modal Edit Address */}
-      <dialog
-        id="my_modal_1"
-        className="modal">
-        <div className="modal-box">
-          <form>
-            <div className="flex items-center justify-between mb-4 text-sm">
-              <p>City</p>
-              <div className="dropdown dropdown-bottom">
-                <select
-                  id="city"
-                  name="city"
-                  onChange={handleCityChange}
-                  className="block w-full p-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500 focus:ring-1 sm:text-sm">
-                  {citiesList
-                    .sort((a, b) => a.name.localeCompare(b.name)) // Mengurutkan berdasarkan nama kota
-                    .map(city => (
-                      <option
-                        key={city.id}
-                        value={city.name}>
-                        {city.name}
-                      </option>
-                    ))}
-                </select>
-              </div>
-            </div>
-            <input
-              type="text"
-              placeholder="Full Address"
-              onChange={handleAddressChange}
-              className="w-full text-sm px-3 py-1.5 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-orange-500 focus:border-orange-500"
-            />
-            <div className="modal-action">
-              {/* if there is a button in form, it will close the modal */}
-              <button
-                onClick={handleSubmitAddress}
-                type="submit"
-                className="btn text-sm w-full hover:opacity-70 shadow-md duration-300 bg-gradient-to-b from-orange-700 to-orange-600 text-white px-3 py-1 min-h-0 h-10 rounded-md">
-                Simpan
-              </button>
-            </div>
-          </form>
-        </div>
-      </dialog>
     </main>
   );
 }

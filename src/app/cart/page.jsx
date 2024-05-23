@@ -8,12 +8,14 @@ import { FaDeleteLeft } from "react-icons/fa6";
 import { BiLoaderCircle } from "react-icons/bi";
 import { useRouter } from "next/navigation";
 import { deleteCartItem, fetchCarts, updateCartItem } from "@/libs/fetch/carts";
-import storeCarts from "@/libs/fetch/checkouts";
+import { storeCarts } from "@/libs/fetch/checkouts";
 
 export default function Cart() {
   const [cartList, setCartList] = useState([]); // Daftar carts
   const [isLoading, setIsLoading] = useState(true); // State loading
+  const [disableCheckout, setDisableCheckout] = useState("");
   const router = useRouter();
+  console.log(disableCheckout);
 
   // Rendering tampilan awal memuat daftar carts
   useEffect(() => {
@@ -73,8 +75,8 @@ export default function Cart() {
   // Menghandle button checkouts untuk dilempar ke route checkouts sesuai id checkouts collection
   const handleCheckouts = async () => {
     try {
+      setDisableCheckout(true);
       const data = await storeCarts(); // fungsi fetch untuk menyimpan checkouts
-      console.log(data.lasCheckColection.id);
       if (data && data.lasCheckColection.id) {
         const idURI = encodeURIComponent(
           JSON.stringify(data.lasCheckColection.id)
@@ -104,14 +106,15 @@ export default function Cart() {
   return (
     <main className="xl:max-w-6xl mx-auto px-4 pt-24 xl:px-0">
       <h1 className="lg:text-3xl font-bold pb-8 text-2xl">My Cart</h1>
-
       {/* Mobile */}
       <div className="flex flex-col gap-6 md:hidden mb-20">
         {cartList.length > 0 ? (
           cartList.map((item, index) => {
             return (
               // cart item
-              <div className="flex text-sm gap-3 shadow-md p-2 rounded-md">
+              <div
+                key={item.id}
+                className="flex text-sm gap-3 shadow-md p-2 rounded-md">
                 <div className="w-24 h-24 flex items-center justify-center">
                   <img
                     src={item.product.product_image}
@@ -162,7 +165,9 @@ export default function Cart() {
             cartList.map((item, index) => {
               // List product checkout
               return (
-                <div className="w-full bg-white p-4 rounded-md shadow-md">
+                <div
+                  key={item.id}
+                  className="w-full bg-white p-4 rounded-md shadow-md">
                   <div className="flex text-black w-full">
                     <div className="flex flex-1 w-[40%] gap-4">
                       <img
@@ -240,7 +245,8 @@ export default function Cart() {
             </p>
             <button
               onClick={handleCheckouts}
-              className="text-white px-4 py-2 rounded-md shadow-md hover:opacity-80 duration-300 font-bold bg-gradient-to-b from-orange-600 to-orange-500">
+              disabled={disableCheckout}
+              className="text-white px-4 py-2 rounded-md shadow-md hover:opacity-80 duration-300 font-bold bg-gradient-to-b from-orange-600 to-orange-500 disabled:opacity-50">
               Checkout
             </button>
           </div>
