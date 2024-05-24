@@ -1,8 +1,10 @@
 "use client";
 import React, { useState, useEffect } from "react";
+import { useParams } from "next/navigation";
 import DetailProductCard from "@/components/DetailProductCard";
 
 const DetailCard = () => {
+  const { productId } = useParams();
   const [product, setProduct] = useState(null);
   const [relatedProducts, setRelatedProducts] = useState([]);
   const [quantity, setQuantity] = useState(1);
@@ -10,9 +12,7 @@ const DetailCard = () => {
   useEffect(() => {
     const fetchProductDetail = async () => {
       try {
-        
-        // const response = await fetch("http://localhost:5000/api/products/{id}");
-        const response = await fetch("http://localhost:5000/api/products/1");
+        const response = await fetch(`http://localhost:5000/api/products/${productId}`);
         if (!response.ok) {
           throw new Error("Failed to fetch product detail");
         }
@@ -20,18 +20,26 @@ const DetailCard = () => {
         console.log("Response from API:", data);
         setProduct(data);
         const categoryId = data.category_id;
-        fetchProductsByCategory(categoryId, data.id); 
+        fetchProductsByCategory(categoryId, data.id);
       } catch (error) {
         console.error("Error fetching product detail:", error);
       }
     };
-  
-    fetchProductDetail();
-  }, []);
-  
+
+    if (productId) {
+      fetchProductDetail();
+    }
+  }, [productId]);
+
   const fetchProductsByCategory = async (categoryId, productId) => {
     try {
-      const response = await fetch("http://localhost:5000/api/products?categories=${categoryId}");
+      const response = await fetch(`http://localhost:5000/api/products?categories=${categoryId}`, {
+        method: "GET",
+        headers: {
+        "Content-Type": "application/json",
+        },
+        credentials: "include",
+      });
       if (!response.ok) {
         throw new Error("Failed to fetch related products");
       }
@@ -44,7 +52,6 @@ const DetailCard = () => {
       setRelatedProducts([]);
     }
   };
-  
 
   const handleIncrement = () => {
     setQuantity(quantity + 1);
@@ -141,9 +148,9 @@ const DetailCard = () => {
                       className="w-2/3 sm:w-1/3 md:w-1/6 mb-2"
                     >
                       <DetailProductCard
-                        title={relatedProduct.name} 
-                        price={relatedProduct.price} 
-                        imageUrl={relatedProduct.product_image} 
+                        title={relatedProduct.name}
+                        price={relatedProduct.price}
+                        imageUrl={relatedProduct.product_image}
                       />
                     </div>
                   ))
