@@ -3,7 +3,7 @@
 "use client";
 
 import { fetchBio } from "@/libs/fetch/checkouts";
-import { fetchPayment } from "@/libs/fetch/payments";
+import Image from "next/image";
 import { useEffect, useState } from "react";
 import { BiLoaderCircle } from "react-icons/bi";
 
@@ -12,14 +12,23 @@ export default function PaymentPage({ params: { id } }) {
   const [shippingServiceList, setShippingServiceList] = useState([]);
   const [bioList, setBioList] = useState({});
   const [loading, setLoading] = useState(true);
-  console.log(paymentList);
+  const [imageUrl, setImageUrl] = useState(null);
 
   useEffect(() => {
     setLoading(true);
-    const loadPayments = async () => {
-      const paymentsData = await fetchPayment(id);
-      if (paymentsData) {
-        setPaymentList(paymentsData);
+    const fetchPayment = async () => {
+      try {
+        const res = await fetch(`http://localhost:5000/api/payments/${id}`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "include",
+        });
+        const data = await res.json();
+        setPaymentList(data.payment);
+      } catch (error) {
+        console.log(error.message);
       }
     };
 
@@ -30,9 +39,8 @@ export default function PaymentPage({ params: { id } }) {
       }
     };
 
-    loadPayments();
     loadBio();
-    setLoading(false);
+    fetchPayment().then(() => setLoading(false));
   }, [id]);
 
   useEffect(() => {
@@ -45,6 +53,33 @@ export default function PaymentPage({ params: { id } }) {
 
     fetchUniqueService();
   }, [paymentList]);
+
+  const handleImageUpload = async e => {
+    const file = e.target.files[0];
+    const imageData = new FormData();
+    imageData.append("payment_proof", file);
+    console.log(imageData);
+    try {
+      const res = await fetch(
+        `http://localhost:5000/api/payments/proof/${id}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+          credentials: "include",
+          body: imageData,
+        }
+      );
+      const data = await res.json();
+      console.log(data);
+      return data;
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
+  const handlePayButton = async e => {};
 
   const getUniqueShippingServices = async () => {
     const checkouts = await paymentList.checkout_colection?.checkout;
@@ -149,18 +184,16 @@ export default function PaymentPage({ params: { id } }) {
               </div>
             </div>
           )}
-          {paymentList.checkout_colection.total_price && (
-            <div className="flex mb-4 justify-between text-sm font-bold text-orange-700">
-              <h1>Total Price</h1>
-              <p>
-                Rp{" "}
-                {paymentList.checkout_colection.total_price.toLocaleString(
-                  "id-ID",
-                  { minimumFractionDigits: 0, maximumFractionDigits: 0 }
-                )}
-              </p>
-            </div>
-          )}
+          <div className="flex mb-4 justify-between text-sm font-bold text-orange-700">
+            <h1>Total Price</h1>
+            <p>
+              Rp{" "}
+              {paymentList.checkout_colection.total_price.toLocaleString(
+                "id-ID",
+                { minimumFractionDigits: 0, maximumFractionDigits: 0 }
+              )}
+            </p>
+          </div>
         </div>
 
         {/* Desktop */}
@@ -255,9 +288,22 @@ export default function PaymentPage({ params: { id } }) {
           <div>
             <p className="mb-1.5">Upload Proof of Payment</p>
             <input
+              onChange={handleImageUpload}
               type="file"
               accept="image/*"
+              required
             />
+          </div>
+
+          <div className="w-20 h-20">
+            {imageUrl && (
+              <Image
+                src={imageUrl}
+                width={100}
+                height={100}
+                alt="Image Upload"
+              />
+            )}
           </div>
           <button
             type="submit"
