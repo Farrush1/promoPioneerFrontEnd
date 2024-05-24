@@ -46,7 +46,7 @@ export default function PromoTablePage() {
   };
   return (
     <div>
-      <h1>Promo</h1>
+      <h1 className="text-2xl font-bold mb-6 text-center">Promo</h1>
       <Link href="/dashboard/promo/create">
         <button className="btn btn-primary my-5">New Promo</button>
       </Link>
@@ -88,15 +88,13 @@ export default function PromoTablePage() {
                   <button
                     onClick={() => handleUpdate(items.id)}
                     className="btn btn-sm btn-warning"
-                    disabled={items.name === "SPECIAL_USER"}
-                  >
+                    disabled={items.name === "SPECIAL_USER"}>
                     <FaPen />
                   </button>
                   <button
                     onClick={() => handleDelete(items.id)}
                     className="btn btn-sm btn-error"
-                    disabled={items.name === "SPECIAL_USER"}
-                  >
+                    disabled={items.name === "SPECIAL_USER"}>
                     <FaRegTrashCan />
                   </button>
                 </td>
