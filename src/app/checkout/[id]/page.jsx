@@ -67,7 +67,7 @@ export default function Checkout({ params: { id } }) {
   const editBioAddress = async () => {
     try {
       const newAddress = {
-        fullAddress: `${fullAddress}`,
+        fullAddress: `${fullAddress}, ${selectedCityName}`,
         cityId: +selectedCity,
       };
       fecthChangeAddress(newAddress);
@@ -89,7 +89,7 @@ export default function Checkout({ params: { id } }) {
     setBioList(prevBioList => ({
       ...prevBioList,
       city_id: selectedCity,
-      full_address: `${fullAddress}`,
+      full_address: `${fullAddress}, ${selectedCityName}`,
     }));
 
     editBioAddress();
@@ -100,33 +100,18 @@ export default function Checkout({ params: { id } }) {
     document.getElementById("my_modal_1").showModal();
   };
 
-  const handleOrder = () => {
-    setDisableOrder(true);
-    fetchPostPayment(id);
-    router.push(`/payment/${id}`);
-  };
-
-  const handlePromoCheckout = async() => {
+  const handleOrder = async () => {
     try {
-      const url = `http://localhost:5000/api/checkouts/promo/${id}`;
-      const response = await fetch(url, {
-        method: "POST",
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          codeVoucher: voucher,
-        }),
-      });
-      const data = await response.json();
-      console.log(data);
-      setArrDiscount([...arrDiscount, voucher]);
-      setVoucher('')
+      setDisableOrder(true);
+      const data = await fetchPostPayment(id);
+      if (data && data.payment.id) {
+        const idURI = encodeURIComponent(JSON.stringify(data.payment.id));
+        router.push(`/payment/${idURI}`);
+      }
     } catch (error) {
       console.log(error);
     }
-  }
+  };
 
   if (loading)
     return (
@@ -186,22 +171,7 @@ export default function Checkout({ params: { id } }) {
         <div className="text-sm flex-1">
           <p className="pb-1 font-semibold">Delivery Address</p>
           <p>{bioList.name}</p>
-          {bioList && (
-            <p>
-              {`${bioList.full_address}`}
-              {selectedCityName ? (
-                <span>{`, ${selectedCityName}`}</span>
-              ) : (
-                <span>
-                  ,{" "}
-                  {
-                    citiesList.filter((city) => city.id == bioList.city_id)[0]
-                      ?.name
-                  }
-                </span>
-              )}
-            </p>
-          )}
+          {bioList && <p>{bioList.full_address}</p>}
         </div>
         <button
           onClick={openEditAddress}
@@ -406,8 +376,8 @@ export default function Checkout({ params: { id } }) {
             </p>
             <button
               onClick={handleOrder}
-              className="text-white text-center sm:px-4 py-2 flex-1  rounded-md min-w-16 shadow-md hover:opacity-80 duration-300 font-bold bg-gradient-to-b from-orange-600 to-orange-500"
-            >
+              disabled={disableOrder}
+              className="text-white text-center sm:px-4 py-2 flex-1  rounded-md min-w-16 shadow-md hover:opacity-80 duration-300 font-bold bg-gradient-to-b from-orange-600 to-orange-500 disabled:cursor-progress disabled:opacity-50">
               Order
             </button>
           </div>
