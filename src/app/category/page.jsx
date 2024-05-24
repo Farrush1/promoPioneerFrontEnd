@@ -90,86 +90,113 @@ const Category = () => {
     setCurrentPage(selected);
   };
 
-  const handleCategorySelect = (selectedOption) => {
+  const handleCategorySelect = selectedOption => {
     setSelectedCategory(selectedOption ? selectedOption.value : "");
     setCurrentPage(0);
   };
 
-  const handleMinPriceChange = (event) => {
+  const handleMinPriceChange = event => {
     const input = event.target.value;
     if (!isNaN(input) || input === "") {
       setMinPrice(input);
     }
   };
 
-  const handleMaxPriceChange = (event) => {
+  const handleMaxPriceChange = event => {
     setMaxPrice(event.target.value);
   };
 
-  const handleCityIdChange = (selectedOption) => {
+  const handleCityIdChange = selectedOption => {
     setCityId(selectedOption ? selectedOption.value : "");
   };
 
   return (
-    <div className="container mx-auto mt-24">
-      <section>
-        <div className="grid grid-cols-12 gap-4">
-          <div className="col-span-12 md:col-span-3 sm:col-span-12 bg-[#f36812] p-4 rounded-lg font-semibold text-white">
+    <main className="xl:max-w-6xl mx-auto px-4 pt-24 xl:px-0 mb-4">
+      <div className="flex w-full flex-col md:flex-row gap-8 relative">
+        {/* <div className="grid grid-cols-12 gap-4"> */}
+        {/* <div className="col-span-12 md:col-span-3 sm:col-span-12 bg-[#f36812] p-4 rounded-lg font-semibold text-white"> */}
+        <div className="bg-orange-600 p-4 rounded-md shadow-md md:h-fit md:sticky md:top-24">
+          <h1 className="text-2xl font-bold text-white pb-2 border-b border-orange-400">
             Filter
-            <div className="form-input mt-2 font-normal">
-              <label className="form-control w-full">
-                <div className="label">
-                  <span className="label-text text-white text-sm">
-                    Min Price
-                  </span>
-                </div>
-                <input
-                  type="text"
-                  placeholder="..."
-                  className="input input-bordered w-full text-black"
-                  value={minPrice}
-                  onChange={handleMinPriceChange}
-                />
-              </label>
-            </div>
-            <div className="form-input mt-2 font-normal">
-              <label className="form-control w-full">
-                <div className="label">
-                  <span className="label-text text-white text-sm">
-                    Max Price
-                  </span>
-                </div>
-                <input
-                  type="text"
-                  placeholder="..."
-                  className="input input-bordered w-full text-black"
-                  value={maxPrice}
-                  onChange={handleMaxPriceChange}
-                />
-              </label>
-            </div>
-            <div className="form-input mt-2 font-normal">
-              <label className="form-control w-full">
-                <div className="label">
-                  <span className="label-text text-white text-sm">
-                    Category
-                  </span>
-                </div>
+          </h1>
+          <div className="form-input mt-2 font-normal">
+            <label className="form-control w-full">
+              <span className="text-white text-sm mb-2">Min Price</span>
+              <input
+                type="number"
+                placeholder="..."
+                className="px-3 py-1.5 focus:outline-orange-600 rounded-md w-full text-black"
+                value={minPrice}
+                onChange={handleMinPriceChange}
+              />
+            </label>
+          </div>
+          <div className="form-input mt-2 font-normal">
+            <label className="form-control w-full">
+              <span className="text-white text-sm mb-2">Max Price</span>
+              <input
+                type="number"
+                placeholder="..."
+                className="px-3 py-1.5 focus:outline-orange-600 rounded-md w-full text-black"
+                value={maxPrice}
+                onChange={handleMaxPriceChange}
+              />
+            </label>
+          </div>
+          <div className="form-input mt-2 font-normal">
+            <label className="form-control w-full">
+              <span className="text-white text-sm mb-2">Category</span>
+              <ReactSelect
+                options={categories.map(category => ({
+                  value: category.id,
+                  label: category.name,
+                }))}
+                onChange={handleCategorySelect}
+                styles={{
+                  control: styles => ({
+                    ...styles,
+                    width: "100%",
+                    borderRadius: "0.375rem",
+                    borderColor: "#d2d6dc",
+                    minHeight: "38px",
+                  }),
+                  menu: styles => ({
+                    ...styles,
+                    zIndex: "9999",
+                  }),
+                  option: (styles, { isDisabled, isFocused, isSelected }) => ({
+                    ...styles,
+                    backgroundColor: isSelected
+                      ? "#f36"
+                      : isFocused
+                      ? "#f0f0f0"
+                      : null,
+                    color: isSelected ? "white" : "black",
+                    cursor: isDisabled ? "not-allowed" : "default",
+                  }),
+                }}
+              />
+            </label>
+          </div>
+          <div className="form-input mt-2 font-normal">
+            <label className="form-control w-full">
+              <span className="text-white text-sm mb-2">City</span>
+              {Array.isArray(cities) && cities.length > 0 && (
                 <ReactSelect
-                  options={categories.map((category) => ({
-                    value: category.id,
-                    label: category.name,
+                  options={cities.map(city => ({
+                    value: city.id,
+                    label: city.name,
                   }))}
-                  onChange={handleCategorySelect}
+                  onChange={handleCityIdChange}
                   styles={{
-                    control: (styles) => ({
+                    control: styles => ({
                       ...styles,
                       width: "100%",
                       borderRadius: "0.375rem",
                       borderColor: "#d2d6dc",
                       minHeight: "38px",
                     }),
-                    menu: (styles) => ({
+                    menu: styles => ({
                       ...styles,
                       zIndex: "9999",
                     }),
@@ -188,64 +215,24 @@ const Category = () => {
                     }),
                   }}
                 />
-              </label>
-            </div>
-            <div className="form-input mt-2 font-normal">
-              <label className="form-control w-full">
-                <div className="label">
-                  <span className="label-text text-white text-sm">City</span>
-                </div>
-                {Array.isArray(cities) && cities.length > 0 && (
-                  <ReactSelect
-                    options={cities.map((city) => ({
-                      value: city.id,
-                      label: city.name,
-                    }))}
-                    onChange={handleCityIdChange}
-                    styles={{
-                      control: (styles) => ({
-                        ...styles,
-                        width: "100%",
-                        borderRadius: "0.375rem",
-                        borderColor: "#d2d6dc",
-                        minHeight: "38px",
-                      }),
-                      menu: (styles) => ({
-                        ...styles,
-                        zIndex: "9999",
-                      }),
-                      option: (
-                        styles,
-                        { isDisabled, isFocused, isSelected }
-                      ) => ({
-                        ...styles,
-                        backgroundColor: isSelected
-                          ? "#f36"
-                          : isFocused
-                          ? "#f0f0f0"
-                          : null,
-                        color: isSelected ? "white" : "black",
-                        cursor: isDisabled ? "not-allowed" : "default",
-                      }),
-                    }}
-                  />
-                )}
-              </label>
-            </div>
-            <div className="flex justify-center">
-              <div className="w-full">
-                <button className="btn w-full mt-5">Filter</button>
-                <button className="btn w-full mt-2">Reset</button>
-              </div>
-            </div>
+              )}
+            </label>
           </div>
-          <div className="col-span-12 md:col-span-9 sm:col-span-12 bg-[#f4f4f4] shadow-xl border rounded-lg flex justify-center p-4 overflow-x-auto">
-            <div className="px-5">
-              <CardCategoryList data={data} />
+          <div className="flex justify-center">
+            <div className="w-full">
+              <button className="btn w-full mt-5">Filter</button>
+              <button className="btn w-full mt-2">Reset</button>
             </div>
           </div>
         </div>
-      </section>
+        {/* </div> */}
+        {/* <div className="col-span-12 md:col-span-9 sm:col-span-12 flex justify-center"> */}
+        <div>
+          <CardCategoryList data={data} />
+        </div>
+        {/* </div> */}
+        {/* </div> */}
+      </div>
       <section className="flex justify-center mt-5">
         <Stack spacing={2}>
           <Pagination
@@ -257,8 +244,8 @@ const Category = () => {
           />
         </Stack>
       </section>
-      <section>Footer</section>
-    </div>
+      {/* <section>Footer</section> */}
+    </main>
   );
 };
 
