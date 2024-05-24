@@ -13,7 +13,7 @@ import { FaUserCircle } from "react-icons/fa";
 export default function Navbar() {
   const [isLogin, setIsLogin] = useState(false);
   const [cookies, setCookies, removeCookie] = useCookies(["accessToken"]);
-  const route = useRouter();
+  const router = useRouter();
   const pathname = usePathname();
   const isNestedDashboardRoute = pathname.startsWith("/dashboard");
 
@@ -24,10 +24,10 @@ export default function Navbar() {
   }, [cookies]);
 
   const handleLogOut = () => {
-    location.reload();
+    router.refresh();
     removeCookie("accessToken");
     setIsLogin(false);
-    route.push("/");
+    router.push("/");
   };
 
   return (
@@ -82,29 +82,27 @@ export default function Navbar() {
                     </button>
                   </Link>
                 ) : (
-                  <Link href="/profile">
-                    <div className="dropdown dropdown-hover dropdown-end">
-                      <div
-                        tabIndex={0}
-                        role="button"
-                        className="btn px-0 bg-transparent border-none hover:bg-transparent shadow-none h-0 min-h-0">
-                        <FaUserCircle
-                          size={28}
-                          className="text-white translate-y-0.5"
-                        />
-                      </div>
-                      <ul
-                        tabIndex={0}
-                        className="dropdown-content z-[1] menu shadow bg-base-100 text-black rounded-box w-52">
-                        <li>
-                          <a>Profile</a>
-                        </li>
-                        <li>
-                          <button onClick={handleLogOut}>Log Out</button>
-                        </li>
-                      </ul>
+                  <div className="dropdown dropdown-hover dropdown-end">
+                    <div
+                      tabIndex={0}
+                      role="button"
+                      className="btn px-0 bg-transparent border-none hover:bg-transparent shadow-none h-0 min-h-0">
+                      <FaUserCircle
+                        size={28}
+                        className="text-white translate-y-0.5"
+                      />
                     </div>
-                  </Link>
+                    <ul
+                      tabIndex={0}
+                      className="dropdown-content z-[1] menu shadow bg-base-100 text-black rounded-box w-52">
+                      <li>
+                        <Link href="/profile">Profile</Link>
+                      </li>
+                      <li>
+                        <button onClick={handleLogOut}>Log Out</button>
+                      </li>
+                    </ul>
+                  </div>
                 )}
               </div>
             </div>
