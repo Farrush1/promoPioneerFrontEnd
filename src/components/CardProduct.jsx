@@ -119,24 +119,8 @@ export default function CardProduct() {
 
   return (
     <>
-      <div className="all product">
-        <h1>all product</h1>
-        {promo.map((items) => (
-          <div className="ok" key={items.id}>
-            {items.name}
-          </div>
-        ))}
-      </div>
-      <div className="promo">
-        <h1>promo</h1>
-        {special.map((items) => (
-          <div className="ok" key={items.id}>
-            {items.name}
-          </div>
-        ))}
-      </div>
-      v
-      {/* {productListing &&
+      
+      {productListing &&
         productListing.length > 0 &&
         productListing.map((listing) => (
           <Link
@@ -162,7 +146,7 @@ export default function CardProduct() {
               </p>
             </div>
           </Link>
-        ))} */}
+        ))}
     </>
   );
 }

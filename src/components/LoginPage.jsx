@@ -30,9 +30,10 @@ export default function LoginPage() {
       console.log(user);
       if (user.role === "ADMIN") {
         console.log('masuk')
-        router.push("/dashboard");
+        return router.push("/dashboard");
       }
-      // router.push('/')
+        return router.push('/')
+      
     } catch (error) {
       console.log(error);
     }
