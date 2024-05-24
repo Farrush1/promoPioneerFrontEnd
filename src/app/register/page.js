@@ -70,7 +70,7 @@ export default function Page() {
             
           </div>
           <div>
-          <button class="w-full flex justify-center items-center px-4 py-2 bg-orange-600 hover:bg-orange-700 text-white font-bold rounded-md">Register</button>
+          <button className="w-full flex justify-center items-center px-4 py-2 bg-orange-600 hover:bg-orange-700 text-white font-bold rounded-md">Register</button>
           </div>
         </form>
       </div>

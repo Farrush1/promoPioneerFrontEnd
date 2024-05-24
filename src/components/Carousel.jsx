@@ -48,8 +48,8 @@ export default function Carousel() {
         className="shadow-lg">
         {promoListing &&
           promoListing.length > 0 &&
-          promoListing.map(listing => (
-            <SwiperSlide>
+          promoListing.map((listing, index) => (
+            <SwiperSlide key={index}>
               <Link href={`${listing.id}`}>
                 <div
                   style={{

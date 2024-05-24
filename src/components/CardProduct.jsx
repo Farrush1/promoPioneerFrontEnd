@@ -85,8 +85,9 @@ export default function CardProduct() {
     <>
       {productListing &&
         productListing.length > 0 &&
-        productListing.map(listing => (
-          <Link
+        productListing.map((listing, index) => (
+          <Link 
+            key={index}
             href={`/product/${listing.id}`}
             className="shadow-sm w-full rounded-md border border-slate-200 hover:shadow-md duration-300 hover:-translate-x-1 hover:-translate-y-1 relative"
           >

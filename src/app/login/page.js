@@ -49,11 +49,11 @@ export default function Page() {
             </div>
             
             <div className="flex items-center justify-center">
-              <a href="./password" className="text-blue-500 hover:text-blue-600hover:text-indigo-500 px-2">Forgot password?</a>
+              <a href="./forgotpassword" className="text-blue-500 hover:text-blue-600hover:text-indigo-500 px-2">Forgot password?</a>
             </div>
           </div>
           <div>
-          <button class="w-full flex justify-center items-center px-4 py-2 bg-orange-600 hover:bg-orange-700 text-white font-bold rounded-md">Sign in</button>
+          <button className="w-full flex justify-center items-center px-4 py-2 bg-orange-600 hover:bg-orange-700 text-white font-bold rounded-md">Sign in</button>
           </div>
         </form>
       </div>
