@@ -3,7 +3,7 @@ import Carousel from "@/components/Carousel";
 
 export default function Home() {
   return (
-    <main className="xl:max-w-6xl pt-16 mx-auto px-4 xl:px-0 ">
+    <main className="xl:max-w-6xl pt-16 mx-auto px-4 xl:px-0">
       <Carousel />
 
       {/* contoh penggunaan card menggunakan grid */}

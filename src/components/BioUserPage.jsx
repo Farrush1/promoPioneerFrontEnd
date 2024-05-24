@@ -1,10 +1,11 @@
+/* eslint-disable @next/next/no-img-element */
 "use client";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
 export default function BioUserPage() {
-  const router = useRouter()
-  const [user, setUser] = useState({})
+  const router = useRouter();
+  const [user, setUser] = useState({});
   useEffect(() => {
     const fetchBio = async () => {
       const bio = await fetch("http://localhost:5000/api/users/bio", {
@@ -16,12 +17,12 @@ export default function BioUserPage() {
       });
       const data = await bio.json();
       console.log(data.users);
-     setUser(data.users);
+      setUser(data.users);
     };
     fetchBio();
   }, []);
   const handleClick = async () => {
-    router.push('/user/bio/update')
+    router.push("/user/bio/update");
     // try {
     //   const login = await fetch("http://localhost:5000/api/auth/login", {
     //     method: "POST",
@@ -39,48 +40,67 @@ export default function BioUserPage() {
     // } catch (error) {
     //   console.log(error);
     // }
-
   };
   return (
-    <div>
-      <div className="bg-orange-300 ml-3 p-5 w-full">
-        <h1 className="text-xl font-bold">Profile</h1>
-        <div className="flex">
-          <div className="photo justify-center mt-5">
-            <img
-              src={user.avatar}
-              alt="alt"
-              className="rounded-full w-36 h-36 mr-5"
-            />
-            <button
-              onClick={handleClick}
-              className="mt-3 inline-flex items-center justify-center px-8 py-4 font-sans font-semibold tracking-wide text-white bg-orange-600 rounded-lg h-[60px]"
-            >
-              Edit Profile
-            </button>
+    <main className="bg-white shadow-lg rounded-md p-5 h-80 flex-1 flex flex-col gap-6 md:gap-0 justify-between">
+      <h1 className="text-2xl font-bold">Profile</h1>
+      <div className="flex flex-col md:flex-row gap-8 md:gap-16 text-sm md:text-base">
+        <div className="photo justify-between flex flex-col">
+          <img
+            src={user.avatar}
+            alt="alt"
+            className="rounded-full w-36 h-36"
+          />
+          <button
+            onClick={handleClick}
+            className="mt-3 hidden md:block px-3 py-1.5 font-sans font-semibold text-white hover:text-black hover:bg-white bg-orange-600 rounded-full shadow-md duration-300">
+            Edit Profile
+          </button>
+        </div>
+        <div className="detail-profile flex gap-8 md:gap-16">
+          <div className="field">
+            <p className="mb-2">Name</p>
+            <p className="mb-2">Age</p>
+            <p className="mb-2">Gender</p>
+            <p className="mb-2">Address</p>
+            <p className="mb-2">Phone Number</p>
+            <p className="mb-2">Email</p>
+            <p className="mb-2">Affiliate Code</p>
           </div>
-          <div className="detail-profile  mx-12 flex">
-            <div className="field">
-              <p className="mb-2">Name</p>
-              <p className="mb-2">Age</p>
-              <p className="mb-2">Gender</p>
-              <p className="mb-2">Address</p>
-              <p className="mb-2">Phone Number</p>
-              <p className="mb-2">Email</p>
-              <p className="mb-2">Affiliate Code</p>
-            </div>
-            <div className="field-detail ml-8">
-              <p className="mb-2">{user.name}</p>
-              <p className="mb-2">{user.age}</p>
-              <p className="mb-2">{user.gender}</p>
-              <p className="mb-2">{user.full_address}</p>
-              <p className="mb-2">{user.phone_number}</p>
-              <p className="mb-2">{user.email}</p>
-              <p className="mb-2">8JKDWZ</p>
-            </div>
+          <div className="field-detail">
+            <p className="mb-2">
+              {": "}
+              {user.name}
+            </p>
+            <p className="mb-2">
+              {": "}
+              {user.age}
+            </p>
+            <p className="mb-2">
+              {": "}
+              {user.gender}
+            </p>
+            <p className="mb-2">
+              {": "}
+              {user.full_address}
+            </p>
+            <p className="mb-2">
+              {": "}
+              {user.phone_number}
+            </p>
+            <p className="mb-2">
+              {": "}
+              {user.email}
+            </p>
+            <p className="mb-2">{": "}8JKDWZ</p>
           </div>
         </div>
+        <button
+          onClick={handleClick}
+          className="mt-3 md:hidden px-3 py-1.5 font-sans font-semibold text-white hover:text-black hover:bg-white bg-orange-600 rounded-full shadow-md duration-300">
+          Edit Profile
+        </button>
       </div>
-    </div>
+    </main>
   );
 }
