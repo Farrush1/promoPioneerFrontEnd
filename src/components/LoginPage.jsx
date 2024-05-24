@@ -1,8 +1,19 @@
 "use client";
 import { useRouter } from "next/navigation";
-import React from "react";
+import React, { useState } from "react";
 
 export default function LoginPage() {
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+  });
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  };
   const router = useRouter();
   const handleClick = async (e) => {
 	e.preventDefault()
@@ -13,14 +24,16 @@ export default function LoginPage() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          email: "admin@gmail.com",
-          password: "12345678",
-        }),
+        body: JSON.stringify(formData),
       });
-      const token = await login.json();
-      console.log(token);
-      router.push("/");
+      const user = await login.json();
+      console.log(user);
+      if (user.role === "ADMIN") {
+        console.log('masuk')
+        return router.push("/dashboard");
+      }
+        return router.push('/')
+      
     } catch (error) {
       console.log(error);
     }
@@ -48,6 +61,9 @@ export default function LoginPage() {
             <div>
               <input
                 type="email"
+                onChange={handleChange}
+                value={formData.email}
+                name="email"
                 autoComplete="none"
                 required
                 className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500
@@ -60,6 +76,9 @@ export default function LoginPage() {
                 type="password"
                 autoComplete="none"
                 required
+                onChange={handleChange}
+                value={formData.password}
+                name="password"
                 className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500
                 text-gray-900 rounded-b-md mb-2 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
                 placeholder="Password"

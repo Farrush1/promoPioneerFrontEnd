@@ -20,9 +20,11 @@ export default function Checkout({ params: { id } }) {
   const [selectedCity, setSelectedCity] = useState("");
   const [fullAddress, setFullAddress] = useState("");
   const [bioList, setBioList] = useState({});
+  const [voucher, setVoucher] = useState("");
   const [selectedCityName, setSelectedCityName] = useState("");
   const [disableOrder, setDisableOrder] = useState("");
   const router = useRouter();
+  const [arrDiscount, setArrDiscount] = useState([])
 
   useEffect(() => {
     setLoading(true);
@@ -51,7 +53,7 @@ export default function Checkout({ params: { id } }) {
     loadCheckouts();
     loadCities();
     loadBio();
-  }, [id]);
+  }, [id, arrDiscount]);
 
   useEffect(() => {
     if (selectedCity) {
@@ -121,9 +123,7 @@ export default function Checkout({ params: { id } }) {
   return (
     <main className="xl:max-w-6xl mx-auto px-4 pt-24 xl:px-0">
       {/* Modal Edit Address */}
-      <dialog
-        id="my_modal_1"
-        className="modal">
+      <dialog id="my_modal_1" className="modal">
         <div className="modal-box">
           <form>
             <div className="flex items-center justify-between mb-4 text-sm">
@@ -133,13 +133,12 @@ export default function Checkout({ params: { id } }) {
                   id="city"
                   name="city"
                   onChange={handleCityChange}
-                  className="block w-full p-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500 focus:ring-1 sm:text-sm">
+                  className="block w-full p-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500 focus:ring-1 sm:text-sm"
+                >
                   {citiesList
                     .sort((a, b) => a.name.localeCompare(b.name)) // Mengurutkan berdasarkan nama kota
-                    .map(city => (
-                      <option
-                        key={city.id}
-                        value={city.id}>
+                    .map((city) => (
+                      <option key={city.id} value={city.id}>
                         {city.name}
                       </option>
                     ))}
@@ -157,7 +156,8 @@ export default function Checkout({ params: { id } }) {
               <button
                 onClick={handleSubmitAddress}
                 type="submit"
-                className="btn text-sm w-full hover:opacity-70 shadow-md duration-300 bg-gradient-to-b from-orange-700 to-orange-600 text-white px-3 py-1 min-h-0 h-10 rounded-md">
+                className="btn text-sm w-full hover:opacity-70 shadow-md duration-300 bg-gradient-to-b from-orange-700 to-orange-600 text-white px-3 py-1 min-h-0 h-10 rounded-md"
+              >
                 Simpan
               </button>
             </div>
@@ -175,7 +175,8 @@ export default function Checkout({ params: { id } }) {
         </div>
         <button
           onClick={openEditAddress}
-          className="text-sm hover:font-bold duration-300">
+          className="text-sm hover:font-bold duration-300"
+        >
           Edit
         </button>
       </div>
@@ -184,12 +185,10 @@ export default function Checkout({ params: { id } }) {
       <div className="flex flex-col gap-3 mb-36 md:hidden">
         {checkoutList &&
           checkoutList.checkout.length > 0 &&
-          checkoutList.checkout.map(listing => (
+          checkoutList.checkout.map((listing) => (
             // List product checkout
-            <div
-              key={listing.id}
-              className="p-3 bg-white rounded-md shadow-md">
-              {listing.checkout_item.map(item => (
+            <div key={listing.id} className="p-3 bg-white rounded-md shadow-md">
+              {listing.checkout_item.map((item) => (
                 <div key={item.id}>
                   <div className="flex text-sm gap-3 mb-2">
                     <img
@@ -261,15 +260,14 @@ export default function Checkout({ params: { id } }) {
         <div className="flex items-start mt-3 gap-3 flex-col mb-36">
           {checkoutList &&
             checkoutList.checkout.length > 0 &&
-            checkoutList.checkout.map(listing => (
+            checkoutList.checkout.map((listing) => (
               // List product checkout
               <div
                 key={listing.id}
-                className="w-full bg-white p-2 rounded-md shadow-md">
-                {listing.checkout_item.map(item => (
-                  <div
-                    key={item.id}
-                    className="flex text-black w-full">
+                className="w-full bg-white p-2 rounded-md shadow-md"
+              >
+                {listing.checkout_item.map((item) => (
+                  <div key={item.id} className="flex text-black w-full">
                     <div className="flex w-[40%] gap-4">
                       <img
                         src={item.product.product_image}
@@ -325,6 +323,9 @@ export default function Checkout({ params: { id } }) {
               Voucher Code
             </p>
             <input
+              name="codeVoucher"
+              value={voucher}
+              onChange={(e) => setVoucher(e.target.value)}
               type="text"
               className="border-2 border-green-200 border-dashed px-2 rounded-md py-1 text-sm w-full max-w-96 focus:outline-green-400"
             />
@@ -332,12 +333,14 @@ export default function Checkout({ params: { id } }) {
               <div
                 tabIndex={0}
                 role="button"
-                className="btn min-w-16 min-h-0 h-8 bg-green-100 text-black">
+                className="btn min-w-16 min-h-0 h-8 bg-green-100 text-black"
+              >
                 Code
               </div>
               <ul
                 tabIndex={0}
-                className="dropdown-content mb-1 z-[1] menu p-2 shadow bg-base-100 rounded-box w-36">
+                className="dropdown-content mb-1 z-[1] menu p-2 shadow bg-base-100 rounded-box w-36"
+              >
                 <li>
                   <p className="hover:bg-white !cursor-text active:!bg-white active:!text-black font-semibold px-1">
                     DSC60%
@@ -351,7 +354,7 @@ export default function Checkout({ params: { id } }) {
               </ul>
             </div>
           </div>
-          <button className="text-white text-center py-2 sm:px-4 min-w-16 rounded-md shadow-md hover:opacity-80 duration-300 font-bold bg-gradient-to-b from-orange-600 to-orange-500">
+          <button onClick={handlePromoCheckout} className="text-white text-center py-2 sm:px-4 min-w-16 rounded-md shadow-md hover:opacity-80 duration-300 font-bold bg-gradient-to-b from-orange-600 to-orange-500">
             Apply
           </button>
         </div>

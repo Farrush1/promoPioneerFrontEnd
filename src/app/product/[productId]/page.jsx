@@ -12,7 +12,9 @@ const DetailCard = () => {
   useEffect(() => {
     const fetchProductDetail = async () => {
       try {
-        const response = await fetch(`http://localhost:5000/api/products/${productId}`);
+        const response = await fetch(
+          `http://localhost:5000/api/products/${productId}`
+        );
         if (!response.ok) {
           throw new Error("Failed to fetch product detail");
         }
@@ -33,13 +35,16 @@ const DetailCard = () => {
 
   const fetchProductsByCategory = async (categoryId, productId) => {
     try {
-      const response = await fetch(`http://localhost:5000/api/products?categories=${categoryId}`, {
-        method: "GET",
-        headers: {
-        "Content-Type": "application/json",
-        },
-        credentials: "include",
-      });
+      const response = await fetch(
+        `http://localhost:5000/api/products?categories=${categoryId}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "include",
+        }
+      );
       if (!response.ok) {
         throw new Error("Failed to fetch related products");
       }
@@ -60,6 +65,27 @@ const DetailCard = () => {
   const handleDecrement = () => {
     if (quantity > 1) {
       setQuantity(quantity - 1);
+    }
+  };
+
+  const handleAddCart = async () => {
+    try {
+      const url = `http://localhost:5000/api/carts/cart-items`;
+      const response = await fetch(url, {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          productId: product.id,
+          quantity: quantity,
+        }),
+      });
+      const data = await response.json();
+      console.log(data);
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -97,7 +123,10 @@ const DetailCard = () => {
                   </button>
                 </div>
                 <div className="flex mt-4 items-center">
-                  <button className="btn w-auto mr-2 shadow-md bg-white hover:bg-orange-600 transition duration-200 hover:text-white border-none">
+                  <button
+                    onClick={handleAddCart}
+                    className="btn w-auto mr-2 shadow-md bg-white hover:bg-orange-600 transition duration-200 hover:text-white border-none"
+                  >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       fill="none"
