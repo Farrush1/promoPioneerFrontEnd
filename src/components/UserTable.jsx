@@ -1,23 +1,21 @@
+"use client";
+
 import React, { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 
 const UserTable = () => {
   const [users, setUsers] = useState([]);
+  const router = useRouter();
 
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await fetch("http://localhost:5000/api/users", {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        credentials: "include",
-      });
+        const response = await fetch('http://localhost:5000/api/users');
         if (!response.ok) {
           throw new Error('Failed to fetch users');
         }
         const data = await response.json();
-        
+
         if (data && Array.isArray(data.users)) {
           setUsers(data.users);
         } else {
@@ -33,12 +31,8 @@ const UserTable = () => {
     fetchUsers();
   }, []);
 
-  const renderActionBox = () => {
-    return (
-      <div className="flex justify-center items-center h-full">
-        <input type="checkbox" className="checkbox" />
-      </div>
-    );
+  const handleViewUser = (userId) => {
+    router.push(`/dashboard/user/${userId}`);
   };
 
   return (
@@ -58,7 +52,9 @@ const UserTable = () => {
             <th className="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">
               Email
             </th>
-            
+            <th className="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">
+              View
+            </th>
             <th className="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">
               Action
             </th>
@@ -80,18 +76,17 @@ const UserTable = () => {
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                   {user.email}
                 </td>
-                
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                  <button className="btn bg-[#ea580c] text-white">View</button>
+                  <button className="btn bg-[#ea580c] text-white ml-2" onClick={() => handleViewUser(user.id)}>View</button>
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                  {renderActionBox()}
+                  <input type="checkbox" className="checkbox" />
                 </td>
               </tr>
             ))
           ) : (
             <tr>
-              <td colSpan="7" className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+              <td colSpan="6" className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                 No users found
               </td>
             </tr>

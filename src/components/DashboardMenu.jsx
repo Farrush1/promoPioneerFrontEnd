@@ -18,7 +18,8 @@ export default function DashboardMenu() {
           <Link
             href={"/dashboard"}
             title="Dashboard"
-            className="flex p-3 gap-3 items-center hover:font-semibold cursor-pointer hover:bg-white hover:text-slate-800 rounded-full hover:shadow-md duration-300">
+            className="flex p-3 gap-3 items-center hover:font-semibold cursor-pointer hover:bg-white hover:text-slate-800 rounded-full hover:shadow-md duration-300"
+          >
             <span>
               <AiFillHome />
             </span>
@@ -26,7 +27,8 @@ export default function DashboardMenu() {
           <Link
             href={"/dashboard/product"}
             title="Product"
-            className="flex p-3 gap-3 items-center hover:font-semibold cursor-pointer hover:bg-white hover:text-slate-800 rounded-full hover:shadow-md duration-300">
+            className="flex p-3 gap-3 items-center hover:font-semibold cursor-pointer hover:bg-white hover:text-slate-800 rounded-full hover:shadow-md duration-300"
+          >
             <span>
               <FaCartShopping />
             </span>
@@ -34,7 +36,8 @@ export default function DashboardMenu() {
           <Link
             href={"/dashboard/promo"}
             title="Promo"
-            className="flex p-3 gap-3 items-center hover:font-semibold cursor-pointer hover:bg-white hover:text-slate-800 rounded-full hover:shadow-md duration-300">
+            className="flex p-3 gap-3 items-center hover:font-semibold cursor-pointer hover:bg-white hover:text-slate-800 rounded-full hover:shadow-md duration-300"
+          >
             <span>
               <RiDiscountPercentFill />
             </span>
@@ -42,7 +45,8 @@ export default function DashboardMenu() {
           <Link
             href={"/dashboard/warehouse"}
             title="Warehouse"
-            className="flex p-3 gap-3 items-center hover:font-semibold cursor-pointer hover:bg-white hover:text-slate-800 rounded-full hover:shadow-md duration-300">
+            className="flex p-3 gap-3 items-center hover:font-semibold cursor-pointer hover:bg-white hover:text-slate-800 rounded-full hover:shadow-md duration-300"
+          >
             <span>
               <FaWarehouse />
             </span>
@@ -50,7 +54,8 @@ export default function DashboardMenu() {
           <Link
             href={"/dashboard/order"}
             title="Order"
-            className="flex p-3 gap-3 items-center hover:font-semibold cursor-pointer hover:bg-white hover:text-slate-800 rounded-full hover:shadow-md duration-300">
+            className="flex p-3 gap-3 items-center hover:font-semibold cursor-pointer hover:bg-white hover:text-slate-800 rounded-full hover:shadow-md duration-300"
+          >
             <span>
               <GiCardboardBoxClosed />
             </span>
@@ -58,7 +63,8 @@ export default function DashboardMenu() {
           <Link
             href={"/dashboard/user"}
             title="User"
-            className="flex p-3 gap-3 items-center hover:font-semibold cursor-pointer hover:bg-white hover:text-slate-800 rounded-full hover:shadow-md duration-300">
+            className="flex p-3 gap-3 items-center hover:font-semibold cursor-pointer hover:bg-white hover:text-slate-800 rounded-full hover:shadow-md duration-300"
+          >
             <span>
               <FaUser />
             </span>
@@ -76,7 +82,8 @@ export default function DashboardMenu() {
         <div className="flex flex-col gap-2">
           <Link
             href={"/dashboard"}
-            className="flex py-2 px-3 gap-3 items-center hover:font-semibold cursor-pointer hover:bg-white hover:text-slate-800 rounded-full hover:shadow-md duration-300">
+            className="flex py-2 px-3 gap-3 items-center hover:font-semibold cursor-pointer hover:bg-white hover:text-slate-800 rounded-full hover:shadow-md duration-300"
+          >
             <span>
               <AiFillHome />
             </span>
@@ -84,7 +91,8 @@ export default function DashboardMenu() {
           </Link>
           <Link
             href={"/dashboard/product"}
-            className="flex py-2 px-3 gap-3 items-center hover:font-semibold cursor-pointer hover:bg-white hover:text-slate-800 rounded-full hover:shadow-md duration-300">
+            className="flex py-2 px-3 gap-3 items-center hover:font-semibold cursor-pointer hover:bg-white hover:text-slate-800 rounded-full hover:shadow-md duration-300"
+          >
             <span>
               <FaCartShopping />
             </span>
@@ -92,7 +100,8 @@ export default function DashboardMenu() {
           </Link>
           <Link
             href={"/dashboard/promo"}
-            className="flex py-2 px-3 gap-3 items-center hover:font-semibold cursor-pointer hover:bg-white hover:text-slate-800 rounded-full hover:shadow-md duration-300">
+            className="flex py-2 px-3 gap-3 items-center hover:font-semibold cursor-pointer hover:bg-white hover:text-slate-800 rounded-full hover:shadow-md duration-300"
+          >
             <span>
               <RiDiscountPercentFill />
             </span>
@@ -100,7 +109,8 @@ export default function DashboardMenu() {
           </Link>
           <Link
             href={"/dashboard/warehouse"}
-            className="flex py-2 px-3 gap-3 items-center hover:font-semibold cursor-pointer hover:bg-white hover:text-slate-800 rounded-full hover:shadow-md duration-300">
+            className="flex py-2 px-3 gap-3 items-center hover:font-semibold cursor-pointer hover:bg-white hover:text-slate-800 rounded-full hover:shadow-md duration-300"
+          >
             <span>
               <FaWarehouse />
             </span>
@@ -108,7 +118,8 @@ export default function DashboardMenu() {
           </Link>
           <Link
             href={"/dashboard/order"}
-            className="flex py-2 px-3 gap-3 items-center hover:font-semibold cursor-pointer hover:bg-white hover:text-slate-800 rounded-full hover:shadow-md duration-300">
+            className="flex py-2 px-3 gap-3 items-center hover:font-semibold cursor-pointer hover:bg-white hover:text-slate-800 rounded-full hover:shadow-md duration-300"
+          >
             <span>
               <GiCardboardBoxClosed />
             </span>
@@ -116,16 +127,15 @@ export default function DashboardMenu() {
           </Link>
           <Link
             href={"/dashboard/user"}
-            className="flex py-2 px-3 gap-3 items-center hover:font-semibold cursor-pointer hover:bg-white hover:text-slate-800 rounded-full hover:shadow-md duration-300">
+            className="flex py-2 px-3 gap-3 items-center hover:font-semibold cursor-pointer hover:bg-white hover:text-slate-800 rounded-full hover:shadow-md duration-300"
+          >
             <span>
               <FaUser />
             </span>
             <p className="cursor-pointer">User</p>
           </Link>
         </div>
-        <Link
-          href={"/login"}
-          className="flex flex-1 items-end justify-center">
+        <Link href={"/login"} className="flex flex-1 items-end justify-center">
           <p className="py-2 px-3 gap-3 items-center hover:font-semibold cursor-pointer hover:bg-white hover:text-slate-800 rounded-full hover:shadow-md duration-300 w-full mx-auto flex justify-center">
             Logout
           </p>
