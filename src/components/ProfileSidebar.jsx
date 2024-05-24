@@ -1,16 +1,33 @@
+'use client'
 import Link from "next/link";
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 export default function ProfileSidebar() {
+  const [user, setUser] = useState({});
+  useEffect(() => {
+    const fetchBio = async () => {
+      const bio = await fetch("http://localhost:5000/api/users/bio", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+      });
+      const data = await bio.json();
+      console.log(data.users);
+      setUser(data.users);
+    };
+    fetchBio();
+  }, []);
   return (
     <div className="text-xl font-bold bg-orange-300 w-64 p-5">
       <div className="flex items-center">
         <img
-          src="https://res.cloudinary.com/dmvigke9d/image/upload/v1715222943/pxbzwswjqjk5hndkoonf.jpg"
+          src={user.avatar}
           alt="alt"
           className="rounded-full w-14 h-14 mr-5"
         />
-        <h4 className="text-xl">Name</h4>
+        <h4 className="text-xl">{user.name}</h4>
       </div>
       <Link href="/user/bio">
         <div className="rounded-lg border-y-2 py-3 px-2 mt-5 hover:bg-orange-700">

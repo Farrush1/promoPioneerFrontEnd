@@ -1,7 +1,9 @@
 "use client";
+import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
 export default function BioUserPage() {
+  const router = useRouter()
   const [user, setUser] = useState({})
   useEffect(() => {
     const fetchBio = async () => {
@@ -19,23 +21,25 @@ export default function BioUserPage() {
     fetchBio();
   }, []);
   const handleClick = async () => {
-    try {
-      const login = await fetch("http://localhost:5000/api/auth/login", {
-        method: "POST",
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email: "admin@gmail.com",
-          password: "12345678",
-        }),
-      });
-      const token = await login.json();
-      console.log(token);
-    } catch (error) {
-      console.log(error);
-    }
+    router.push('/user/bio/update')
+    // try {
+    //   const login = await fetch("http://localhost:5000/api/auth/login", {
+    //     method: "POST",
+    //     credentials: "include",
+    //     headers: {
+    //       "Content-Type": "application/json",
+    //     },
+    //     body: JSON.stringify({
+    //       email: "adi@gmail.com",
+    //       password: "12345678",
+    //     }),
+    //   });
+    //   const token = await login.json();
+    //   console.log(token);
+    // } catch (error) {
+    //   console.log(error);
+    // }
+
   };
   return (
     <div>
@@ -44,7 +48,7 @@ export default function BioUserPage() {
         <div className="flex">
           <div className="photo justify-center mt-5">
             <img
-              src="https://res.cloudinary.com/dmvigke9d/image/upload/v1715222943/pxbzwswjqjk5hndkoonf.jpg"
+              src={user.avatar}
               alt="alt"
               className="rounded-full w-36 h-36 mr-5"
             />
@@ -70,9 +74,9 @@ export default function BioUserPage() {
               <p className="mb-2">{user.age}</p>
               <p className="mb-2">{user.gender}</p>
               <p className="mb-2">{user.full_address}</p>
-              <p className="mb-2">Phone Number</p>
+              <p className="mb-2">{user.phone_number}</p>
               <p className="mb-2">{user.email}</p>
-              <p className="mb-2">KLS798</p>
+              <p className="mb-2">8JKDWZ</p>
             </div>
           </div>
         </div>
