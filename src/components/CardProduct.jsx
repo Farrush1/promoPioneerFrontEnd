@@ -8,6 +8,42 @@ import { useEffect, useState } from "react";
 
 export default function CardProduct() {
   const [productListing, setProductListing] = useState([]);
+  const [promo, setPromo] = useState([]);
+  const [special, setSpecial] = useState([]);
+  
+  useEffect(() => {
+    const fetchPromo = async () => {
+      const promo = await fetch(
+        "http://localhost:5000/api/products?specialPromo=true",
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "include",
+        }
+      );
+      const data = await promo.json();
+      console.log(data.products);
+      setSpecial(data.products);
+    };
+    fetchPromo();
+  }, []);
+  useEffect(() => {
+    const fetchPromo = async () => {
+      const promo = await fetch("http://localhost:5000/api/products", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+      });
+      const data = await promo.json();
+      console.log(data.products);
+      setPromo(data.products);
+    };
+    fetchPromo();
+  }, []);
 
   useEffect(() => {
     const dummyData = [
@@ -83,9 +119,26 @@ export default function CardProduct() {
 
   return (
     <>
-      {productListing &&
+      <div className="all product">
+        <h1>all product</h1>
+        {promo.map((items) => (
+          <div className="ok" key={items.id}>
+            {items.name}
+          </div>
+        ))}
+      </div>
+      <div className="promo">
+        <h1>promo</h1>
+        {special.map((items) => (
+          <div className="ok" key={items.id}>
+            {items.name}
+          </div>
+        ))}
+      </div>
+      v
+      {/* {productListing &&
         productListing.length > 0 &&
-        productListing.map(listing => (
+        productListing.map((listing) => (
           <Link
             href={`/product/${listing.id}`}
             className="shadow-sm w-full rounded-md border border-slate-200 hover:shadow-md duration-300 hover:-translate-x-1 hover:-translate-y-1 relative"
@@ -109,7 +162,7 @@ export default function CardProduct() {
               </p>
             </div>
           </Link>
-        ))}
+        ))} */}
     </>
   );
 }
