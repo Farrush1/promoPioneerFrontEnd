@@ -1,26 +1,42 @@
-/* eslint-disable @next/next/no-img-element */
-/* eslint-disable jsx-a11y/alt-text */
-/* eslint-disable react/jsx-key */
+
 "use client";
+
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
 export default function CardProduct() {
   const [productListing, setProductListing] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    fetchProducts(); 
+    fetchProducts();
   }, []);
 
   const fetchProducts = async () => {
     try {
       const response = await fetch("http://localhost:5000/api/products");
+      if (!response.ok) {
+        throw new Error(`Error: ${response.status}`);
+      }
       const data = await response.json();
+      console.log("Fetched data:", data);  // Add this line to log the fetched data
       setProductListing(data.products);
+      setLoading(false);
     } catch (error) {
       console.error("Error fetching products:", error);
+      setError(error.message);
+      setLoading(false);
     }
   };
+
+  if (loading) {
+    return <p>Loading...</p>;
+  }
+
+  if (error) {
+    return <p>Error: {error}</p>;
+  }
 
   return (
     <>

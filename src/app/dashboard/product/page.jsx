@@ -1,4 +1,4 @@
-"use client"; 
+"use client";
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
@@ -9,24 +9,19 @@ export default function Product() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [products, setProducts] = useState([]);
   const [promoTypes, setPromoTypes] = useState([]);
-  const [selectedPromo, setSelectedPromo] = useState(null);
+  const [selectedPromo, setSelectedPromo] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [totalProducts, setTotalProducts] = useState(0);
   const router = useRouter();
   const productsPerPage = 10;
 
-  const handleAddPromo = () => {
-    setIsModalOpen(true);
-    fetchPromoTypes();
-  };
-
-  const handleCloseModal = () => {
-    setIsModalOpen(false);
-  };
-
   useEffect(() => {
     fetchProducts(currentPage);
   }, [currentPage]);
+
+  useEffect(() => {
+    fetchPromoTypes();
+  }, []);
 
   const fetchProducts = async (page) => {
     try {
@@ -41,18 +36,26 @@ export default function Product() {
     }
   };
 
-  // const fetchPromoTypes = async () => {
-  //   try {
-  //     const response = await fetch("http://localhost:5000/api/promo");
-  //     const data = await response.json();
-  //     setPromoTypes(data);
-  //   } catch (error) {
-  //     console.error("Error fetching promo types:", error);
-  //   }
-  // };
+  const fetchPromoTypes = async () => {
+    try {
+      const response = await fetch("http://localhost:5000/api/promo");
+      const data = await response.json();
+      setPromoTypes(data);
+    } catch (error) {
+      console.error("Error fetching promo types:", error);
+    }
+  };
+
+  const handleAddPromo = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
 
   const handleEditProduct = (productId) => {
-    router.push(`/dashboard/product/create/${productId}`);
+    router.push(`/dashboard/product/update/${productId}`);
   };
 
   const handleDeleteProduct = async (productId) => {
@@ -83,8 +86,13 @@ export default function Product() {
   };
 
   const handleSavePromo = async () => {
+    if (!selectedPromo) {
+      alert("Please select a promo type.");
+      return;
+    }
+
     try {
-      const response = await fetch(`http://localhost:5000/api/promo/products/2`, {
+      const response = await fetch(`http://localhost:5000/api/promo`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -93,7 +101,6 @@ export default function Product() {
       });
       const data = await response.json();
       console.log("Promotion Created:", data);
-      fetchPromoTypes();
       setIsModalOpen(false);
     } catch (error) {
       console.error("Error creating promotion:", error);
@@ -227,7 +234,7 @@ export default function Product() {
               <select
                 className="select select-bordered w-full"
                 onChange={(e) => setSelectedPromo(e.target.value)}
-                value={selectedPromo || ''}
+                value={selectedPromo}
               >
                 <option disabled value="">
                   Choose Promo

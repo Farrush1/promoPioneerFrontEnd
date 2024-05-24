@@ -15,7 +15,7 @@ export default function CreateProduct() {
     warehouseCityId: "",
     product_image: null,
     weight: "",
-    stock: 0,
+    stock: "",
   });
 
   const [selectedFile, setSelectedFile] = useState(null);
