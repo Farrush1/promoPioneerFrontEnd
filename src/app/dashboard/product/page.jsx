@@ -1,4 +1,4 @@
-"use client";
+"use client"; 
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
@@ -8,7 +8,8 @@ import { useRouter } from "next/navigation";
 export default function Product() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [products, setProducts] = useState([]);
-  const [promo, setPromo] = useState([]);
+  const [promoTypes, setPromoTypes] = useState([]);
+  const [selectedPromo, setSelectedPromo] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalProducts, setTotalProducts] = useState(0);
   const router = useRouter();
@@ -16,7 +17,7 @@ export default function Product() {
 
   const handleAddPromo = () => {
     setIsModalOpen(true);
-    fetchPromo();
+    fetchPromoTypes();
   };
 
   const handleCloseModal = () => {
@@ -34,21 +35,21 @@ export default function Product() {
       );
       const data = await response.json();
       setProducts(data.products);
-      setTotalProducts(data.total);
+      setTotalProducts(data.totalProducts);
     } catch (error) {
       console.error("Error fetching products:", error);
     }
   };
 
-  const fetchPromo = async () => {
-    try {
-      const response = await fetch(`http://localhost:5000/api/products?specialPromo=true`);
-      const data = await response.json();
-      setPromo(data);
-    } catch (error) {
-      console.error("Error fetching promotions:", error);
-    }
-  };
+  // const fetchPromoTypes = async () => {
+  //   try {
+  //     const response = await fetch("http://localhost:5000/api/promo");
+  //     const data = await response.json();
+  //     setPromoTypes(data);
+  //   } catch (error) {
+  //     console.error("Error fetching promo types:", error);
+  //   }
+  // };
 
   const handleEditProduct = (productId) => {
     router.push(`/dashboard/product/create/${productId}`);
@@ -66,18 +67,36 @@ export default function Product() {
   };
 
   const handleViewDetails = (productId) => {
-    router.push(`http://localhost:5000/api/products/${productId}`);
+    router.push(`/dashboard/product/${productId}`);
   };
 
   const handleNextPage = () => {
-    if (currentPage < totalPages) {
-      setCurrentPage(currentPage + 1);
+    if (currentPage < Math.ceil(totalProducts / productsPerPage)) {
+      setCurrentPage((prevPage) => prevPage + 1);
     }
   };
 
   const handlePrevPage = () => {
     if (currentPage > 1) {
-      setCurrentPage(currentPage - 1);
+      setCurrentPage((prevPage) => prevPage - 1);
+    }
+  };
+
+  const handleSavePromo = async () => {
+    try {
+      const response = await fetch(`http://localhost:5000/api/promo/products/2`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ promoTypeId: selectedPromo }),
+      });
+      const data = await response.json();
+      console.log("Promotion Created:", data);
+      fetchPromoTypes();
+      setIsModalOpen(false);
+    } catch (error) {
+      console.error("Error creating promotion:", error);
     }
   };
 
@@ -205,12 +224,16 @@ export default function Product() {
               <div className="label">
                 <span className="label-text">Choose Promo</span>
               </div>
-              <select className="select select-bordered w-full">
-                <option disabled selected>
+              <select
+                className="select select-bordered w-full"
+                onChange={(e) => setSelectedPromo(e.target.value)}
+                value={selectedPromo || ''}
+              >
+                <option disabled value="">
                   Choose Promo
                 </option>
-                {promo.length > 0 ? (
-                  promo.map((promoItem) => (
+                {promoTypes.length > 0 ? (
+                  promoTypes.map((promoItem) => (
                     <option key={promoItem.id} value={promoItem.id}>
                       {promoItem.name}
                     </option>
@@ -229,7 +252,7 @@ export default function Product() {
               </button>
               <button
                 className="btn btn-primary bg-orange-600"
-                onClick={handleCloseModal}
+                onClick={handleSavePromo}
               >
                 Save
               </button>

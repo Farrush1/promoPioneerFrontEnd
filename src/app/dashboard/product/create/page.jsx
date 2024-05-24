@@ -256,7 +256,7 @@ export default function CreateProduct() {
           </div>
         </div>
 
-            <h1 className="text-2xl font-bold mb-6">Warehouse</h1>
+        <h1 className="text-2xl font-bold mb-6">Warehouse</h1>
 
         <div className="flex space-x-6">
           <div className="flex flex-col space-y-6 w-1/2">
