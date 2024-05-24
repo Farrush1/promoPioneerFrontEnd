@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 "use client";
 import React, { useState, useEffect } from "react";
 import { useParams } from "next/navigation";
@@ -50,7 +51,7 @@ const DetailCard = () => {
       }
       const data = await response.json();
       console.log("Filtered Data:", data);
-      const filteredProducts = data.filter((item) => item.id !== productId);
+      const filteredProducts = data.filter(item => item.id !== productId);
       setRelatedProducts(filteredProducts);
     } catch (error) {
       console.error("Error fetching related products:", error);
@@ -90,26 +91,31 @@ const DetailCard = () => {
   };
 
   return (
-    <main className="xl:max-w-6xl mx-auto pt-20 xl:px-0">
+    <main className="xl:max-w-6xl mx-auto px-4 pt-24 xl:px-0">
       {product && (
         <section>
-          <div className="container bg-gray-100 p-4 md:p-10 rounded-lg shadow-md">
+          <div className="p-3 bg-white border rounded-md shadow-md">
             <div className="flex flex-col md:flex-row">
               <img
                 src={product.product_image}
                 alt="Product"
-                className="w-full md:w-1/3 rounded-lg mb-4 md:mb-0 md:mr-10"
+                className="w-full md:w-1/3 rounded-lg mb-4 md:mb-0 md:mr-10 shadow-md"
               />
               <div className="flex flex-col justify-between w-full md:w-2/3">
                 <h2 className="text-2xl font-bold mb-3">{product.name}</h2>
                 <p className="mb-2">Brand</p>
                 <p className="mb-2">Stock: {product.stock}</p>
-                <p className="font-bold">Price: Rp {product.price}</p>
+                <p className="font-bold">
+                  Price: Rp{" "}
+                  {product.price.toLocaleString("id-ID", {
+                    minimumFractionDigits: 0,
+                    maximumFractionDigits: 0,
+                  })}
+                </p>
                 <div className="flex items-center mt-4">
                   <button
                     onClick={handleDecrement}
-                    className="bg-white hover:bg-orange-600 transition duration-200 text-black shadow-md hover:text-white px-4 py-2 rounded-md"
-                  >
+                    className="bg-white hover:bg-orange-600 transition duration-200 text-black shadow-md hover:text-white px-4 py-2 rounded-md">
                     -
                   </button>
                   <span className="bg-white shadow-md border-gray-300 px-4 py-2 mx-2 rounded-md">
@@ -117,24 +123,21 @@ const DetailCard = () => {
                   </span>
                   <button
                     onClick={handleIncrement}
-                    className="bg-white hover:bg-orange-600 transition duration-200 text-black hover:text-white shadow-md px-4 py-2 rounded-md"
-                  >
+                    className="bg-white hover:bg-orange-600 transition duration-200 text-black hover:text-white shadow-md px-4 py-2 rounded-md">
                     +
                   </button>
                 </div>
                 <div className="flex mt-4 items-center">
                   <button
                     onClick={handleAddCart}
-                    className="btn w-auto mr-2 shadow-md bg-white hover:bg-orange-600 transition duration-200 hover:text-white border-none"
-                  >
+                    className="btn w-auto mr-2 shadow-md bg-orange-600 hover:text-black transition duration-200 text-white hover:bg-white border-none">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       fill="none"
                       viewBox="0 0 24 24"
                       strokeWidth={1.5}
                       stroke="currentColor"
-                      className="w-6 h-6 mr-2 inline-block"
-                    >
+                      className="w-6 h-6 mr-2 inline-block">
                       <path
                         strokeLinecap="round"
                         strokeLinejoin="round"
@@ -143,7 +146,7 @@ const DetailCard = () => {
                     </svg>
                     Add to Cart
                   </button>
-                  <button className="btn w-24 shadow-md bg-white text-black transition duration-200 hover:bg-orange-600 hover:text-white border-none">
+                  <button className="btn w-24 shadow-md bg-orange-600 hover:text-black transition duration-200 text-white hover:bg-white border-none">
                     Checkout
                   </button>
                 </div>
@@ -164,18 +167,17 @@ const DetailCard = () => {
           </div>
 
           <div className="my-10">
-            <div className="container bg-gray-100 md:p-10 rounded-lg shadow-md">
+            <div className="bg-white border p-3 md:p-10 rounded-md shadow-md">
               <h2 className="text-xl font-bold mb-10">
                 Product with same category
               </h2>
               <div className="grid grid-flow-col auto-cols-max gap-4 overflow-x-auto sb-hidden">
                 {Array.isArray(relatedProducts) &&
                 relatedProducts.length > 0 ? (
-                  relatedProducts.map((relatedProduct) => (
+                  relatedProducts.map(relatedProduct => (
                     <div
                       key={relatedProduct.id}
-                      className="w-2/3 sm:w-1/3 md:w-1/6 mb-2"
-                    >
+                      className="w-2/3 sm:w-1/3 md:w-1/6 mb-2">
                       <DetailProductCard
                         title={relatedProduct.name}
                         price={relatedProduct.price}
