@@ -65,16 +65,22 @@ const fetchBio = async () => {
 };
 
 const fetchPostPayment = async (id) => {
-  await fetch(`http://localhost:5000/api/payments`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    credentials: "include",
-    body: JSON.stringify({
-      checkoutColectionId: +id,
-    }),
-  });
+  try {
+    const res = await fetch(`http://localhost:5000/api/payments`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+      body: JSON.stringify({
+        checkoutColectionId: +id,
+      }),
+    });
+    const data = res.json();
+    return data;
+  } catch (error) {
+    console.log(error.message);
+  }
 };
 
 const fecthChangeAddress = async newAddress => {
