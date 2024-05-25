@@ -323,10 +323,36 @@ export default function PaymentPage({ params: { id } }) {
           </div>
         </div>
 
-        <form onSubmit={handleSubmit}>
-          <input type="file" accept="image/*" onChange={handleFileChange} />
-          <button type="submit">Upload Payment Proof</button>
-          {uploadMessage && <p>{uploadMessage}</p>}
+        <form
+          onSubmit={handleSubmit}
+          className="text-sm flex items-center justify-between border border-slate-200 p-4 shadow-md rounded-md mb-6"
+        >
+          <div>
+            <p className="mb-1.5">Upload Proof of Payment</p>
+            <input
+              onChange={handleFileChange}
+              type="file"
+              accept="image/*"
+              required
+            />
+          </div>
+
+          <div className="w-20 h-20">
+            {imageUrl && (
+              <Image
+                src={imageUrl}
+                width={100}
+                height={100}
+                alt="Image Upload"
+              />
+            )}
+          </div>
+          <button
+            type="submit"
+            className="bg-orange-600 text-white shadow-md rounded-md px-5 font-bold py-1.5 hover:opacity-70 duration-300"
+          >
+            Pay
+          </button>
         </form>
       </div>
     </main>
