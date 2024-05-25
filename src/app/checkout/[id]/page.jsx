@@ -112,6 +112,29 @@ export default function Checkout({ params: { id } }) {
       console.log(error);
     }
   };
+  const handlePromoCheckout = async(e) => {
+    e.preventDefault()
+    try {
+      const url = `http://localhost:5000/api/checkouts/promo/${id}`;
+      const response = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({codeVoucher: voucher}),
+      });
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      const data = await response.json();
+      console.log(data);
+      console.log(voucher)
+      setArrDiscount([...arrDiscount, voucher])
+      setVoucher('')
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
   if (loading)
     return (
@@ -365,9 +388,9 @@ export default function Checkout({ params: { id } }) {
               {checkoutList.CheckoutDiscount[0].discount_percent}% OFF
             </p>
             <p className="font-extrabold text-orange-700">
-              Rp{" "}
+              Rp {" "}
               {(
-                checkoutList.total_shipping_price +
+                checkoutList.total_price +
                 checkoutList.CheckoutDiscount[0].discount_price
               ).toLocaleString("id-ID", {
                 minimumFractionDigits: 0,
