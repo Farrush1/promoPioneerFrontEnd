@@ -6,7 +6,6 @@ import { fetchBio } from "@/libs/fetch/checkouts";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { BiLoaderCircle } from "react-icons/bi";
-import axios from "axios";
 
 export default function PaymentPage({ params: { id } }) {
   const [paymentList, setPaymentList] = useState({});
@@ -97,24 +96,33 @@ export default function PaymentPage({ params: { id } }) {
     const formData = new FormData();
     formData.append("payment_proof", selectedFile);
 
-    try {
-      const response = await axios.put(
-        "http://localhost:5000/api/payments/proof/7",
-        formData,
-        {
-          headers: {
-            Cookie:
-              "accessToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Mywicm9sZSI6IlVTRVIiLCJpYXQiOjE3MTY1NDcwNjIsImV4cCI6MTcxNjYzMzQ2Mn0.SGyKg5GPeIMwHIlCwVAFNRX-uCXctDWzdtQ4O1e-iSw",
-          },
-        }
-      );
+    async function uploadPaymentProof() {
+      try {
+        const response = await fetch(
+          "http://localhost:5000/api/payments/proof/7",
+          {
+            method: "PUT",
+            headers: {
+              Cookie:
+                "accessToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Mywicm9sZSI6IlVTRVIiLCJpYXQiOjE3MTY1NDcwNjIsImV4cCI6MTcxNjYzMzQ2Mn0.SGyKg5GPeIMwHIlCwVAFNRX-uCXctDWzdtQ4O1e-iSw",
+            },
+            body: formData,
+          }
+        );
 
-      setUploadMessage("Payment proof uploaded successfully!");
-      console.log("Upload response:", response); // Optional for debugging
-    } catch (error) {
-      console.error("Upload error:", error);
-      setUploadMessage("An error occurred during upload. Please try again.");
+        if (!response.ok) {
+          throw new Error("Payment proof upload failed");
+        }
+
+        setUploadMessage("Payment proof uploaded successfully!");
+        console.log("Upload response:", response); // Optional for debugging
+      } catch (error) {
+        console.error("Upload error:", error);
+        setUploadMessage("An error occurred during upload. Please try again.");
+      }
     }
+
+    uploadPaymentProof(); //
   };
 
   const getUniqueShippingServices = async () => {
