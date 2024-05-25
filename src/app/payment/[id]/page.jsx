@@ -56,7 +56,7 @@ export default function PaymentPage({ params: { id } }) {
     fetchUniqueService();
   }, [paymentList]);
 
-  const handleImageUpload = async (e) => {
+  const handleImageUpload = async e => {
     const file = e.target.files[0];
     const imageData = new FormData();
     imageData.append("payment_proof", file);
@@ -130,7 +130,7 @@ export default function PaymentPage({ params: { id } }) {
     if (!checkouts) return;
 
     const uniqueServices = new Set();
-    checkouts.forEach((checkout) => {
+    checkouts.forEach(checkout => {
       if (checkout.shippingCheckout && checkout.shippingCheckout.service) {
         uniqueServices.add(checkout.shippingCheckout.service);
       }
@@ -158,11 +158,15 @@ export default function PaymentPage({ params: { id } }) {
         {/* Mobile */}
         <div className="my-4 px-4 border border-slate-200 rounded-md shadow-md md:hidden">
           {paymentList?.checkout_colection?.checkout &&
-            paymentList.checkout_colection.checkout.map((listing) => (
+            paymentList.checkout_colection.checkout.map(listing => (
               // List product checkout
-              <div key={listing.id} className="py-4 border-b border-slate-200">
-                {listing.checkout_item.map((item) => (
-                  <div key={item.id} className="flex text-sm gap-3 mb-2">
+              <div
+                key={listing.id}
+                className="py-4 border-b border-slate-200">
+                {listing.checkout_item.map(item => (
+                  <div
+                    key={item.id}
+                    className="flex text-sm gap-3 mb-2">
                     <img
                       src={item.product.product_image}
                       width={96}
@@ -246,14 +250,15 @@ export default function PaymentPage({ params: { id } }) {
           </div>
           <div className="px-4 rounded-md shadow-md border border-slate-200 my-2">
             {paymentList?.checkout_colection?.checkout &&
-              paymentList.checkout_colection.checkout.map((listing) => (
+              paymentList.checkout_colection.checkout.map(listing => (
                 // List product checkout
                 <div
                   key={listing.id}
-                  className="w-full py-6 border-b border-gray-200"
-                >
-                  {listing.checkout_item.map((item) => (
-                    <div key={item.id} className="flex text-black w-full">
+                  className="w-full py-6 border-b border-gray-200">
+                  {listing.checkout_item.map(item => (
+                    <div
+                      key={item.id}
+                      className="flex text-black w-full">
                       <div className="flex w-[40%] gap-4">
                         <img
                           src={item.product.product_image}
@@ -323,10 +328,7 @@ export default function PaymentPage({ params: { id } }) {
           </div>
         </div>
 
-        <form
-          onSubmit={handleSubmit}
-          className="text-sm flex items-center justify-between border border-slate-200 p-4 shadow-md rounded-md mb-6"
-        >
+        <form className="text-sm flex items-center justify-between border border-slate-200 p-4 shadow-md rounded-md mb-6">
           <div>
             <p className="mb-1.5">Upload Proof of Payment</p>
             <input
@@ -349,8 +351,7 @@ export default function PaymentPage({ params: { id } }) {
           </div>
           <button
             type="submit"
-            className="bg-orange-600 text-white shadow-md rounded-md px-5 font-bold py-1.5 hover:opacity-70 duration-300"
-          >
+            className="bg-orange-600 text-white shadow-md rounded-md px-5 font-bold py-1.5 hover:opacity-70 duration-300">
             Pay
           </button>
         </form>
