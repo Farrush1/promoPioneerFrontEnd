@@ -13,6 +13,8 @@ export default function PaymentPage({ params: { id } }) {
   const [bioList, setBioList] = useState({});
   const [loading, setLoading] = useState(true);
   const [imageUrl, setImageUrl] = useState(null);
+  const [selectedFile, setSelectedFile] = useState(null);
+  const [uploadMessage, setUploadMessage] = useState("");
 
   useEffect(() => {
     setLoading(true);
@@ -79,7 +81,49 @@ export default function PaymentPage({ params: { id } }) {
     }
   };
 
-  const handlePayButton = async e => {};
+  const handleFileChange = (event) => {
+    setSelectedFile(event.target.files[0]);
+  };
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+
+    if (!selectedFile) {
+      setUploadMessage("Please select a payment proof image to upload.");
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append("payment_proof", selectedFile);
+
+    async function uploadPaymentProof() {
+      try {
+        const response = await fetch(
+          "http://localhost:5000/api/payments/proof/7",
+          {
+            method: "PUT",
+            headers: {
+              Cookie:
+                "accessToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Mywicm9sZSI6IlVTRVIiLCJpYXQiOjE3MTY1NDcwNjIsImV4cCI6MTcxNjYzMzQ2Mn0.SGyKg5GPeIMwHIlCwVAFNRX-uCXctDWzdtQ4O1e-iSw",
+            },
+            body: formData,
+          }
+        );
+
+        if (!response.ok) {
+          throw new Error("Payment proof upload failed");
+        }
+
+        setUploadMessage("Payment proof uploaded successfully!");
+        console.log("Upload response:", response); // Optional for debugging
+      } catch (error) {
+        console.error("Upload error:", error);
+        setUploadMessage("An error occurred during upload. Please try again.");
+      }
+    }
+
+    uploadPaymentProof(); //
+  };
 
   const getUniqueShippingServices = async () => {
     const checkouts = await paymentList.checkout_colection?.checkout;
@@ -284,11 +328,11 @@ export default function PaymentPage({ params: { id } }) {
           </div>
         </div>
 
-        <form className="text-sm flex items-center justify-between border border-slate-200 p-4 shadow-md rounded-md mb-6">
+        <form onSubmit={handleSubmit} className="text-sm flex items-center justify-between border border-slate-200 p-4 shadow-md rounded-md mb-6">
           <div>
             <p className="mb-1.5">Upload Proof of Payment</p>
             <input
-              onChange={handleImageUpload}
+              onChange={handleFileChange}
               type="file"
               accept="image/*"
               required
