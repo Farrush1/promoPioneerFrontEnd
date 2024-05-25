@@ -6,6 +6,7 @@ import { fetchBio } from "@/libs/fetch/checkouts";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { BiLoaderCircle } from "react-icons/bi";
+import axios from "axios";
 
 export default function PaymentPage({ params: { id } }) {
   const [paymentList, setPaymentList] = useState({});
@@ -13,6 +14,8 @@ export default function PaymentPage({ params: { id } }) {
   const [bioList, setBioList] = useState({});
   const [loading, setLoading] = useState(true);
   const [imageUrl, setImageUrl] = useState(null);
+  const [selectedFile, setSelectedFile] = useState(null);
+  const [uploadMessage, setUploadMessage] = useState("");
 
   useEffect(() => {
     setLoading(true);
@@ -54,7 +57,7 @@ export default function PaymentPage({ params: { id } }) {
     fetchUniqueService();
   }, [paymentList]);
 
-  const handleImageUpload = async e => {
+  const handleImageUpload = async (e) => {
     const file = e.target.files[0];
     const imageData = new FormData();
     imageData.append("payment_proof", file);
@@ -79,14 +82,47 @@ export default function PaymentPage({ params: { id } }) {
     }
   };
 
-  const handlePayButton = async e => {};
+  const handleFileChange = (event) => {
+    setSelectedFile(event.target.files[0]);
+  };
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+
+    if (!selectedFile) {
+      setUploadMessage("Please select a payment proof image to upload.");
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append("payment_proof", selectedFile);
+
+    try {
+      const response = await axios.put(
+        "http://localhost:5000/api/payments/proof/7",
+        formData,
+        {
+          headers: {
+            Cookie:
+              "accessToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Mywicm9sZSI6IlVTRVIiLCJpYXQiOjE3MTY1NDcwNjIsImV4cCI6MTcxNjYzMzQ2Mn0.SGyKg5GPeIMwHIlCwVAFNRX-uCXctDWzdtQ4O1e-iSw",
+          },
+        }
+      );
+
+      setUploadMessage("Payment proof uploaded successfully!");
+      console.log("Upload response:", response); // Optional for debugging
+    } catch (error) {
+      console.error("Upload error:", error);
+      setUploadMessage("An error occurred during upload. Please try again.");
+    }
+  };
 
   const getUniqueShippingServices = async () => {
     const checkouts = await paymentList.checkout_colection?.checkout;
     if (!checkouts) return;
 
     const uniqueServices = new Set();
-    checkouts.forEach(checkout => {
+    checkouts.forEach((checkout) => {
       if (checkout.shippingCheckout && checkout.shippingCheckout.service) {
         uniqueServices.add(checkout.shippingCheckout.service);
       }
@@ -114,15 +150,11 @@ export default function PaymentPage({ params: { id } }) {
         {/* Mobile */}
         <div className="my-4 px-4 border border-slate-200 rounded-md shadow-md md:hidden">
           {paymentList?.checkout_colection?.checkout &&
-            paymentList.checkout_colection.checkout.map(listing => (
+            paymentList.checkout_colection.checkout.map((listing) => (
               // List product checkout
-              <div
-                key={listing.id}
-                className="py-4 border-b border-slate-200">
-                {listing.checkout_item.map(item => (
-                  <div
-                    key={item.id}
-                    className="flex text-sm gap-3 mb-2">
+              <div key={listing.id} className="py-4 border-b border-slate-200">
+                {listing.checkout_item.map((item) => (
+                  <div key={item.id} className="flex text-sm gap-3 mb-2">
                     <img
                       src={item.product.product_image}
                       width={96}
@@ -206,15 +238,14 @@ export default function PaymentPage({ params: { id } }) {
           </div>
           <div className="px-4 rounded-md shadow-md border border-slate-200 my-2">
             {paymentList?.checkout_colection?.checkout &&
-              paymentList.checkout_colection.checkout.map(listing => (
+              paymentList.checkout_colection.checkout.map((listing) => (
                 // List product checkout
                 <div
                   key={listing.id}
-                  className="w-full py-6 border-b border-gray-200">
-                  {listing.checkout_item.map(item => (
-                    <div
-                      key={item.id}
-                      className="flex text-black w-full">
+                  className="w-full py-6 border-b border-gray-200"
+                >
+                  {listing.checkout_item.map((item) => (
+                    <div key={item.id} className="flex text-black w-full">
                       <div className="flex w-[40%] gap-4">
                         <img
                           src={item.product.product_image}
@@ -284,32 +315,10 @@ export default function PaymentPage({ params: { id } }) {
           </div>
         </div>
 
-        <form className="text-sm flex items-center justify-between border border-slate-200 p-4 shadow-md rounded-md mb-6">
-          <div>
-            <p className="mb-1.5">Upload Proof of Payment</p>
-            <input
-              onChange={handleImageUpload}
-              type="file"
-              accept="image/*"
-              required
-            />
-          </div>
-
-          <div className="w-20 h-20">
-            {imageUrl && (
-              <Image
-                src={imageUrl}
-                width={100}
-                height={100}
-                alt="Image Upload"
-              />
-            )}
-          </div>
-          <button
-            type="submit"
-            className="bg-orange-600 text-white shadow-md rounded-md px-5 font-bold py-1.5 hover:opacity-70 duration-300">
-            Pay
-          </button>
+        <form onSubmit={handleSubmit}>
+          <input type="file" accept="image/*" onChange={handleFileChange} />
+          <button type="submit">Upload Payment Proof</button>
+          {uploadMessage && <p>{uploadMessage}</p>}
         </form>
       </div>
     </main>
