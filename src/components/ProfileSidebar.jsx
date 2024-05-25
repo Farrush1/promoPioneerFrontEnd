@@ -1,31 +1,62 @@
+/* eslint-disable @next/next/no-img-element */
+"use client";
 import Link from "next/link";
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { FaUser } from "react-icons/fa6";
+import { BsCartCheckFill } from "react-icons/bs";
+import { FaSignOutAlt } from "react-icons/fa";
 
 export default function ProfileSidebar() {
+  const [user, setUser] = useState({});
+  useEffect(() => {
+    const fetchBio = async () => {
+      const bio = await fetch("http://localhost:5000/api/users/bio", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+      });
+      const data = await bio.json();
+      console.log(data.users);
+      setUser(data.users);
+    };
+    fetchBio();
+  }, []);
   return (
-    <div className="text-xl font-bold bg-orange-300 w-64 p-5">
-      <div className="flex items-center">
+    <div className="font-semibold bg-orange-600 w-full md:w-64 p-5 rounded-lg shadow-lg flex flex-col gap-2 md:h-80 justify-between">
+      <div className="flex items-center px-3 pb-3">
         <img
-          src="https://res.cloudinary.com/dmvigke9d/image/upload/v1715222943/pxbzwswjqjk5hndkoonf.jpg"
+          src={user.avatar}
           alt="alt"
           className="rounded-full w-14 h-14 mr-5"
         />
-        <h4 className="text-xl">Name</h4>
+        <h4 className="font-semibold text-white">{user.name}</h4>
       </div>
-      <Link href="/user/bio">
-        <div className="rounded-lg border-y-2 py-3 px-2 mt-5 hover:bg-orange-700">
-          <h3 className="text-lg ">My Profile</h3>
+      <div className="flex md:flex-col w-full justify-between md:gap-4 md:text-left">
+        <Link
+          href="/user/bio"
+          className="p-2 md:p-0 w-full inline-flex md:justify-start justify-center rounded-full duration-300 hover:bg-white hover:text-orange-600 text-white">
+          <p className="hidden md:block text-white cursor-pointer rounded-full hover:shadow-md px-3 py-1 hover:bg-white hover:text-black w-full duration-300">
+            My Profile
+          </p>
+          <FaUser className=" md:hidden w-5" />
+        </Link>
+        <Link
+          href="/user/order"
+          className="p-2 md:p-0 w-full inline-flex md:justify-start justify-center rounded-full duration-300 hover:bg-white hover:text-orange-600 text-white">
+          <p className="hidden md:block text-white cursor-pointer rounded-full hover:shadow-md px-3 py-1 hover:bg-white hover:text-black w-full duration-300">
+            My Order
+          </p>
+          <BsCartCheckFill className=" md:hidden w-5" />
+        </Link>
+        <div className="p-2 md:p-0 w-full inline-flex md:justify-start justify-center cursor-pointer rounded-full duration-300 hover:bg-white hover:text-orange-600 text-white">
+          <button className="hidden md:block text-white text-left cursor-pointer rounded-full hover:shadow-md px-3 py-1 hover:bg-white hover:text-black w-full duration-300">
+            Logout
+          </button>
+          <FaSignOutAlt className="md:hidden w-5" />
         </div>
-      </Link>
-      <Link href="/user/order">
-        <div className=" rounded-lg border-b-2 py-3 px-2 hover:bg-orange-700">
-          <h3 className="text-lg ">My Order</h3>
-        </div>
-      </Link>
-
-      <button className="inline-flex items-center justify-center px-8 py-4 font-sans font-semibold tracking-wide text-white bg-orange-600 rounded-lg h-[60px]">
-        Logout
-      </button>
+      </div>
     </div>
   );
 }

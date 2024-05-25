@@ -96,7 +96,7 @@ export default function Navbar() {
                       tabIndex={0}
                       className="dropdown-content z-[1] menu shadow bg-base-100 text-black rounded-box w-52">
                       <li>
-                        <Link href="/profile">Profile</Link>
+                        <Link href="/user/bio">Profile</Link>
                       </li>
                       <li>
                         <button onClick={handleLogOut}>Log Out</button>
