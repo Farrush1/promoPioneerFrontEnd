@@ -328,7 +328,7 @@ export default function PaymentPage({ params: { id } }) {
           </div>
         </div>
 
-        <form className="text-sm flex items-center justify-between border border-slate-200 p-4 shadow-md rounded-md mb-6">
+        <form onSubmit={handleSubmit} className="text-sm flex items-center justify-between border border-slate-200 p-4 shadow-md rounded-md mb-6">
           <div>
             <p className="mb-1.5">Upload Proof of Payment</p>
             <input
