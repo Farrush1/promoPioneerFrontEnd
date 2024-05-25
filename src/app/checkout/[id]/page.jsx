@@ -71,13 +71,12 @@ export default function Checkout({ params: { id } }) {
           body: JSON.stringify({ codeVoucher: voucher }),
         }
       );
-      if (!res) {
-        toast.error("Promo don't match");
+      if (res.status === 404) {
+        return toast.error("Promo not found!");
       }
-      await res.json();
 
       toast.success(`${voucher} voucher promo successfully applied!`, {
-        duration: 6000,
+        duration: 5000,
         style: {
           bottom: "20px",
         },
@@ -85,9 +84,10 @@ export default function Checkout({ params: { id } }) {
 
       setTimeout(() => {
         window.location.reload();
-      }, 6000);
+      }, 5000);
     } catch (error) {
       console.log(error);
+      toast.error(error.message);
     }
   };
 
