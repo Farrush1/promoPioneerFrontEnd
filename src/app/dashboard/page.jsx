@@ -7,7 +7,34 @@ export default function Dashboard() {
   const [products, setProducts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalProducts, setTotalProducts] = useState(0);
-  const productsPerPage = 9;
+  const productsPerPage = 10;
+
+
+  const orders = [
+    { id: 1, status: "completed" },
+    { id: 2, status: "completed" },
+    { id: 3, status: "cancelled" },
+  ];
+  const transactions = [
+    { id: 1, amount: 200000 },
+    { id: 2, amount: 300000 },
+    { id: 3, amount: 150000 },
+  ];
+  const shipments = [
+    { id: 1, status: "shipped" },
+    { id: 2, status: "cancelled" },
+    { id: 3, status: "cancelled" },
+  ];
+  const totalOrders = orders.filter(
+    (order) => order.status === "completed"
+  ).length;
+  const totalRevenue = transactions.reduce(
+    (total, transaction) => total + transaction.amount,
+    0
+  );
+  const orderCancelled = shipments.filter(
+    (shipment) => shipment.status === "cancelled"
+  ).length;
 
   useEffect(() => {
     fetchProducts(currentPage);
@@ -43,6 +70,23 @@ export default function Dashboard() {
   return (
     <div className="p-6">
       <h1 className="text-2xl font-bold mb-6">Dashboard</h1>
+
+      <div className="flex justify-center mb-6">
+        <div className="stats stats-vertical lg:stats-horizontal gap-6">
+          <div className="stat place-items-center text-center">
+            <div className="stat-title">Total Orders</div>
+            <div className="stat-value">{totalOrders}</div>
+          </div>
+          <div className="stat place-items-center text-center">
+            <div className="stat-title">Total Revenue</div>
+            <div className="stat-value">Rp.{totalRevenue}</div>
+          </div>
+          <div className="stat place-items-center text-center">
+            <div className="stat-title">Order Cancelled</div>
+            <div className="stat-value">{orderCancelled}</div>
+          </div>
+        </div>
+      </div>
 
       <h1 className="text-2xl font-bold mb-6">Our Products</h1>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">

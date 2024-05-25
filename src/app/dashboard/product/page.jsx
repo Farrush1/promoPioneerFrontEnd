@@ -140,7 +140,7 @@ export default function Product() {
           </tr>
         </thead>
         <tbody>
-          {products.length > 0 ? (
+          {products?.length > 0 ? (
             products.map((product) => (
               <tr key={product.id}>
                 <th>
