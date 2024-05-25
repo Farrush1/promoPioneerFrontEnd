@@ -12,7 +12,6 @@ export default function PaymentPage({ params: { id } }) {
   const [shippingServiceList, setShippingServiceList] = useState([]);
   const [bioList, setBioList] = useState({});
   const [loading, setLoading] = useState(true);
-  const [imageUrl, setImageUrl] = useState(null);
   const [selectedFile, setSelectedFile] = useState(null);
   const [uploadMessage, setUploadMessage] = useState("");
 
@@ -81,11 +80,11 @@ export default function PaymentPage({ params: { id } }) {
     }
   };
 
-  const handleFileChange = (event) => {
+  const handleFileChange = event => {
     setSelectedFile(event.target.files[0]);
   };
 
-  const handleSubmit = async (event) => {
+  const handleSubmit = async event => {
     event.preventDefault();
 
     if (!selectedFile) {
@@ -96,16 +95,13 @@ export default function PaymentPage({ params: { id } }) {
     const formData = new FormData();
     formData.append("payment_proof", selectedFile);
 
-    async function uploadPaymentProof() {
+    const uploadPaymentProof = async () => {
       try {
         const response = await fetch(
-          "http://localhost:5000/api/payments/proof/7",
+          `http://localhost:5000/api/payments/proof/${id}`,
           {
             method: "PUT",
-            headers: {
-              Cookie:
-                "accessToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Mywicm9sZSI6IlVTRVIiLCJpYXQiOjE3MTY1NDcwNjIsImV4cCI6MTcxNjYzMzQ2Mn0.SGyKg5GPeIMwHIlCwVAFNRX-uCXctDWzdtQ4O1e-iSw",
-            },
+            credentials: "include",
             body: formData,
           }
         );
@@ -115,14 +111,15 @@ export default function PaymentPage({ params: { id } }) {
         }
 
         setUploadMessage("Payment proof uploaded successfully!");
-        console.log("Upload response:", response); // Optional for debugging
+        // console.log("Upload response:", response); // Optional for debugging
       } catch (error) {
         console.error("Upload error:", error);
         setUploadMessage("An error occurred during upload. Please try again.");
       }
-    }
+    };
 
-    uploadPaymentProof(); //
+    uploadPaymentProof();
+    document.getElementById("my_modal_2").showModal();
   };
 
   const getUniqueShippingServices = async () => {
@@ -131,8 +128,8 @@ export default function PaymentPage({ params: { id } }) {
 
     const uniqueServices = new Set();
     checkouts.forEach(checkout => {
-      if (checkout.shippingCheckout && checkout.shippingCheckout.service) {
-        uniqueServices.add(checkout.shippingCheckout.service);
+      if (checkout.shippingCheckout && checkout.shippingCheckout.name) {
+        uniqueServices.add(checkout.shippingCheckout.name);
       }
     });
 
@@ -150,7 +147,7 @@ export default function PaymentPage({ params: { id } }) {
     <main className="xl:max-w-6xl mx-auto px-4 pt-24 xl:px-0">
       <h1 className="lg:text-3xl font-bold pb-8 text-2xl">Payment</h1>
       <div className="w-full">
-        <div className="bg-orange-600 text-white font-semibold text-lg mx-auto text-center py-3 rounded-md shadow-md">
+        <div className="bg-white text-slate-800 border-dashed border-orange-600 border-2 font-semibold text-lg mx-auto text-center py-3 rounded-md shadow-md">
           <h1>Transfer Bank BCA</h1>
           <p>607882818 a.n Promo Pioneer</p>
         </div>
@@ -209,7 +206,7 @@ export default function PaymentPage({ params: { id } }) {
               <div className="flex justify-between w-full pb-3 border-b border-dashed border-green-400">
                 <div>
                   <h1 className="font-semibold mb-1">Shiping</h1>
-                  <p>{shippingServiceList}</p>
+                  <p className="uppercase">{shippingServiceList}</p>
                 </div>
                 <div>
                   <h1 className="font-semibold mb-1">Shiping Price</h1>
@@ -294,7 +291,7 @@ export default function PaymentPage({ params: { id } }) {
                 <div className="flex justify-between w-full pb-3 border-b border-dashed border-green-400">
                   <div>
                     <h1 className="font-semibold mb-1">Shiping</h1>
-                    <p>{shippingServiceList}</p>
+                    <p className="uppercase">{shippingServiceList}</p>
                   </div>
                   <div>
                     <h1 className="font-semibold mb-1">Shiping Price</h1>
@@ -314,7 +311,7 @@ export default function PaymentPage({ params: { id } }) {
               </div>
             )}
             {paymentList.checkout_colection.total_price && (
-              <div className="flex mb-4 justify-between text-sm font-bold text-orange-700">
+              <div className="flex mb-4 justify-between font-bold text-orange-700">
                 <h1>Total Price</h1>
                 <p>
                   Rp{" "}
@@ -328,34 +325,54 @@ export default function PaymentPage({ params: { id } }) {
           </div>
         </div>
 
-        <form onSubmit={handleSubmit} className="text-sm flex items-center justify-between border border-slate-200 p-4 shadow-md rounded-md mb-6">
-          <div>
-            <p className="mb-1.5">Upload Proof of Payment</p>
-            <input
-              onChange={handleFileChange}
-              type="file"
-              accept="image/*"
-              required
-            />
-          </div>
-
-          <div className="w-20 h-20">
-            {imageUrl && (
-              <Image
-                src={imageUrl}
-                width={100}
-                height={100}
-                alt="Image Upload"
+        <form
+          onSubmit={handleSubmit}
+          className="text-sm mt-4 items-center flex flex-col sm:flex-row justify-center gap-5 border border-slate-200 p-4 shadow-md rounded-md mb-6
+          ">
+          <div className="w-full flex flex-col h-full items-center mx-auto">
+            <div className="mx-auto text-center">
+              <p className="mb-3">Upload Proof of Payment</p>
+              <input
+                className="table-xs"
+                onChange={handleFileChange}
+                type="file"
+                accept="image/*"
+                required
               />
+            </div>
+            {selectedFile && (
+              <div className="mx-auto mt-4">
+                <Image
+                  src={URL.createObjectURL(selectedFile)}
+                  width={300}
+                  height={200}
+                  alt="Image Upload"
+                  className="w-full max-w-80 max-h-80 object-cover rounded-md shadow-md"
+                />
+              </div>
             )}
+            <button
+              type="submit"
+              className="bg-orange-600 max-w-80 mt-4 text-white shadow-md rounded-md px-5 py-2 font-bold hover:opacity-70 duration-300 w-full">
+              Pay
+            </button>
           </div>
-          <button
-            type="submit"
-            className="bg-orange-600 text-white shadow-md rounded-md px-5 font-bold py-1.5 hover:opacity-70 duration-300">
-            Pay
-          </button>
         </form>
       </div>
+
+      <dialog
+        id="my_modal_2"
+        className="modal">
+        <div className="modal-box">
+          <h3 className="font-bold text-lg">Your order is placed!</h3>
+          <p className="py-4">Thanks for shopping with us</p>
+        </div>
+        <form
+          method="dialog"
+          className="modal-backdrop">
+          <button>close</button>
+        </form>
+      </dialog>
     </main>
   );
 }
