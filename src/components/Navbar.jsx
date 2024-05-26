@@ -6,36 +6,37 @@ import { useEffect, useState } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import { useCookies } from "react-cookie";
 import Image from "next/image";
-import { IoSearch } from "react-icons/io5";
+import { IoCartOutline, IoSearch } from "react-icons/io5";
 import { IoCart } from "react-icons/io5";
 import { FaUserCircle } from "react-icons/fa";
+import AvatarUser from "./AvatarUser";
+import CounterCart from "./CounterCart";
 
 export default function Navbar() {
   const [isLogin, setIsLogin] = useState(false);
-  const [cookies, setCookies, removeCookie] = useCookies(["access_token"]);
-  const route = useRouter();
+  const [cookies, _setCookies, removeCookie] = useCookies(["accessToken"]);
+  const router = useRouter();
   const pathname = usePathname();
   const isNestedDashboardRoute = pathname.startsWith("/dashboard");
 
   useEffect(() => {
-    if (cookies.access_token) {
+    if (cookies.accessToken) {
       setIsLogin(true);
     }
   }, [cookies]);
 
   const handleLogOut = () => {
-    location.reload();
-    removeCookie("access_token");
+    router.refresh();
+    removeCookie("accessToken");
     setIsLogin(false);
-    route.push("/");
+    router.push("/");
   };
 
   return (
     <>
       {!isNestedDashboardRoute && (
         <div>
-          <nav className="py-0.5 block w-full h-16"></nav>
-          <nav className="bg-gradient-to-b from-orange-600 to-orange-500 py-0.5 fixed w-full z-20 top-0 start-0 shadow-md">
+          <nav className="bg-gradient-to-l from-orange-600 to-orange-500 py-1 fixed w-full z-20 top-0 start-0 shadow-md">
             <div className="xl:max-w-6xl md:gap-12 gap-3 mx-auto xl:px-0 flex flex-wrap flex-row w-full items-center justify-between py-3 px-4">
               <Link
                 href="/"
@@ -50,7 +51,7 @@ export default function Navbar() {
                 </span>
               </Link>
               <div className="md:flex-1 md:mx-2">
-                <div className="flex w-full items-center gap-3">
+                <div className="flex max-w-[70%] items-center gap-3 md:mx-auto">
                   <Link href={"/category"}>
                     <p className="text-white hidden sm:block cursor-pointer hover:opacity-80 duration-300 font-semibold">
                       Category
@@ -65,11 +66,14 @@ export default function Navbar() {
                       <IoSearch className="ml-1 hover:opacity-60 duration-300 rounded-r-md w-full h-full p-1 text-orange-600" />
                     </button>
                   </form>
-                  <Link href="/cart">
-                    <IoCart
+                  <Link
+                    href="/cart"
+                    className="relative w-11">
+                    <IoCartOutline
                       size={30}
                       className="text-white hover:opacity-80 duration-300 cursor-pointer"
                     />
+                    <CounterCart />
                   </Link>
                 </div>
               </div>
@@ -83,29 +87,28 @@ export default function Navbar() {
                     </button>
                   </Link>
                 ) : (
-                  <Link href="/profile">
-                    <div className="dropdown dropdown-hover dropdown-end">
-                      <div
-                        tabIndex={0}
-                        role="button"
-                        className="btn px-0 bg-transparent border-none hover:bg-transparent shadow-none h-0 min-h-0">
-                        <FaUserCircle
-                          size={28}
-                          className="text-white translate-y-0.5"
-                        />
-                      </div>
-                      <ul
-                        tabIndex={0}
-                        className="dropdown-content z-[1] menu shadow bg-base-100 text-black rounded-box w-52">
-                        <li>
-                          <a>Profile</a>
-                        </li>
-                        <li>
-                          <button onClick={handleLogOut}>Log Out</button>
-                        </li>
-                      </ul>
-                    </div>
-                  </Link>
+                  <div className="dropdown dropdown-hover dropdown-end">
+                    <AvatarUser />
+                    {/* <div
+                      tabIndex={0}
+                      role="button"
+                      className="btn px-0 bg-transparent border-none hover:bg-transparent shadow-none h-0 min-h-0">
+                      <FaUserCircle
+                        size={28}
+                        className="text-white translate-y-0.5"
+                      />
+                    </div> */}
+                    <ul
+                      tabIndex={0}
+                      className="dropdown-content z-[1] menu shadow bg-base-100 text-black rounded-box w-52">
+                      <li>
+                        <Link href="/user/bio">Profile</Link>
+                      </li>
+                      <li>
+                        <button onClick={handleLogOut}>Log Out</button>
+                      </li>
+                    </ul>
+                  </div>
                 )}
               </div>
             </div>

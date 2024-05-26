@@ -111,17 +111,18 @@ export default function Product() {
   const totalPages = Math.ceil(totalProducts / productsPerPage);
 
   return (
-    <div className="container mx-auto mt-10 p-5 bg-white rounded-lg">
+    <div className="mx-auto">
       <h1 className="text-2xl font-bold mb-6 text-center">Product List</h1>
-      <div className="flex justify-end mb-4 p-3">
-        <button className="btn btn-primary mt-1 bg-orange-600 text-sm px-1 py-1 mx-1">
-          <Link href="/dashboard/product/create">Add Product</Link>
-        </button>
+      <div className="flex gap-4 justify-end mb-4 p-3">
+        <Link
+          href="/dashboard/product/create"
+          className="bg-orange-600 text-sm px-3 py-1.5 rounded-md shadow-md text-white font-semibold">
+          + Product
+        </Link>
         <button
-          className="btn btn-primary mt-1 bg-orange-600 text-sm px-1 py-1 mx-1"
-          onClick={handleAddPromo}
-        >
-          Add Promo Product
+          className="bg-orange-600 text-sm px-3 py-1.5 rounded-md shadow-md text-white font-semibold"
+          onClick={handleAddPromo}>
+          + Promo Product
         </button>
       </div>
       <table className="table">
@@ -129,7 +130,10 @@ export default function Product() {
           <tr>
             <th>
               <label>
-                <input type="checkbox" className="checkbox" />
+                <input
+                  type="checkbox"
+                  className="checkbox"
+                />
               </label>
             </th>
             <th>Name</th>
@@ -146,14 +150,20 @@ export default function Product() {
               <tr key={product.id}>
                 <th>
                   <label>
-                    <input type="checkbox" className="checkbox" />
+                    <input
+                      type="checkbox"
+                      className="checkbox"
+                    />
                   </label>
                 </th>
                 <td>
                   <div className="flex items-center gap-3">
                     <div className="avatar">
                       <div className="mask mask-squircle w-12 h-12">
-                        <img src={product.product_image} alt={product.name} />
+                        <img
+                          src={product.product_image}
+                          alt={product.name}
+                        />
                       </div>
                     </div>
                     <div>
@@ -174,22 +184,19 @@ export default function Product() {
                 <td className="border-t py-2 px-4 flex justify-center space-x-2">
                   <Button
                     color="blue"
-                    onClick={() => handleEditProduct(product.id)}
-                  >
+                    onClick={() => handleEditProduct(product.id)}>
                     Edit
                   </Button>
                   <Button
                     color="red"
-                    onClick={() => handleDeleteProduct(product.id)}
-                  >
+                    onClick={() => handleDeleteProduct(product.id)}>
                     Delete
                   </Button>
                 </td>
                 <th>
                   <button
                     className="btn btn-ghost btn-xs"
-                    onClick={() => handleViewDetails(product.id)}
-                  >
+                    onClick={() => handleViewDetails(product.id)}>
                     Details
                   </button>
                 </th>
@@ -197,7 +204,9 @@ export default function Product() {
             ))
           ) : (
             <tr>
-              <td colSpan="7" className="text-center">
+              <td
+                colSpan="7"
+                className="text-center">
                 Loading...
               </td>
             </tr>
@@ -208,8 +217,7 @@ export default function Product() {
         <button
           onClick={handlePrevPage}
           disabled={currentPage === 1}
-          className="px-4 py-2 mx-2 bg-gray-300 rounded disabled:opacity-50"
-        >
+          className="px-4 py-2 mx-2 bg-gray-300 rounded disabled:opacity-50">
           Previous
         </button>
         <span className="px-4 py-2 mx-2">
@@ -218,8 +226,7 @@ export default function Product() {
         <button
           onClick={handleNextPage}
           disabled={currentPage === totalPages}
-          className="px-4 py-2 mx-2 bg-gray-300 rounded disabled:opacity-50"
-        >
+          className="px-4 py-2 mx-2 bg-gray-300 rounded disabled:opacity-50">
           Next
         </button>
       </div>
@@ -254,8 +261,7 @@ export default function Product() {
             <div className="flex justify-end mt-4">
               <button
                 className="btn btn-primary bg-red-500"
-                onClick={handleCloseModal}
-              >
+                onClick={handleCloseModal}>
                 Cancel
               </button>
               <button
