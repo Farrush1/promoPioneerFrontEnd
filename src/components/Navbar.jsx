@@ -51,7 +51,7 @@ export default function Navbar() {
                 </span>
               </Link>
               <div className="md:flex-1 md:mx-2">
-                <div className="flex w-full max-w-[70%] items-center gap-3 mx-auto">
+                <div className="flex max-w-[70%] items-center gap-3 md:mx-auto">
                   <Link href={"/category"}>
                     <p className="text-white hidden sm:block cursor-pointer hover:opacity-80 duration-300 font-semibold">
                       Category
