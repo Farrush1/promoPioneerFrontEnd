@@ -239,19 +239,19 @@ export default function PaymentPage({ params: { id } }) {
 
         {/* Desktop */}
         <div className="hidden mt-4 md:block">
-          <div className="flex items-center bg-orange-600 px-4 text-white font-semibold py-2 rounded-md shadow-md">
+          <div className="flex items-center bg-gradient-to-l from-orange-600 to-orange-500 px-4 text-white font-semibold py-3 rounded-md shadow-md">
             <h1 className="w-[40%]">Product</h1>
             <h1 className="w-1/5 text-center">Unit Price</h1>
             <h1 className="w-1/5 text-center">Quantity</h1>
             <h1 className="w-1/5 text-center">Subtotal Product</h1>
           </div>
-          <div className="px-4 rounded-md shadow-md border border-slate-200 my-2">
+          <div className="px-4 rounded-md shadow-md border border-slate-300 my-2">
             {paymentList?.checkout_colection?.checkout &&
               paymentList.checkout_colection.checkout.map(listing => (
                 // List product checkout
                 <div
                   key={listing.id}
-                  className="w-full py-6 border-b border-gray-200">
+                  className="w-full py-6 border-b border-slate-300">
                   {listing.checkout_item.map(item => (
                     <div
                       key={item.id}
@@ -274,7 +274,7 @@ export default function PaymentPage({ params: { id } }) {
                         })}
                       </p>
                       <p className="w-1/5 text-center">{item.quantity}</p>
-                      <p className="w-1/5 text-center text-orange-700 font-semibold">
+                      <p className="w-1/5 text-center text-orange-700 font-bold">
                         Rp{" "}
                         {listing.subtotal_price.toLocaleString("id-ID", {
                           minimumFractionDigits: 0,
@@ -353,7 +353,7 @@ export default function PaymentPage({ params: { id } }) {
             )}
             <button
               type="submit"
-              className="bg-orange-600 max-w-80 mt-4 text-white shadow-md rounded-md px-5 py-2 font-bold hover:opacity-70 duration-300 w-full">
+              className="bg-gradient-to-l from-orange-600 to-orange-500 max-w-80 mt-4 text-white shadow-md rounded-md px-5 py-2 font-bold hover:opacity-70 duration-300 w-full">
               Pay
             </button>
           </div>

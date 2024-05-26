@@ -113,7 +113,7 @@ export default function Cart() {
               // cart item
               <div
                 key={item.id}
-                className="flex text-sm gap-3 shadow-md p-2 rounded-md">
+                className="flex text-sm gap-3 shadow-md border-b border-slate-400 p-2 rounded-md">
                 <div className="w-24 h-24 flex items-center justify-center">
                   <img
                     src={item.product.product_image}
@@ -152,7 +152,7 @@ export default function Cart() {
 
       {/* Desktop */}
       <div className="hidden md:block mb-24">
-        <div className="flex items-center w-full bg-orange-600 px-4 text-white font-semibold py-2 rounded-md shadow-md">
+        <div className="flex items-center w-full bg-gradient-to-l from-orange-600 to-orange-500 px-4 text-white font-semibold py-3 rounded-md shadow-lg">
           <h1 className="w-[40%] flex-1 flex">Product</h1>
           <h1 className="w-1/5 text-center">Unit Price</h1>
           <h1 className="w-[10%] text-center">Quantity</h1>
@@ -166,7 +166,7 @@ export default function Cart() {
               return (
                 <div
                   key={item.id}
-                  className="w-full bg-white p-4 rounded-md shadow-md">
+                  className="w-full bg-white p-4 rounded-md shadow-lg border-slate-400 border-b">
                   <div className="flex text-black w-full">
                     <div className="flex flex-1 w-[40%] gap-4">
                       <img
@@ -245,7 +245,7 @@ export default function Cart() {
             <button
               onClick={handleCheckouts}
               disabled={disableCheckout}
-              className="text-white px-4 py-2 rounded-md shadow-md hover:opacity-80 duration-300 font-bold bg-gradient-to-b from-orange-600 to-orange-500 disabled:opacity-50 disabled:cursor-progress">
+              className="text-white px-4 py-2 rounded-md shadow-md hover:opacity-80 duration-300 font-bold bg-gradient-to-l from-orange-600 to-orange-500 disabled:opacity-50 disabled:cursor-progress">
               Checkout
             </button>
           </div>

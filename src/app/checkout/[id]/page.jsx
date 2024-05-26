@@ -77,9 +77,6 @@ export default function Checkout({ params: { id } }) {
 
       toast.success(`${voucher} voucher promo successfully applied!`, {
         duration: 5000,
-        style: {
-          bottom: "20px",
-        },
       });
 
       setTimeout(() => {
@@ -178,8 +175,9 @@ export default function Checkout({ params: { id } }) {
   return (
     <main className="xl:max-w-6xl mx-auto px-4 pt-24 xl:px-0">
       <Toaster
-        position="bottom-center"
+        position="top-center"
         reverseOrder={false}
+        containerStyle={{ marginTop: "65px" }}
       />
       {/* Modal Edit Address */}
       <dialog
@@ -227,7 +225,7 @@ export default function Checkout({ params: { id } }) {
       </dialog>
 
       <h1 className="lg:text-3xl text-2xl pb-8 font-bold">Checkout</h1>
-      <div className="flex flex-row gap-2 p-3 bg-orange-600 text-white rounded-lg shadow-lg mb-6 items-start">
+      <div className="flex flex-row gap-2 p-3 bg-gradient-to-l from-orange-600 to-orange-500 text-white rounded-lg shadow-lg mb-6 items-start">
         <IoLocation className="text-xl" />
         <div className="text-sm flex-1">
           <p className="pb-1 font-semibold">Delivery Address</p>
@@ -332,7 +330,7 @@ export default function Checkout({ params: { id } }) {
 
       {/* Desktop */}
       <div className="hidden md:block">
-        <div className="flex items-center bg-orange-600 px-4 text-white font-semibold py-2 rounded-md shadow-md">
+        <div className="flex items-center bg-gradient-to-l from-orange-600 to-orange-500 px-4 text-white font-semibold py-3 rounded-md shadow-md">
           <h1 className="w-[40%]">Product</h1>
           <h1 className="w-1/5 text-center">Unit Price</h1>
           <h1 className="w-1/5 text-center">Quantity</h1>
@@ -345,7 +343,7 @@ export default function Checkout({ params: { id } }) {
               // List product checkout
               <div
                 key={listing.id}
-                className="w-full bg-white p-2 rounded-md shadow-md">
+                className="w-full bg-white p-2 rounded-md shadow-md border-b border-slate-400">
                 {listing.checkout_item.map(item => (
                   <div
                     key={item.id}
@@ -418,7 +416,7 @@ export default function Checkout({ params: { id } }) {
 
       {/* Voucher Code and Total price */}
       <div className="shadow-t w-full right-0 px-4 py-3 mt-4 fixed bg-white bottom-0">
-        <div className="xl:max-w-6xl flex mb-3 items-center justify-between gap-6 !text-sm md:text-base w-full mx-auto">
+        <div className="xl:max-w-6xl flex mb-3 items-center justify-between gap-6 !text-sm md:!text-base w-full mx-auto">
           <div className="flex gap-4 items-center w-full max-w-[28rem]">
             <p className="font-bold w-full max-w-24 md:max-w-32">
               Voucher Code
@@ -460,11 +458,11 @@ export default function Checkout({ params: { id } }) {
           </div>
           <button
             onClick={handleApplyVoucher}
-            className="text-white text-center py-2 sm:px-4 min-w-16 rounded-md shadow-md hover:opacity-80 duration-300 font-bold bg-gradient-to-b from-orange-600 to-orange-500">
+            className="text-white text-center py-2 sm:px-4 min-w-16 rounded-md shadow-md hover:opacity-80 duration-300 font-bold bg-gradient-to-l from-orange-600 to-orange-500">
             Apply
           </button>
         </div>
-        <div className="xl:max-w-6xl flex items-center justify-between gap-6 !text-sm md:text-base w-full mx-auto">
+        <div className="xl:max-w-6xl flex items-center justify-between gap-6 !text-sm md:!text-base w-full mx-auto">
           <p className="font-bold">Total Price</p>
           <div className="flex gap-3 sm:gap-6 items-center">
             <p className="font-extrabold text-orange-700">
@@ -482,7 +480,7 @@ export default function Checkout({ params: { id } }) {
             <button
               onClick={handleOrder}
               disabled={disableOrder}
-              className="text-white text-center sm:px-4 py-2 flex-1  rounded-md min-w-16 shadow-md hover:opacity-80 duration-300 font-bold bg-gradient-to-b from-orange-600 to-orange-500 disabled:cursor-progress disabled:opacity-50">
+              className="text-white text-center sm:px-4 py-2 flex-1  rounded-md min-w-16 shadow-md hover:opacity-80 duration-300 font-bold bg-gradient-to-l from-orange-600 to-orange-500 disabled:cursor-progress disabled:opacity-50">
               Order
             </button>
           </div>
