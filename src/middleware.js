@@ -1,19 +1,26 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import { NextResponse } from "next/server";
+// import jwt from "jsonwebtoken";
 
-export function middleware(req) {
-  const loginPath = ["/login", "/register"];
-  if (loginPath.includes(req.nextUrl.pathname)) {
+// const secretKey = "rahasiasekali";
+
+export function middleware(request) {
+  const role = request.cookies.get("role")?.value;
+  if (role == "ADMIN" && request.nextUrl.pathname.startsWith("/dashboard")) {
     return NextResponse.next();
-  } else {
-    const accessToken = req.cookies.get("access_token");
-    if (accessToken) {
-      return NextResponse.next();
-    } else {
-      return NextResponse.redirect(new URL("/login", req.url));
-    }
   }
+
+  return NextResponse.redirect(new URL("/login", request.url));
 }
 
 export const config = {
-  matcher: ["/login", "/register", "/api/:function*"],
+  matcher: [
+    "/cart/:path*",
+    "/checkout/:path*",
+    "/payment/:path*",
+    "/dashboard/:path*",
+    "/order/:path*",
+    "/user/:path*",
+  ],
+  runtime: "nodejs",
 };
