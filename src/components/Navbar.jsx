@@ -7,8 +7,6 @@ import { useRouter, usePathname } from "next/navigation";
 import { useCookies } from "react-cookie";
 import Image from "next/image";
 import { IoCartOutline, IoSearch } from "react-icons/io5";
-import { IoCart } from "react-icons/io5";
-import { FaUserCircle } from "react-icons/fa";
 import AvatarUser from "./AvatarUser";
 import CounterCart from "./CounterCart";
 
