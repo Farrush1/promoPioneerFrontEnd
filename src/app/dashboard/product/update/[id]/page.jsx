@@ -1,226 +1,324 @@
 "use client";
 
-import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
+import { FaFileUpload } from "react-icons/fa";
+import { useParams, useRouter } from "next/navigation";
 
-export default function UpdateProduct({ params }) {
-    const router = useRouter();
-    const [product, setProduct] = useState(null);
-    const [categories, setCategories] = useState([]);
-    const [cities, setCities] = useState([]);
-    const [formData, setFormData] = useState({
-        name: "",
-        categoryId: "",
-        price: "",
-        description: "",
-        warehouseName: "",
-        warehouseFullAddress: "",
-        warehouseCityId: "",
-        weight: "",
-        stock: "",
-    });
+export default function UpdateProduct() {
+  const [formData, setFormData] = useState({
+    name: "",
+    category_id: "",
+    price: "",
+    description: "",
+    warehouseName: "",
+    warehouseFullAddress: "",
+    warehouseCityId: "",
+    product_image: null,
+    weight: "",
+    stock: "",
+  });
 
-    useEffect(() => {
-        const fetchProduct = async () => {
-            try {
-                const response = await fetch(
-                    `http://localhost:5000/api/products/${params.id}`
-                );
-                if (!response.ok) {
-                    throw new Error("Network response was not ok");
-                }
-                const data = await response.json();
-                if (!data.product) {
-                    throw new Error("Product data is missing");
-                }
-                setProduct(data.product);
-                setFormData((prevData) => ({
-                    ...prevData,
-                    name: data.product.name || "",
-                    categoryId: data.product.categoryId || "",
-                    price: data.product.price || "",
-                    description: data.product.description || "",
-                    warehouseName: data.product.warehouseName || "",
-                    warehouseFullAddress: data.product.warehouseFullAddress || "",
-                    warehouseCityId: data.product.warehouseCityId || "",
-                    weight: data.product.weight || "",
-                    stock: data.product.stock || "",
-                }));
-            } catch (error) {
-                console.error("Error fetching product:", error);
-            }
-        };
-        fetchProduct();
-    }, [params.id]);
+  const [selectedFile, setSelectedFile] = useState(null);
+  const [categories, setCategories] = useState([]);
+  const [cities, setCities] = useState([]);
+  const router = useRouter();
+  const { id } = useParams();
 
-    useEffect(() => {
-        const fetchCategories = async () => {
-            try {
-                const response = await fetch(`http://localhost:5000/api/categories`);
-                if (!response.ok) {
-                    throw new Error("Network response was not ok");
-                }
-                const data = await response.json();
-                setCategories(data.category || []);
-            } catch (error) {
-                console.error("Error fetching categories:", error);
-                setCategories([]);
-            }
-        };
+  useEffect(() => {
+    if (id) {
+      fetchProductDetails(id);
+    }
+    fetchCategories();
+    fetchCities();
+  }, [id]);
 
-        const fetchCities = async () => {
-            try {
-                const response = await fetch(`http://localhost:5000/api/cities`);
-                if (!response.ok) {
-                    throw new Error("Network response was not ok");
-                }
-                const data = await response.json();
-                setCities(data.city || []);
-            } catch (error) {
-                console.error("Error fetching cities:", error);
-                setCities([]);
-            }
-        };
+  const fetchProductDetails = async (productId) => {
+    try {
+      const response = await fetch(
+        `http://localhost:5000/api/products/${productId}`
+      );
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      const data = await response.json();
+      setFormData(data);
+      console.log(data);
 
-        fetchCategories();
-        fetchCities();
-    }, []);
+      setSelectedFile(
+        data.product_image
+          ? `http://localhost:5000/images/${data.product_image}`
+          : null
+      );
+    } catch (error) {
+      console.error("Error fetching product details:", error);
+    }
+  };
 
-    const handleInputChange = (e) => {
-        const { name, value } = e.target;
-        setFormData((prevData) => ({
-            ...prevData,
-            [name]: value,
-        }));
-    };
+  const fetchCategories = async () => {
+    try {
+      const response = await fetch(`http://localhost:5000/api/categories`);
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      const data = await response.json();
+      setCategories(data.category);
+    } catch (error) {
+      console.error("Error fetching categories:", error);
+    }
+  };
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        const data = new FormData();
-        for (const key in formData) {
-            data.append(key, formData[key]);
-        }
+  const fetchCities = async () => {
+    try {
+      const response = await fetch(`http://localhost:5000/api/cities`);
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      const data = await response.json();
+      setCities(data.cities || []);
+    } catch (error) {
+      console.error("Error fetching cities:", error);
+    }
+  };
 
-        try {
-            const response = await fetch(
-                `http://localhost:5000/api/products/${params.id}`,
-                {
-                    method: "PUT",
-                    body: data,
-                    credentials: "include",
-                }
-            );
-            if (!response.ok) {
-                throw new Error("Network response was not ok");
-            }
-            router.push("/dashboard/product");
-        } catch (error) {
-            console.error("Error updating product:", error);
-        }
-    };
+  const handleChange = (e) => {
+    const { name, value, files } = e.target;
+    if (files) {
+      const selectedFile = files[0];
+      setFormData((prevData) => ({
+        ...prevData,
+        [name]: selectedFile,
+      }));
+      setSelectedFile(URL.createObjectURL(selectedFile));
+    } else {
+      setFormData((prevData) => ({
+        ...prevData,
+        [name]: value,
+      }));
+    }
+  };
 
-    if (!product) {
-        return <div>Loading...</div>;
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const data = new FormData();
+    for (const key in formData) {
+      data.append(key, formData[key]);
     }
 
-    return (
-        <div>
-            <h1>Update Product</h1>
-            <form onSubmit={handleSubmit}>
-                <label>
-                    Name:
-                    <input
-                        type="text"
-                        name="name"
-                        value={formData.name}
-                        onChange={handleInputChange}
-                    />
-                </label>
-                <label>
-                    Category:
-                    <select
-                        name="categoryId"
-                        value={formData.categoryId} 
-                        onChange={handleInputChange}
-                    >
-                        <option value="">Select a category</option>
-                        {categories.map((category) => (
-                            <option key={category.id} value={category.id}>
-                                {category.name}
-                            </option>
-                        ))}
-                    </select>
-                </label>
-                <label>
-                    Price:
-                    <input
-                        type="number"
-                        name="price"
-                        value={formData.price}
-                        onChange={handleInputChange}
-                    />
-                </label>
-                <label>
-                    Description:
-                    <textarea
-                        name="description"
-                        value={formData.description}
-                        onChange={handleInputChange}
-                    />  
-                </label>
-                <label>
-                    Warehouse Name:
-                    <input
-                        type="text"
-                        name="warehouseName"
-                        value={formData.warehouseName}
-                        onChange={handleInputChange}
-                    />
-                </label>
-                <label>
-                    Warehouse Full Address:
-                    <input
-                        type="text"
-                        name="warehouseFullAddress"
-                        value={formData.warehouseFullAddress}
-                        onChange={handleInputChange}
-                    />
-                </label>
-                <label>
-                    Warehouse City:
-                    <select
-                        name="warehouseCityId"
-                        value={formData.warehouseCityId}
-                        onChange={handleInputChange}
-                    >
-                        <option value="">Select a city</option>
-                        {cities.map((city) => (
-                            <option key={city.id} value={city.id}>
-                                {city.name}
-                            </option>
-                        ))}
-                    </select>
-                </label>
-                <label>
-                    Weight:
-                    <input
-                        type="number"
-                        name="weight"
-                        value={formData.weight}
-                        onChange={handleInputChange}
-                    />
-                </label>
-                <label>
-                    Stock:
-                    <input
-                        type="number"
-                        name="stock"
-                        value={formData.stock}
-                        onChange={handleInputChange}
-                    />
-                </label>
-                <button type="submit">Update</button>
-            </form>
+    try {
+      const response = await fetch(`http://localhost:5000/api/products/${id}`, {
+        method: "PUT",
+        body: data,
+        credentials: "include",
+      });
+
+      if (response.ok) {
+        alert("Product updated successfully!");
+        router.push(`/dashboard/product`);
+      } else {
+        const errorData = await response.json();
+        console.error("Failed to update product:", errorData);
+        alert(`Failed to update product: ${errorData.message}`);
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      alert("An error occurred while updating the product");
+    }
+  };
+
+  return (
+    <div className="p-6">
+      <h1 className="text-2xl font-bold mb-6">Update Product</h1>
+      <form className="space-y-6" onSubmit={handleSubmit}>
+        <div className="flex space-x-6">
+          <div className="flex flex-col space-y-6 w-1/2">
+            <label className="form-control">
+              <div className="label">
+                <span className="label-text">Product Name</span>
+              </div>
+              <input
+                type="text"
+                name="name"
+                placeholder="Type here"
+                className="input input-bordered w-full"
+                value={formData.name}
+                onChange={handleChange}
+                required
+              />
+            </label>
+
+            <label className="form-control">
+              <div className="label">
+                <span className="label-text">Category</span>
+              </div>
+              <select
+                name="categoryId"
+                className="select select-bordered w-full"
+                value={formData?.category_id}
+                onChange={handleChange}
+                required
+              >
+                <option disabled value="">
+                  Choose Category
+                </option>
+                {categories?.length >0?
+                  categories?.map(category=>{
+                    return (
+                      <option value={category.id} key={category.id}>
+                      {category.name}
+                    </option>
+                    )}) : (
+                    <option disabled>Loading categories...</option>
+                  )}
+
+
+              </select>
+            </label>
+
+            <label className="form-control">
+              <div className="label">
+                <span className="label-text">Price</span>
+              </div>
+              <input
+                type="number"
+                name="price"
+                placeholder="Rp."
+                className="input input-bordered w-full"
+                value={formData.price}
+                onChange={handleChange}
+                required
+              />
+            </label>
+
+            <label className="form-control">
+              <div className="label">
+                <span className="label-text">Description</span>
+              </div>
+              <textarea
+                name="description"
+                className="textarea textarea-bordered w-full"
+                placeholder="Description"
+                value={formData.description}
+                onChange={handleChange}
+                required
+              ></textarea>
+            </label>
+          </div>
+
+          <div className="w-1/2 flex flex-col justify-between">
+            {!selectedFile ? (
+              <label
+                htmlFor="dropzone-file"
+                className="flex flex-col items-center justify-center w-full h-full border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100"
+              >
+                <span>Upload File</span>
+                <div className="flex flex-col items-center justify-center pt-5 pb-6">
+                  <FaFileUpload className="w-8 h-8 mb-4 text-gray-500" />
+                  <p className="mb-2 text-sm text-gray-500">
+                    <span className="font-semibold">Click to upload</span>
+                  </p>
+                  <p className="text-xs text-gray-500">JPG or PNG</p>
+                </div>
+                <input
+                  id="dropzone-file"
+                  type="file"
+                  name="product_image"
+                  className="hidden"
+                  onChange={handleChange}
+                  required
+                />
+              </label>
+            ) : (
+              <div className="mt-4">
+                <img src={selectedFile} alt="Selected" className="w-full" />
+              </div>
+            )}
+          </div>
         </div>
-    );
+
+        <h1 className="text-2xl font-bold mb-6">Warehouse</h1>
+
+        <div className="flex space-x-6">
+          <div className="flex flex-col space-y-6 w-1/2">
+            <label className="form-control">
+              <div className="label">
+                <span className="label-text">Warehouse Name</span>
+              </div>
+              <input
+                type="text"
+                name="warehouseName"
+                placeholder="Warehouse Name"
+                className="input input-bordered w-full"
+                value={formData.warehouseName}
+                onChange={handleChange}
+                required
+              />
+            </label>
+
+            <label className="form-control">
+              <div className="label">
+                <span className="label-text">Warehouse Address</span>
+              </div>
+              <input
+                type="text"
+                name="warehouseFullAddress"
+                placeholder="Warehouse Address"
+                className="input input-bordered w-full"
+                value={formData.warehouseFullAddress}
+                onChange={handleChange}
+                required
+              />
+            </label>
+
+            <label className="form-control">
+              <div className="label">
+                <span className="label-text">Weight (in grams)</span>
+              </div>
+              <input
+                type="number"
+                name="weight"
+                placeholder="Product weight"
+                className="input input-bordered w-full"
+                value={formData.weight}
+                onChange={handleChange}
+                required
+              />
+            </label>
+          </div>
+
+          <div className="flex flex-col w-1/2">
+            <label className="form-control">
+              <div className="label">
+                <span className="label-text">City</span>
+              </div>
+              <select
+                name="warehouseCityId"
+                className="select select-bordered w-full"
+                value={formData.warehouseCityId}
+                onChange={handleChange}
+                required
+              >
+                <option disabled value="">
+                  Warehouse City
+                </option>
+                {cities.length > 0 ? (
+                  cities.map((city) => (
+                    <option key={city.id} value={city.id}>
+                      {city.name}
+                    </option>
+                  ))
+                ) : (
+                  <option disabled>Loading cities...</option>
+                )}
+              </select>
+            </label>
+          </div>
+        </div>
+
+        <button type="submit" className="btn btn-primary mt-6 bg-orange-600">
+          Update Product
+        </button>
+      </form>
+    </div>
+  );
 }

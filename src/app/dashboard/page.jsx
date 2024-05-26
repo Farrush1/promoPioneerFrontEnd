@@ -7,7 +7,7 @@ export default function Dashboard() {
   const [products, setProducts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalProducts, setTotalProducts] = useState(0);
-  const productsPerPage = 10;
+  const productsPerPage = 9;
 
 
   const orders = [

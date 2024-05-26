@@ -40,6 +40,7 @@ export default function Product() {
     try {
       const response = await fetch("http://localhost:5000/api/promo");
       const data = await response.json();
+      console.log(data)
       setPromoTypes(data);
     } catch (error) {
       console.error("Error fetching promo types:", error);
@@ -70,7 +71,7 @@ export default function Product() {
   };
 
   const handleViewDetails = (productId) => {
-    router.push(`/dashboard/product/${productId}`);
+    router.push(`/dashboard/product/detail/${productId}`);
   };
 
   const handleNextPage = () => {
