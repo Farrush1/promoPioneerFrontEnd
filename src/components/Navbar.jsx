@@ -6,10 +6,11 @@ import { useEffect, useState } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import { useCookies } from "react-cookie";
 import Image from "next/image";
-import { IoSearch } from "react-icons/io5";
+import { IoCartOutline, IoSearch } from "react-icons/io5";
 import { IoCart } from "react-icons/io5";
 import { FaUserCircle } from "react-icons/fa";
 import AvatarUser from "./AvatarUser";
+import CounterCart from "./CounterCart";
 
 export default function Navbar() {
   const [isLogin, setIsLogin] = useState(false);
@@ -65,11 +66,14 @@ export default function Navbar() {
                       <IoSearch className="ml-1 hover:opacity-60 duration-300 rounded-r-md w-full h-full p-1 text-orange-600" />
                     </button>
                   </form>
-                  <Link href="/cart">
-                    <IoCart
+                  <Link
+                    href="/cart"
+                    className="relative w-11">
+                    <IoCartOutline
                       size={30}
                       className="text-white hover:opacity-80 duration-300 cursor-pointer"
                     />
+                    <CounterCart />
                   </Link>
                 </div>
               </div>
