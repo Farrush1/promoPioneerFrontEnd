@@ -24,7 +24,7 @@ export default function CardProduct() {
         }
       );
       const data = await promo.json();
-      console.log(data.products);
+      // console.log(data.products);
       setSpecial(data.products);
     };
     fetchPromo();
@@ -39,7 +39,7 @@ export default function CardProduct() {
         credentials: "include",
       });
       const data = await promo.json();
-      console.log(data.products);
+      // console.log(data.products);
       setPromo(data.products);
     };
     fetchPromo();
