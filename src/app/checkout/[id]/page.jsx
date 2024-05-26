@@ -27,6 +27,7 @@ export default function Checkout({ params: { id } }) {
   const router = useRouter();
   const [arrDiscount, setArrDiscount] = useState([]);
 
+  // fetching get promo
   const loadPromo = async () => {
     try {
       const res = await fetch("http://localhost:5000/api/promo", {
@@ -44,6 +45,7 @@ export default function Checkout({ params: { id } }) {
     }
   };
 
+  // fetching get cities
   const loadCities = async () => {
     const citiesData = await fetchCities();
     if (citiesData) {
@@ -51,6 +53,7 @@ export default function Checkout({ params: { id } }) {
     }
   };
 
+  // fetching get bio
   const loadBio = async () => {
     const bioData = await fetchBio();
     if (bioData) {
@@ -58,6 +61,7 @@ export default function Checkout({ params: { id } }) {
     }
   };
 
+  // fetching post apply promo
   const applyPromo = async () => {
     try {
       const res = await fetch(
@@ -90,6 +94,7 @@ export default function Checkout({ params: { id } }) {
 
   useEffect(() => {
     setLoading(true);
+    // fetch get checkout by id
     const loadCheckouts = async () => {
       const checkoutsData = await fetchCheckouts(id);
       if (checkoutsData) {
@@ -97,23 +102,26 @@ export default function Checkout({ params: { id } }) {
         setLoading(false);
       }
     };
-    loadCheckouts();
-    loadCities();
-    loadBio();
-    loadPromo();
+    loadCheckouts(); // render checkout list
+    loadCities(); // render cities list
+    loadBio(); // render bio list
+    loadPromo(); // render promo list
   }, [id]);
 
   useEffect(() => {
+    // render city yang terpilih di fitur edit address
     if (selectedCity) {
+      // mencari id city yang cocok dengan id city yang dipilih untuk diambil name nya
       const cityName = citiesList.filter(city => city.id == selectedCity)[0]
         ?.name;
       setSelectedCityName(cityName);
     }
-    // console.log("cityname :", +cityName);
   }, [citiesList, selectedCity]);
 
+  // fungsi fetch put change address
   const editBioAddress = async () => {
     try {
+      // mengubah address ke address baru
       const newAddress = {
         fullAddress: `${fullAddress}, ${selectedCityName}`,
         cityId: +selectedCity,
@@ -124,14 +132,17 @@ export default function Checkout({ params: { id } }) {
     }
   };
 
+  // mengambil value city yang dipilih
   const handleCityChange = e => {
     setSelectedCity(e.target.value);
   };
 
+  // mengambil value address
   const handleAddressChange = e => {
     setFullAddress(e.target.value);
   };
 
+  // fungsi mentrigger editBioAddress dan memperbarui state bioList
   const handleSubmitAddress = e => {
     e.preventDefault();
     setBioList(prevBioList => ({
@@ -148,6 +159,7 @@ export default function Checkout({ params: { id } }) {
     document.getElementById("my_modal_1").showModal();
   };
 
+  // fungsi fetch post payment dan pindah ke route payment by id
   const handleOrder = async () => {
     try {
       setDisableOrder(true);
@@ -161,10 +173,20 @@ export default function Checkout({ params: { id } }) {
     }
   };
 
+  // untuk menambahkan discount promo
   const handleApplyVoucher = async () => {
     applyPromo();
   };
 
+  // untuk menambahkan discount percent
+  const totalDiscountPercent = checkoutList.CheckoutDiscount
+    ? checkoutList.CheckoutDiscount.reduce(
+        (total, item) => total + item.discount_percent,
+        0
+      )
+    : 0;
+
+  // component saat loading
   if (loading)
     return (
       <div className="relative h-screen w-screen ">
@@ -466,7 +488,9 @@ export default function Checkout({ params: { id } }) {
           <p className="font-bold">Total Price</p>
           <div className="flex gap-3 sm:gap-6 items-center">
             <p className="font-extrabold text-orange-700">
-              {checkoutList.CheckoutDiscount[0].discount_percent}% OFF
+              {checkoutList.CheckoutDiscount.length > 0
+                ? `${totalDiscountPercent}% OFF`
+                : null}
             </p>
             <p className="font-extrabold text-orange-700">
               Rp{" "}

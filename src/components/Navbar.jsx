@@ -100,7 +100,7 @@ export default function Navbar() {
                     </div> */}
                     <ul
                       tabIndex={0}
-                      className="dropdown-content mt-1 z-[1] menu shadow bg-base-100 text-black rounded-box w-52">
+                      className="dropdown-content z-[1] menu shadow bg-base-100 text-black rounded-box w-52">
                       <li>
                         <Link href="/user/bio">Profile</Link>
                       </li>
