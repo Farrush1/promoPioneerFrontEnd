@@ -32,6 +32,11 @@ export default function Navbar() {
     router.push("/");
   };
 
+  const handleSearch = (e) => {
+    e.preventDefault()
+    router.push("/category?search");
+  };
+
   return (
     <>
       {!isNestedDashboardRoute && (
@@ -62,7 +67,7 @@ export default function Navbar() {
                       type="text"
                       className="w-36 bg-white flex-1 sm:w-60 h-full focus:outline-none text-sm px-2 py-1 rounded-md"
                     />
-                    <button className="border-l-2 w-8 flex items-center justify-center">
+                    <button onClick={handleSearch} className="border-l-2 w-8 flex items-center justify-center">
                       <IoSearch className="ml-1 hover:opacity-60 duration-300 rounded-r-md w-full h-full p-1 text-orange-600" />
                     </button>
                   </form>

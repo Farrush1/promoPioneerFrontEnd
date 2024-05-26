@@ -30,7 +30,7 @@ export default function UserOrderPage() {
           <div className="card-head flex justify-between p-3 border-b-2">
             <h3 className="order">Order ID: {items.id}</h3>
             <h3 className="order">{items.updatedAt.slice(0, 10)}</h3>
-            <h3 className="order">Status {items.checkout[0].status}</h3>
+            <h3 className="order">Status {items.status}</h3>
           </div>
           {items.checkout.map((checkoutByCity) => (
             <div
