@@ -34,7 +34,7 @@ export default function Navbar() {
     <>
       {!isNestedDashboardRoute && (
         <div>
-          <nav className="bg-orange-600 py-0.5 fixed w-full z-20 top-0 start-0 shadow-md">
+          <nav className="bg-gradient-to-l from-orange-600 to-orange-500 py-1 fixed w-full z-20 top-0 start-0 shadow-md">
             <div className="xl:max-w-6xl md:gap-12 gap-3 mx-auto xl:px-0 flex flex-wrap flex-row w-full items-center justify-between py-3 px-4">
               <Link
                 href="/"
