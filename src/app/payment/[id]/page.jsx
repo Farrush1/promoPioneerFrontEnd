@@ -191,13 +191,15 @@ export default function PaymentPage({ params: { id } }) {
                 ))}
                 <div className="flex flex-row justify-between text-sm font-bold pt-2 text-orange-700">
                   <p>Subtotal Product</p>
-                  <p>
-                    Rp{" "}
-                    {listing.subtotal_price.toLocaleString("id-ID", {
-                      minimumFractionDigits: 0,
-                      maximumFractionDigits: 0,
-                    })}
-                  </p>
+                  {listing.checkout_item.map(item => (
+                    <p key={item.id}>
+                      Rp{" "}
+                      {item.total_specific_price.toLocaleString("id-ID", {
+                        minimumFractionDigits: 0,
+                        maximumFractionDigits: 0,
+                      })}
+                    </p>
+                  ))}
                 </div>
               </div>
             ))}
@@ -276,7 +278,7 @@ export default function PaymentPage({ params: { id } }) {
                       <p className="w-1/5 text-center">{item.quantity}</p>
                       <p className="w-1/5 text-center text-orange-700 font-bold">
                         Rp{" "}
-                        {listing.subtotal_price.toLocaleString("id-ID", {
+                        {item.total_specific_price.toLocaleString("id-ID", {
                           minimumFractionDigits: 0,
                           maximumFractionDigits: 0,
                         })}
