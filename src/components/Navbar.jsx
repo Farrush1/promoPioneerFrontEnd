@@ -9,10 +9,11 @@ import Image from "next/image";
 import { IoSearch } from "react-icons/io5";
 import { IoCart } from "react-icons/io5";
 import { FaUserCircle } from "react-icons/fa";
+import AvatarUser from "./AvatarUser";
 
 export default function Navbar() {
   const [isLogin, setIsLogin] = useState(false);
-  const [cookies, setCookies, removeCookie] = useCookies(["accessToken"]);
+  const [cookies, _setCookies, removeCookie] = useCookies(["accessToken"]);
   const router = useRouter();
   const pathname = usePathname();
   const isNestedDashboardRoute = pathname.startsWith("/dashboard");
@@ -49,7 +50,7 @@ export default function Navbar() {
                 </span>
               </Link>
               <div className="md:flex-1 md:mx-2">
-                <div className="flex w-full items-center gap-3">
+                <div className="flex w-full max-w-[70%] items-center gap-3 mx-auto">
                   <Link href={"/category"}>
                     <p className="text-white hidden sm:block cursor-pointer hover:opacity-80 duration-300 font-semibold">
                       Category
@@ -83,7 +84,8 @@ export default function Navbar() {
                   </Link>
                 ) : (
                   <div className="dropdown dropdown-hover dropdown-end">
-                    <div
+                    <AvatarUser />
+                    {/* <div
                       tabIndex={0}
                       role="button"
                       className="btn px-0 bg-transparent border-none hover:bg-transparent shadow-none h-0 min-h-0">
@@ -91,10 +93,10 @@ export default function Navbar() {
                         size={28}
                         className="text-white translate-y-0.5"
                       />
-                    </div>
+                    </div> */}
                     <ul
                       tabIndex={0}
-                      className="dropdown-content z-[1] menu shadow bg-base-100 text-black rounded-box w-52">
+                      className="dropdown-content mt-1 z-[1] menu shadow bg-base-100 text-black rounded-box w-52">
                       <li>
                         <Link href="/user/bio">Profile</Link>
                       </li>
