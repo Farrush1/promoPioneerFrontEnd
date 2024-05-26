@@ -5,7 +5,6 @@ import { useEffect, useState } from "react";
 
 export default function CounterCart() {
   const [count, setCount] = useState(null);
-  console.log(count);
 
   const getCount = async () => {
     try {
