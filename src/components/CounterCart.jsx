@@ -5,7 +5,6 @@ import { useEffect, useState } from "react";
 
 export default function CounterCart() {
   const [count, setCount] = useState(null);
-  console.log(count);
 
   const getCount = async () => {
     try {
@@ -30,7 +29,7 @@ export default function CounterCart() {
   return (
     <>
       {count > 0 ? (
-        <span className="text-[10px] font-semibold bg-white text-orange-600 rounded-full px-1.5 absolute top-0 right-0">
+        <span className="text-[10px] font-semibold bg-white text-orange-600 rounded-full py-0 px-1.5 absolute top-0 right-0">
           {count}
         </span>
       ) : null}

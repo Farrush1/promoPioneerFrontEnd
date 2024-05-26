@@ -1,3 +1,5 @@
+"use client";
+
 import Link from "next/link";
 import { AiFillHome } from "react-icons/ai";
 import { FaCartShopping } from "react-icons/fa6";
@@ -6,8 +8,20 @@ import { FaWarehouse } from "react-icons/fa6";
 import { GiCardboardBoxClosed } from "react-icons/gi";
 import { FaUser } from "react-icons/fa";
 import AvatarAdmin from "./AvatarAdmin";
+import { useCookies } from "react-cookie";
+import { useRouter } from "next/navigation";
 
 export default function DashboardMenu() {
+  const [_cookies, _setCookies, removeCookie] = useCookies(["accessToken"]);
+  const router = useRouter();
+
+  const handleLogout = async () => {
+    removeCookie("accessToken");
+    setTimeout(() => {
+      router.push("/login");
+    }, 3000);
+  };
+
   return (
     <>
       <nav className="md:hidden w-full sticky top-4 bg-gradient-to-l from-orange-600 to-orange-500 text-white rounded-lg shadow-lg p-2 mx-auto z-50">
@@ -122,13 +136,13 @@ export default function DashboardMenu() {
             <p className="cursor-pointer">User</p>
           </Link>
         </div>
-        <Link
-          href={"/login"}
+        <button
+          onClick={handleLogout}
           className="flex flex-1 items-end justify-center">
           <p className="py-2 px-3 gap-3 items-center hover:font-semibold cursor-pointer hover:bg-white hover:text-slate-800 rounded-full hover:shadow-md duration-300 w-full mx-auto flex justify-center">
             Logout
           </p>
-        </Link>
+        </button>
       </div>
     </>
   );

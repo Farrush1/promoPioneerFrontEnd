@@ -12,7 +12,8 @@ export default function PaymentPage({ params: { id } }) {
   const [shippingServiceList, setShippingServiceList] = useState([]);
   const [bioList, setBioList] = useState({});
   const [loading, setLoading] = useState(true);
-  const [imageUrl, setImageUrl] = useState(null);
+  const [selectedFile, setSelectedFile] = useState(null);
+  const [uploadMessage, setUploadMessage] = useState("");
 
   useEffect(() => {
     setLoading(true);
@@ -79,7 +80,47 @@ export default function PaymentPage({ params: { id } }) {
     }
   };
 
-  const handlePayButton = async e => {};
+  const handleFileChange = event => {
+    setSelectedFile(event.target.files[0]);
+  };
+
+  const handleSubmit = async event => {
+    event.preventDefault();
+
+    if (!selectedFile) {
+      setUploadMessage("Please select a payment proof image to upload.");
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append("payment_proof", selectedFile);
+
+    const uploadPaymentProof = async () => {
+      try {
+        const response = await fetch(
+          `http://localhost:5000/api/payments/proof/${id}`,
+          {
+            method: "PUT",
+            credentials: "include",
+            body: formData,
+          }
+        );
+
+        if (!response.ok) {
+          throw new Error("Payment proof upload failed");
+        }
+
+        setUploadMessage("Payment proof uploaded successfully!");
+        // console.log("Upload response:", response); // Optional for debugging
+      } catch (error) {
+        console.error("Upload error:", error);
+        setUploadMessage("An error occurred during upload. Please try again.");
+      }
+    };
+
+    uploadPaymentProof();
+    document.getElementById("my_modal_2").showModal();
+  };
 
   const getUniqueShippingServices = async () => {
     const checkouts = await paymentList.checkout_colection?.checkout;
@@ -87,8 +128,8 @@ export default function PaymentPage({ params: { id } }) {
 
     const uniqueServices = new Set();
     checkouts.forEach(checkout => {
-      if (checkout.shippingCheckout && checkout.shippingCheckout.service) {
-        uniqueServices.add(checkout.shippingCheckout.service);
+      if (checkout.shippingCheckout && checkout.shippingCheckout.name) {
+        uniqueServices.add(checkout.shippingCheckout.name);
       }
     });
 
@@ -106,7 +147,7 @@ export default function PaymentPage({ params: { id } }) {
     <main className="xl:max-w-6xl mx-auto px-4 pt-24 xl:px-0">
       <h1 className="lg:text-3xl font-bold pb-8 text-2xl">Payment</h1>
       <div className="w-full">
-        <div className="bg-orange-600 text-white font-semibold text-lg mx-auto text-center py-3 rounded-md shadow-md">
+        <div className="bg-white text-slate-800 border-dashed border-orange-600 border-2 font-semibold text-lg mx-auto text-center py-3 rounded-md shadow-md">
           <h1>Transfer Bank BCA</h1>
           <p>607882818 a.n Promo Pioneer</p>
         </div>
@@ -150,13 +191,15 @@ export default function PaymentPage({ params: { id } }) {
                 ))}
                 <div className="flex flex-row justify-between text-sm font-bold pt-2 text-orange-700">
                   <p>Subtotal Product</p>
-                  <p>
-                    Rp{" "}
-                    {listing.subtotal_price.toLocaleString("id-ID", {
-                      minimumFractionDigits: 0,
-                      maximumFractionDigits: 0,
-                    })}
-                  </p>
+                  {listing.checkout_item.map(item => (
+                    <p key={item.id}>
+                      Rp{" "}
+                      {item.total_specific_price.toLocaleString("id-ID", {
+                        minimumFractionDigits: 0,
+                        maximumFractionDigits: 0,
+                      })}
+                    </p>
+                  ))}
                 </div>
               </div>
             ))}
@@ -165,7 +208,7 @@ export default function PaymentPage({ params: { id } }) {
               <div className="flex justify-between w-full pb-3 border-b border-dashed border-green-400">
                 <div>
                   <h1 className="font-semibold mb-1">Shiping</h1>
-                  <p>{shippingServiceList}</p>
+                  <p className="uppercase">{shippingServiceList}</p>
                 </div>
                 <div>
                   <h1 className="font-semibold mb-1">Shiping Price</h1>
@@ -198,19 +241,19 @@ export default function PaymentPage({ params: { id } }) {
 
         {/* Desktop */}
         <div className="hidden mt-4 md:block">
-          <div className="flex items-center bg-orange-600 px-4 text-white font-semibold py-2 rounded-md shadow-md">
+          <div className="flex items-center bg-gradient-to-l from-orange-600 to-orange-500 px-4 text-white font-semibold py-3 rounded-md shadow-md">
             <h1 className="w-[40%]">Product</h1>
             <h1 className="w-1/5 text-center">Unit Price</h1>
             <h1 className="w-1/5 text-center">Quantity</h1>
             <h1 className="w-1/5 text-center">Subtotal Product</h1>
           </div>
-          <div className="px-4 rounded-md shadow-md border border-slate-200 my-2">
+          <div className="px-4 rounded-md shadow-md border border-slate-300 my-2">
             {paymentList?.checkout_colection?.checkout &&
               paymentList.checkout_colection.checkout.map(listing => (
                 // List product checkout
                 <div
                   key={listing.id}
-                  className="w-full py-6 border-b border-gray-200">
+                  className="w-full py-6 border-b border-slate-300">
                   {listing.checkout_item.map(item => (
                     <div
                       key={item.id}
@@ -233,9 +276,9 @@ export default function PaymentPage({ params: { id } }) {
                         })}
                       </p>
                       <p className="w-1/5 text-center">{item.quantity}</p>
-                      <p className="w-1/5 text-center text-orange-700 font-semibold">
+                      <p className="w-1/5 text-center text-orange-700 font-bold">
                         Rp{" "}
-                        {listing.subtotal_price.toLocaleString("id-ID", {
+                        {item.total_specific_price.toLocaleString("id-ID", {
                           minimumFractionDigits: 0,
                           maximumFractionDigits: 0,
                         })}
@@ -250,7 +293,7 @@ export default function PaymentPage({ params: { id } }) {
                 <div className="flex justify-between w-full pb-3 border-b border-dashed border-green-400">
                   <div>
                     <h1 className="font-semibold mb-1">Shiping</h1>
-                    <p>{shippingServiceList}</p>
+                    <p className="uppercase">{shippingServiceList}</p>
                   </div>
                   <div>
                     <h1 className="font-semibold mb-1">Shiping Price</h1>
@@ -270,7 +313,7 @@ export default function PaymentPage({ params: { id } }) {
               </div>
             )}
             {paymentList.checkout_colection.total_price && (
-              <div className="flex mb-4 justify-between text-sm font-bold text-orange-700">
+              <div className="flex mb-4 justify-between font-bold text-orange-700">
                 <h1>Total Price</h1>
                 <p>
                   Rp{" "}
@@ -284,34 +327,54 @@ export default function PaymentPage({ params: { id } }) {
           </div>
         </div>
 
-        <form className="text-sm flex items-center justify-between border border-slate-200 p-4 shadow-md rounded-md mb-6">
-          <div>
-            <p className="mb-1.5">Upload Proof of Payment</p>
-            <input
-              onChange={handleImageUpload}
-              type="file"
-              accept="image/*"
-              required
-            />
-          </div>
-
-          <div className="w-20 h-20">
-            {imageUrl && (
-              <Image
-                src={imageUrl}
-                width={100}
-                height={100}
-                alt="Image Upload"
+        <form
+          onSubmit={handleSubmit}
+          className="text-sm mt-4 items-center flex flex-col sm:flex-row justify-center gap-5 border border-slate-200 p-4 shadow-md rounded-md mb-6
+          ">
+          <div className="w-full flex flex-col h-full items-center mx-auto">
+            <div className="mx-auto text-center">
+              <p className="mb-3">Upload Proof of Payment</p>
+              <input
+                className="table-xs"
+                onChange={handleFileChange}
+                type="file"
+                accept="image/*"
+                required
               />
+            </div>
+            {selectedFile && (
+              <div className="mx-auto mt-4">
+                <Image
+                  src={URL.createObjectURL(selectedFile)}
+                  width={300}
+                  height={200}
+                  alt="Image Upload"
+                  className="w-full max-w-80 max-h-80 object-cover rounded-md shadow-md"
+                />
+              </div>
             )}
+            <button
+              type="submit"
+              className="bg-gradient-to-l from-orange-600 to-orange-500 max-w-80 mt-4 text-white shadow-md rounded-md px-5 py-2 font-bold hover:opacity-70 duration-300 w-full">
+              Pay
+            </button>
           </div>
-          <button
-            type="submit"
-            className="bg-orange-600 text-white shadow-md rounded-md px-5 font-bold py-1.5 hover:opacity-70 duration-300">
-            Pay
-          </button>
         </form>
       </div>
+
+      <dialog
+        id="my_modal_2"
+        className="modal">
+        <div className="modal-box">
+          <h3 className="font-bold text-lg">Your order is placed!</h3>
+          <p className="py-4">Thanks for shopping with us</p>
+        </div>
+        <form
+          method="dialog"
+          className="modal-backdrop">
+          <button>close</button>
+        </form>
+      </dialog>
     </main>
   );
 }
