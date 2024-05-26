@@ -24,7 +24,7 @@ export default function ProfileSidebar() {
     fetchBio();
   }, []);
   return (
-    <div className="font-semibold bg-orange-600 w-full md:w-64 p-5 rounded-lg shadow-lg flex flex-col gap-2 md:h-80 justify-between">
+    <div className="font-semibold bg-gradient-to-bl from-orange-600 to-orange-500 w-full md:w-64 p-5 rounded-lg shadow-lg flex flex-col gap-2 md:h-80 justify-between">
       <div className="flex items-center px-3 pb-3">
         <img
           src={user.avatar}

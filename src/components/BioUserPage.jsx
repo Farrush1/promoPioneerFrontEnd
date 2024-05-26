@@ -16,7 +16,7 @@ export default function BioUserPage() {
         credentials: "include",
       });
       const data = await bio.json();
-      console.log(data.users);
+      // console.log(data.users);
       setUser(data.users);
     };
     fetchBio();
@@ -53,7 +53,7 @@ export default function BioUserPage() {
           />
           <button
             onClick={handleClick}
-            className="mt-3 hidden md:block px-3 py-1.5 font-sans font-semibold text-white hover:text-black hover:bg-white bg-orange-600 rounded-full shadow-md duration-300">
+            className="mt-3 hidden md:block px-3 py-1.5 font-sans font-semibold text-white hover:text-black hover:bg-white bg-gradient-to-l from-orange-600 to-orange-500 rounded-full shadow-md duration-300">
             Edit Profile
           </button>
         </div>
