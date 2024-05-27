@@ -48,7 +48,7 @@ export default function Navbar() {
                   src={"/logo-white.svg"}
                   alt="logo"
                   width={34}
-                  height={34}></Image>
+                  height={34} />
                 <span className="hidden font-sans font-bold dark:text-white lg:block text-2xl">
                   Promo Pioneer
                 </span>
