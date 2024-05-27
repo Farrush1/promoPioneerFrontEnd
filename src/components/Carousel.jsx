@@ -40,12 +40,11 @@ export default function Carousel() {
   }, []);
 
   return (
-    <div className="my-8 ">
+    <div>
       <Swiper
         effect={"fade"}
         autoplay={{ delay: 5000, pauseOnMouseEnter: true }}
-        navigation={true}
-        className="shadow-lg">
+        pagination={true}>
         {promoListing &&
           promoListing.length > 0 &&
           promoListing.map(listing => (
@@ -56,7 +55,7 @@ export default function Carousel() {
                     background: `url(${listing.url}) center no-repeat`,
                     backgroundSize: "cover",
                   }}
-                  className="h-72 sm:h-96 object-cover rounded-lg lg:h-[460px]"
+                  className="max-h-64 h-72 object-cover rounded-md md:rounded-l-md  w-full"
                   key={listing.id}></div>
               </Link>
             </SwiperSlide>
