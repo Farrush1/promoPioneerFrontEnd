@@ -9,8 +9,8 @@ const storeCarts = async () => {
       body: JSON.stringify(),
     });
     const data = await res.json();
-    // console.log(data);
-    return data;
+    // console.log(res);
+    return { data, res };
   } catch (error) {
     console.log(error);
   }
