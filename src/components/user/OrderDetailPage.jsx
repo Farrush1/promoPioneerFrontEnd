@@ -137,26 +137,41 @@ export default function OrderDetailPage({ paymentId }) {
             </div>
           </div>
           <div className="total">
-            <p>Total: {checkout.total_checkout_price}</p>
+            <p>
+              Total:{" "}
+              {checkout.total_checkout_price.toLocaleString("id-ID", {
+                minimumFractionDigits: 0,
+                maximumFractionDigits: 0,
+              })}
+            </p>
           </div>
         </div>
       ))}
       <div className="total text-end">
         <p>
-          Total Product Price: {payment.checkout_colection.total_item_price}
+          Total Product Price: Rp.{payment.checkout_colection.total_item_price.toLocaleString("id-ID", {
+            minimumFractionDigits: 0,
+            maximumFractionDigits: 0,
+          })}
         </p>
         <p>
-          Total Shipping Price:{" "}
+          Total Shipping Price: Rp.{" "}
           {payment.checkout_colection.total_shipping_price}
         </p>
-        <p>Total Price: {payment.checkout_colection.total_price}</p>
+        <p>
+          Total Price: Rp.{" "}
+          {payment.checkout_colection.total_price.toLocaleString("id-ID", {
+            minimumFractionDigits: 0,
+            maximumFractionDigits: 0,
+          })}
+        </p>
       </div>
       <div className="flex mt-5 justify-between bg-yellow-200 p-4 items-center">
         <p className="">Contact admin for more information</p>
-        <a
-          href="https://wa.me/6285738436019"
-          className="btn btn-primary px-4"
-        > Contact</a>
+        <a href="https://wa.me/6285738436019" className="btn btn-primary px-4">
+          {" "}
+          Contact
+        </a>
       </div>
     </div>
   );
