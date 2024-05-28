@@ -1,8 +1,8 @@
-import BioUserPage from "@/components/user/BioUserPage";
+import BioUserPage from '@/components/user/BioUserPage';
 
 export const metadata = {
-  title: "Bio Profile - Promo Pioneer",
-  description: "Bio Profile Page",
+  title: 'Bio Profile - Promo Pioneer',
+  description: 'Bio Profile Page',
 };
 
 export default async function Page() {

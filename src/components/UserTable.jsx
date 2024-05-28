@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
@@ -24,7 +24,7 @@ const UserTable = () => {
         }
       } catch (error) {
         console.error('Error fetching users:', error);
-        setUsers([]); 
+        setUsers([]);
       }
     };
 
@@ -77,7 +77,12 @@ const UserTable = () => {
                   {user.email}
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                  <button className="btn bg-[#ea580c] text-white ml-2" onClick={() => handleViewUser(user.id)}>View</button>
+                  <button
+                    className="btn bg-[#ea580c] text-white ml-2"
+                    onClick={() => handleViewUser(user.id)}
+                  >
+                    View
+                  </button>
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                   <input type="checkbox" className="checkbox" />
@@ -86,7 +91,10 @@ const UserTable = () => {
             ))
           ) : (
             <tr>
-              <td colSpan="6" className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+              <td
+                colSpan="6"
+                className="px-6 py-4 whitespace-nowrap text-sm text-gray-900"
+              >
                 No users found
               </td>
             </tr>

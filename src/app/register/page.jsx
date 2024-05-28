@@ -1,25 +1,25 @@
-"use client";
-import { useState } from "react";
-import toast, { Toaster } from "react-hot-toast";
-import { useRouter } from "next/navigation";
-import Link from "next/link";
+'use client';
+import { useState } from 'react';
+import toast, { Toaster } from 'react-hot-toast';
+import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 
 export default function RegisterPage() {
   const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    password: "",
-    confirmPassword: "",
-    affiliateCode: "",
+    name: '',
+    email: '',
+    password: '',
+    confirmPassword: '',
+    affiliateCode: '',
   });
   const router = useRouter();
 
   const register = async () => {
     try {
-      const res = await fetch("http://localhost:5000/api/auth/register", {
-        method: "POST",
+      const res = await fetch('http://localhost:5000/api/auth/register', {
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify(formData),
       });
@@ -34,23 +34,23 @@ export default function RegisterPage() {
       return true;
     } catch (error) {
       console.error(error);
-      toast.error("An error occurred. Please try again.");
+      toast.error('An error occurred. Please try again.');
       return false;
     }
   };
 
-  const handleChange = async e => {
+  const handleChange = async (e) => {
     const { name, value } = e.target;
-    setFormData(prevData => ({ ...prevData, [name]: value }));
+    setFormData((prevData) => ({ ...prevData, [name]: value }));
   };
 
-  const handleSubmit = async e => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const success = await register();
     if (success) {
-      toast.success("Successfully created account", { duration: 2000 });
+      toast.success('Successfully created account', { duration: 2000 });
       setTimeout(() => {
-        router.push("/login");
+        router.push('/login');
       }, 2000);
     }
   };
@@ -60,7 +60,7 @@ export default function RegisterPage() {
       <Toaster
         position="top-center"
         reverseOrder={false}
-        containerStyle={{ marginTop: "65px" }}
+        containerStyle={{ marginTop: '65px' }}
       />
       <div className="max-w-md w-full space-y-8">
         <div>
@@ -71,15 +71,14 @@ export default function RegisterPage() {
             or
             <Link
               href="/login"
-              className="text-blue-500 hover:text-blue-600hover:text-indigo-500 px-2">
+              className="text-blue-500 hover:text-blue-600hover:text-indigo-500 px-2"
+            >
               Login
             </Link>
           </p>
         </div>
 
-        <form
-          onSubmit={handleSubmit}
-          className="space-y-8">
+        <form onSubmit={handleSubmit} className="space-y-8">
           <div className="flex flex-col gap-4">
             <input
               name="name"
@@ -130,7 +129,8 @@ export default function RegisterPage() {
           <div>
             <button
               type="submit"
-              className="w-full flex justify-center items-center px-4 py-2 bg-gradient-to-l from-orange-600 to-orange-500 hover:bg-orange-700 text-white font-bold rounded-md shadow-md hover:translate-x-1 hover:translate-y-1 duration-300">
+              className="w-full flex justify-center items-center px-4 py-2 bg-gradient-to-l from-orange-600 to-orange-500 hover:bg-orange-700 text-white font-bold rounded-md shadow-md hover:translate-x-1 hover:translate-y-1 duration-300"
+            >
               Register
             </button>
           </div>

@@ -1,11 +1,11 @@
 const storeCarts = async () => {
   try {
-    const res = await fetch("http://localhost:5000/api/checkouts/carts", {
-      method: "POST",
+    const res = await fetch('http://localhost:5000/api/checkouts/carts', {
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
-      credentials: "include",
+      credentials: 'include',
       body: JSON.stringify(),
     });
     const data = await res.json();
@@ -16,14 +16,14 @@ const storeCarts = async () => {
   }
 };
 
-const fetchCheckouts = async id => {
+const fetchCheckouts = async (id) => {
   try {
     const res = await fetch(`http://localhost:5000/api/checkouts/${id}`, {
-      method: "GET",
+      method: 'GET',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
-      credentials: "include",
+      credentials: 'include',
     });
     const data = await res.json();
     return data.getCheckCollection;
@@ -35,11 +35,11 @@ const fetchCheckouts = async id => {
 const fetchCities = async () => {
   try {
     const res = await fetch(`http://localhost:5000/api/cities`, {
-      method: "GET",
+      method: 'GET',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
-      credentials: "include",
+      credentials: 'include',
     });
     const data = await res.json();
     return data.city;
@@ -51,11 +51,11 @@ const fetchCities = async () => {
 const fetchBio = async () => {
   try {
     const res = await fetch(`http://localhost:5000/api/users/bio`, {
-      method: "GET",
+      method: 'GET',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
-      credentials: "include",
+      credentials: 'include',
     });
     const data = await res.json();
     return data.users;
@@ -67,11 +67,11 @@ const fetchBio = async () => {
 const fetchPostPayment = async (id) => {
   try {
     const res = await fetch(`http://localhost:5000/api/payments`, {
-      method: "POST",
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
-      credentials: "include",
+      credentials: 'include',
       body: JSON.stringify({
         checkoutColectionId: +id,
       }),
@@ -83,13 +83,13 @@ const fetchPostPayment = async (id) => {
   }
 };
 
-const fecthChangeAddress = async newAddress => {
+const fecthChangeAddress = async (newAddress) => {
   await fetch(`http://localhost:5000/api/users/change-address`, {
-    method: "POST",
+    method: 'POST',
     headers: {
-      "Content-Type": "application/json",
+      'Content-Type': 'application/json',
     },
-    credentials: "include",
+    credentials: 'include',
     body: JSON.stringify(newAddress),
   });
 };

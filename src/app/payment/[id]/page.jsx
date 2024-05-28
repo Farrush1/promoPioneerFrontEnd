@@ -1,11 +1,11 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @next/next/no-img-element */
-"use client";
+'use client';
 
-import { fetchBio } from "@/libs/fetch/checkouts";
-import Image from "next/image";
-import { useEffect, useState } from "react";
-import { BiLoaderCircle } from "react-icons/bi";
+import { fetchBio } from '@/libs/fetch/checkouts';
+import Image from 'next/image';
+import { useEffect, useState } from 'react';
+import { BiLoaderCircle } from 'react-icons/bi';
 
 export default function PaymentPage({ params: { id } }) {
   const [paymentList, setPaymentList] = useState({});
@@ -13,18 +13,18 @@ export default function PaymentPage({ params: { id } }) {
   const [bioList, setBioList] = useState({});
   const [loading, setLoading] = useState(true);
   const [selectedFile, setSelectedFile] = useState(null);
-  const [uploadMessage, setUploadMessage] = useState("");
+  const [uploadMessage, setUploadMessage] = useState('');
 
   useEffect(() => {
     setLoading(true);
     const fetchPayment = async () => {
       try {
         const res = await fetch(`http://localhost:5000/api/payments/${id}`, {
-          method: "GET",
+          method: 'GET',
           headers: {
-            "Content-Type": "application/json",
+            'Content-Type': 'application/json',
           },
-          credentials: "include",
+          credentials: 'include',
         });
         const data = await res.json();
         setPaymentList(data.payment);
@@ -48,27 +48,27 @@ export default function PaymentPage({ params: { id } }) {
     const fetchUniqueService = async () => {
       if (paymentList.checkout_colection) {
         const uniqueService = await getUniqueShippingServices();
-        setShippingServiceList(uniqueService.join(", "));
+        setShippingServiceList(uniqueService.join(', '));
       }
     };
 
     fetchUniqueService();
   }, [paymentList]);
 
-  const handleImageUpload = async e => {
+  const handleImageUpload = async (e) => {
     const file = e.target.files[0];
     const imageData = new FormData();
-    imageData.append("payment_proof", file);
+    imageData.append('payment_proof', file);
     console.log(imageData);
     try {
       const res = await fetch(
         `http://localhost:5000/api/payments/proof/${id}`,
         {
-          method: "PUT",
+          method: 'PUT',
           headers: {
-            "Content-Type": "multipart/form-data",
+            'Content-Type': 'multipart/form-data',
           },
-          credentials: "include",
+          credentials: 'include',
           body: imageData,
         }
       );
@@ -80,46 +80,46 @@ export default function PaymentPage({ params: { id } }) {
     }
   };
 
-  const handleFileChange = event => {
+  const handleFileChange = (event) => {
     setSelectedFile(event.target.files[0]);
   };
 
-  const handleSubmit = async event => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
 
     if (!selectedFile) {
-      setUploadMessage("Please select a payment proof image to upload.");
+      setUploadMessage('Please select a payment proof image to upload.');
       return;
     }
 
     const formData = new FormData();
-    formData.append("payment_proof", selectedFile);
+    formData.append('payment_proof', selectedFile);
 
     const uploadPaymentProof = async () => {
       try {
         const response = await fetch(
           `http://localhost:5000/api/payments/proof/${id}`,
           {
-            method: "PUT",
-            credentials: "include",
+            method: 'PUT',
+            credentials: 'include',
             body: formData,
           }
         );
 
         if (!response.ok) {
-          throw new Error("Payment proof upload failed");
+          throw new Error('Payment proof upload failed');
         }
 
-        setUploadMessage("Payment proof uploaded successfully!");
+        setUploadMessage('Payment proof uploaded successfully!');
         // console.log("Upload response:", response); // Optional for debugging
       } catch (error) {
-        console.error("Upload error:", error);
-        setUploadMessage("An error occurred during upload. Please try again.");
+        console.error('Upload error:', error);
+        setUploadMessage('An error occurred during upload. Please try again.');
       }
     };
 
     uploadPaymentProof();
-    document.getElementById("my_modal_2").showModal();
+    document.getElementById('my_modal_2').showModal();
   };
 
   const getUniqueShippingServices = async () => {
@@ -127,7 +127,7 @@ export default function PaymentPage({ params: { id } }) {
     if (!checkouts) return;
 
     const uniqueServices = new Set();
-    checkouts.forEach(checkout => {
+    checkouts.forEach((checkout) => {
       if (checkout.shippingCheckout && checkout.shippingCheckout.name) {
         uniqueServices.add(checkout.shippingCheckout.name);
       }
@@ -155,15 +155,11 @@ export default function PaymentPage({ params: { id } }) {
         {/* Mobile */}
         <div className="my-4 px-4 border border-slate-200 rounded-md shadow-md md:hidden">
           {paymentList?.checkout_colection?.checkout &&
-            paymentList.checkout_colection.checkout.map(listing => (
+            paymentList.checkout_colection.checkout.map((listing) => (
               // List product checkout
-              <div
-                key={listing.id}
-                className="py-4 border-b border-slate-200">
-                {listing.checkout_item.map(item => (
-                  <div
-                    key={item.id}
-                    className="flex text-sm gap-3 mb-2">
+              <div key={listing.id} className="py-4 border-b border-slate-200">
+                {listing.checkout_item.map((item) => (
+                  <div key={item.id} className="flex text-sm gap-3 mb-2">
                     <img
                       src={item.product.product_image}
                       width={96}
@@ -177,7 +173,7 @@ export default function PaymentPage({ params: { id } }) {
                       <div className="flex flex-col gap-1">
                         <p className="text-orange-700 font-semibold">
                           <span>Rp </span>
-                          {item.product.price.toLocaleString("id-ID", {
+                          {item.product.price.toLocaleString('id-ID', {
                             minimumFractionDigits: 0,
                             maximumFractionDigits: 0,
                           })}
@@ -191,10 +187,10 @@ export default function PaymentPage({ params: { id } }) {
                 ))}
                 <div className="flex flex-row justify-between text-sm font-bold pt-2 text-orange-700">
                   <p>Subtotal Product</p>
-                  {listing.checkout_item.map(item => (
+                  {listing.checkout_item.map((item) => (
                     <p key={item.id}>
-                      Rp{" "}
-                      {item.total_specific_price.toLocaleString("id-ID", {
+                      Rp{' '}
+                      {item.total_specific_price.toLocaleString('id-ID', {
                         minimumFractionDigits: 0,
                         maximumFractionDigits: 0,
                       })}
@@ -215,7 +211,7 @@ export default function PaymentPage({ params: { id } }) {
                   <p>
                     <span>Rp </span>
                     {paymentList.checkout_colection.total_shipping_price.toLocaleString(
-                      "id-ID",
+                      'id-ID',
                       { minimumFractionDigits: 0, maximumFractionDigits: 0 }
                     )}
                   </p>
@@ -230,9 +226,9 @@ export default function PaymentPage({ params: { id } }) {
           <div className="flex mb-4 justify-between text-sm font-bold text-orange-700">
             <h1>Total Price</h1>
             <p>
-              Rp{" "}
+              Rp{' '}
               {paymentList.checkout_colection.total_price.toLocaleString(
-                "id-ID",
+                'id-ID',
                 { minimumFractionDigits: 0, maximumFractionDigits: 0 }
               )}
             </p>
@@ -249,15 +245,14 @@ export default function PaymentPage({ params: { id } }) {
           </div>
           <div className="px-4 rounded-md shadow-md border border-slate-300 my-2">
             {paymentList?.checkout_colection?.checkout &&
-              paymentList.checkout_colection.checkout.map(listing => (
+              paymentList.checkout_colection.checkout.map((listing) => (
                 // List product checkout
                 <div
                   key={listing.id}
-                  className="w-full py-6 border-b border-slate-300">
-                  {listing.checkout_item.map(item => (
-                    <div
-                      key={item.id}
-                      className="flex text-black w-full">
+                  className="w-full py-6 border-b border-slate-300"
+                >
+                  {listing.checkout_item.map((item) => (
+                    <div key={item.id} className="flex text-black w-full">
                       <div className="flex w-[40%] gap-4">
                         <img
                           src={item.product.product_image}
@@ -270,15 +265,15 @@ export default function PaymentPage({ params: { id } }) {
                       </div>
                       <p className="w-1/5 text-center">
                         <span>Rp </span>
-                        {item.product.price.toLocaleString("id-ID", {
+                        {item.product.price.toLocaleString('id-ID', {
                           minimumFractionDigits: 0,
                           maximumFractionDigits: 0,
                         })}
                       </p>
                       <p className="w-1/5 text-center">{item.quantity}</p>
                       <p className="w-1/5 text-center text-orange-700 font-bold">
-                        Rp{" "}
-                        {item.total_specific_price.toLocaleString("id-ID", {
+                        Rp{' '}
+                        {item.total_specific_price.toLocaleString('id-ID', {
                           minimumFractionDigits: 0,
                           maximumFractionDigits: 0,
                         })}
@@ -300,7 +295,7 @@ export default function PaymentPage({ params: { id } }) {
                     <p>
                       <span>Rp </span>
                       {paymentList.checkout_colection.total_shipping_price.toLocaleString(
-                        "id-ID",
+                        'id-ID',
                         { minimumFractionDigits: 0, maximumFractionDigits: 0 }
                       )}
                     </p>
@@ -316,9 +311,9 @@ export default function PaymentPage({ params: { id } }) {
               <div className="flex mb-4 justify-between font-bold text-orange-700">
                 <h1>Total Price</h1>
                 <p>
-                  Rp{" "}
+                  Rp{' '}
                   {paymentList.checkout_colection.total_price.toLocaleString(
-                    "id-ID",
+                    'id-ID',
                     { minimumFractionDigits: 0, maximumFractionDigits: 0 }
                   )}
                 </p>
@@ -330,7 +325,8 @@ export default function PaymentPage({ params: { id } }) {
         <form
           onSubmit={handleSubmit}
           className="text-sm mt-4 items-center flex flex-col sm:flex-row justify-center gap-5 border border-slate-200 p-4 shadow-md rounded-md mb-6
-          ">
+          "
+        >
           <div className="w-full flex flex-col h-full items-center mx-auto">
             <div className="mx-auto text-center">
               <p className="mb-3">Upload Proof of Payment</p>
@@ -355,23 +351,20 @@ export default function PaymentPage({ params: { id } }) {
             )}
             <button
               type="submit"
-              className="bg-gradient-to-l from-orange-600 to-orange-500 max-w-80 mt-4 text-white shadow-md rounded-md px-5 py-2 font-bold hover:opacity-70 duration-300 w-full">
+              className="bg-gradient-to-l from-orange-600 to-orange-500 max-w-80 mt-4 text-white shadow-md rounded-md px-5 py-2 font-bold hover:opacity-70 duration-300 w-full"
+            >
               Pay
             </button>
           </div>
         </form>
       </div>
 
-      <dialog
-        id="my_modal_2"
-        className="modal">
+      <dialog id="my_modal_2" className="modal">
         <div className="modal-box">
           <h3 className="font-bold text-lg">Your order is placed!</h3>
           <p className="py-4">Thanks for shopping with us</p>
         </div>
-        <form
-          method="dialog"
-          className="modal-backdrop">
+        <form method="dialog" className="modal-backdrop">
           <button>close</button>
         </form>
       </dialog>

@@ -1,7 +1,7 @@
-"use client";
-import { useRouter } from "next/navigation";
-import React, { useEffect, useState } from "react";
-import { GrFormNext, GrFormPrevious } from "react-icons/gr";
+'use client';
+import { useRouter } from 'next/navigation';
+import React, { useEffect, useState } from 'react';
+import { GrFormNext, GrFormPrevious } from 'react-icons/gr';
 
 export default function UserOrderPage() {
   const router = useRouter();
@@ -9,12 +9,12 @@ export default function UserOrderPage() {
 
   useEffect(() => {
     const fetchCheckout = async () => {
-      const check = await fetch("http://localhost:5000/api/users/checkouts", {
-        method: "GET",
+      const check = await fetch('http://localhost:5000/api/users/checkouts', {
+        method: 'GET',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
-        credentials: "include",
+        credentials: 'include',
       });
       const data = await check.json();
       console.log(data.checkoutCollection);
@@ -23,12 +23,12 @@ export default function UserOrderPage() {
     fetchCheckout();
   }, []);
 
-  const handlePending = ( id) => {
-      router.push(`/payment/${id}`);
+  const handlePending = (id) => {
+    router.push(`/payment/${id}`);
   };
 
-  const handleUncompleted = ( id) => {
-      router.push(`/checkout/${id}`);
+  const handleUncompleted = (id) => {
+    router.push(`/checkout/${id}`);
   };
 
   const handleDetail = (id) => {
@@ -69,8 +69,8 @@ export default function UserOrderPage() {
                   </div>
                   <div className="product-price flex items-center">
                     <p className="price">
-                      Rp.{" "}
-                      {checkoutItem.product.price.toLocaleString("id-ID", {
+                      Rp.{' '}
+                      {checkoutItem.product.price.toLocaleString('id-ID', {
                         minimumFractionDigits: 0,
                         maximumFractionDigits: 0,
                       })}
@@ -83,17 +83,17 @@ export default function UserOrderPage() {
                     {checkoutItem.original_price !==
                       checkoutItem.total_specific_price && (
                       <p className="original_price line-through bg-red-200 px-2">
-                        Rp.{" "}
-                        {checkoutItem.original_price.toLocaleString("id-ID", {
+                        Rp.{' '}
+                        {checkoutItem.original_price.toLocaleString('id-ID', {
                           minimumFractionDigits: 0,
                           maximumFractionDigits: 0,
                         })}
                       </p>
                     )}
                     <p className="subtotal ml-2">
-                      Rp.{" "}
+                      Rp.{' '}
                       {checkoutItem.total_specific_price.toLocaleString(
-                        "id-ID",
+                        'id-ID',
                         {
                           minimumFractionDigits: 0,
                           maximumFractionDigits: 0,
@@ -108,8 +108,8 @@ export default function UserOrderPage() {
                 <div className="shipping flex justify-between">
                   <p className="shipping">Sub total price</p>
                   <p className="shipping">
-                    Rp.{" "}
-                    {checkoutByCity.subtotal_price.toLocaleString("id-ID", {
+                    Rp.{' '}
+                    {checkoutByCity.subtotal_price.toLocaleString('id-ID', {
                       minimumFractionDigits: 0,
                       maximumFractionDigits: 0,
                     })}
@@ -118,9 +118,9 @@ export default function UserOrderPage() {
                 <div className="shipping flex justify-between">
                   <p className="shipping">Shipping Cost</p>
                   <p className="shipping">
-                    Rp.{" "}
+                    Rp.{' '}
                     {checkoutByCity.shippingCheckout.price.toLocaleString(
-                      "id-ID",
+                      'id-ID',
                       {
                         minimumFractionDigits: 0,
                         maximumFractionDigits: 0,
@@ -131,9 +131,9 @@ export default function UserOrderPage() {
                 <div className="total flex justify-between">
                   <p className="total">Total</p>
                   <p className="total-price">
-                    Rp.{" "}
+                    Rp.{' '}
                     {checkoutByCity.total_checkout_price?.toLocaleString(
-                      "id-ID",
+                      'id-ID',
                       {
                         minimumFractionDigits: 0,
                         maximumFractionDigits: 0,
@@ -147,36 +147,36 @@ export default function UserOrderPage() {
 
           <div className="total mx-4 text-end mb-5">
             <p className="total">
-              Total Shipping Price: Rp.{" "}
-              {items.total_shipping_price?.toLocaleString("id-ID", {
+              Total Shipping Price: Rp.{' '}
+              {items.total_shipping_price?.toLocaleString('id-ID', {
                 minimumFractionDigits: 0,
                 maximumFractionDigits: 0,
               })}
             </p>
             <p className="total">
-              Total Item Price: Rp.{" "}
-              {items.total_item_price?.toLocaleString("id-ID", {
+              Total Item Price: Rp.{' '}
+              {items.total_item_price?.toLocaleString('id-ID', {
                 minimumFractionDigits: 0,
                 maximumFractionDigits: 0,
               })}
             </p>
             <p className="total">
-              Total Price: Rp.{" "}
-              {items.total_price?.toLocaleString("id-ID", {
+              Total Price: Rp.{' '}
+              {items.total_price?.toLocaleString('id-ID', {
                 minimumFractionDigits: 0,
                 maximumFractionDigits: 0,
               })}
             </p>
-            {items.payment?.payment_status === "WAITING" ||
-            items.payment?.payment_status === "SUCCESS" ||
-            items.payment?.payment_status === "FAILED" ? (
+            {items.payment?.payment_status === 'WAITING' ||
+            items.payment?.payment_status === 'SUCCESS' ||
+            items.payment?.payment_status === 'FAILED' ? (
               <button
                 onClick={() => handleDetail(items.payment.id)}
                 className="btn btn-warning my-4 px-8"
               >
                 Detail
               </button>
-            ) : items.status === "UNCOMPLETED" ? (
+            ) : items.status === 'UNCOMPLETED' ? (
               <button
                 onClick={() => handleUncompleted(items.id)}
                 className="btn btn-primary my-4 px-8"

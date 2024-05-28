@@ -1,20 +1,20 @@
-"use client";
-import React, { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
-import toast, { Toaster } from "react-hot-toast";
-import { createPromo, editPromo } from "@/repository/promo";
+'use client';
+import React, { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+import toast, { Toaster } from 'react-hot-toast';
+import { createPromo, editPromo } from '@/repository/promo';
 
 const CreateFormPage = ({ id }) => {
   const router = useRouter();
   const [formData, setFormData] = useState({
-    name: "",
-    discountPercent: "",
-    quantity: "",
+    name: '',
+    discountPercent: '',
+    quantity: '',
     isLimitedQuantity: false,
     isLimitedTime: false,
-    startDate: "",
-    endDate: "",
-    promoTypeId: "",
+    startDate: '',
+    endDate: '',
+    promoTypeId: '',
   });
 
   const [promoTypes, setPromoTypes] = useState([]);
@@ -29,23 +29,23 @@ const CreateFormPage = ({ id }) => {
         }
         const data = await response.json();
         setFormData({
-          name: data.promo.name || "",
-          discountPercent: data.promo.discount_percent || "",
-          quantity: data.promo.quantity || "",
+          name: data.promo.name || '',
+          discountPercent: data.promo.discount_percent || '',
+          quantity: data.promo.quantity || '',
           isLimitedQuantity: data.promo.isLimitedQuantity || false,
           isLimitedTime: data.promo.isLimitedTime || false,
           // problem date
           startDate: data.promo.startDate
             ? formatDateTimeLocal(data.promo.start_date)
-            : "",
+            : '',
           endDate: data.promo.endDate
             ? formatDateTimeLocal(data.promo.end_date)
-            : "",
+            : '',
           // end problem date
-          promoTypeId: data.promo.PromoType.id || "",
+          promoTypeId: data.promo.PromoType.id || '',
         });
       } catch (error) {
-        console.error("There was an error fetching the promo!", error);
+        console.error('There was an error fetching the promo!', error);
       }
     };
 
@@ -55,14 +55,14 @@ const CreateFormPage = ({ id }) => {
   useEffect(() => {
     const fetchPromoTypes = async () => {
       try {
-        const response = await fetch("http://localhost:5000/api/promo-types");
+        const response = await fetch('http://localhost:5000/api/promo-types');
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
         const data = await response.json();
         setPromoTypes(data.promoType);
       } catch (error) {
-        console.error("There was an error fetching the promo types!", error);
+        console.error('There was an error fetching the promo types!', error);
       }
     };
 
@@ -73,7 +73,7 @@ const CreateFormPage = ({ id }) => {
     const { name, value, type, checked } = e.target;
     setFormData({
       ...formData,
-      [name]: type === "checkbox" ? checked : value,
+      [name]: type === 'checkbox' ? checked : value,
     });
   };
 
@@ -96,32 +96,32 @@ const CreateFormPage = ({ id }) => {
         await createPromo(payload);
       }
       setFormData({
-        name: "",
-        discountPercent: "",
-        quantity: "",
+        name: '',
+        discountPercent: '',
+        quantity: '',
         isLimitedQuantity: false,
         isLimitedTime: false,
-        startDate: "",
-        endDate: "",
-        promoTypeId: "",
+        startDate: '',
+        endDate: '',
+        promoTypeId: '',
       });
-      toast.success("Successfully created promo!");
+      toast.success('Successfully created promo!');
       setTimeout(() => {
-        router.push("/dashboard/promo");
+        router.push('/dashboard/promo');
       }, 3000); // 3-second delay
       // router.push("/dashboard/promo");
     } catch (error) {
-      console.error("There was an error creating the promo!", error);
+      console.error('There was an error creating the promo!', error);
     }
   };
 
   const formatDateTimeLocal = (dateString) => {
     const date = new Date(dateString);
     const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, "0");
-    const day = String(date.getDate()).padStart(2, "0");
-    const hours = String(date.getHours()).padStart(2, "0");
-    const minutes = String(date.getMinutes()).padStart(2, "0");
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    const hours = String(date.getHours()).padStart(2, '0');
+    const minutes = String(date.getMinutes()).padStart(2, '0');
     return `${year}-${month}-${day}T${hours}:${minutes}`;
   };
 
@@ -129,7 +129,7 @@ const CreateFormPage = ({ id }) => {
     <div className="max-w-md mx-auto mt-10">
       <Toaster position="top-right" reverseOrder={false} />
       <h1 className="text-2xl font-bold mb-5">
-        {id ? "Update" : "Create"} Promo
+        {id ? 'Update' : 'Create'} Promo
       </h1>
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
@@ -247,7 +247,7 @@ const CreateFormPage = ({ id }) => {
             type="submit"
             className="mt-2 w-full py-2 px-4 bg-blue-600 text-white rounded-md shadow-sm"
           >
-            {id ? "Update" : "Create"} Promo
+            {id ? 'Update' : 'Create'} Promo
           </button>
         </div>
       </form>
