@@ -1,5 +1,6 @@
 import { Source_Sans_3 } from "next/font/google";
 import "./globals.css";
+import "aos/dist/aos.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 

@@ -1,13 +1,13 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
 
+import AOS from "aos";
 import CardProduct from "@/components/CardProduct";
 import Carousel from "@/components/Carousel";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { BiLoaderCircle } from "react-icons/bi";
 import { RiDiscountPercentFill } from "react-icons/ri";
-import { Swiper, SwiperSlide } from "swiper/react";
 
 export default function Home() {
   const [products, setProducts] = useState([]);
@@ -16,6 +16,9 @@ export default function Home() {
 
   // fetching disini
   useEffect(() => {
+    AOS.init({
+      duration: 500, // Durasi animasi dalam milidetik
+    });
     setLoading(true);
     const fetchProducts = async () => {
       try {
@@ -98,7 +101,9 @@ export default function Home() {
       {/* hero 2 */}
       <div className="flex gap-12 my-14 md:py-28 flex-col md:flex-row">
         <div className="w-full flex gap-8 lg:gap-24 flex-col md:w-[40%] justify-between">
-          <h1 className="md:text-5xl text-4xl font-extrabold text-slate-800">
+          <h1
+            data-aos="fade-right"
+            className="md:text-5xl text-4xl font-extrabold text-slate-800">
             Love Mom for Baby
           </h1>
           <div className="w-full min-h-60 md:hidden relative">
@@ -114,29 +119,34 @@ export default function Home() {
             />
           </div>
           <div className="space-y-8">
-            <p>
+            <p data-aos="fade-right">
               Lorem ipsum dolor sit amet consectetur adipisicing elit.
               Doloremque officia consectetur enim, a, tempora obcaecati veniam
               tempore atque optio debitis delectus nesciunt earum error laborum
               eveniet laudantium maiores animi eos!
             </p>
-            <button className="px-4 py-2 bg-orange-500 text-white font-bold rounded-full shadow-md hover:bg-slate-800 duration-300">
+            <button
+              data-aos="fade-right"
+              className="px-4 py-2 bg-orange-500 text-white font-bold rounded-full shadow-md hover:bg-slate-800 duration-300">
               Explore
             </button>
           </div>
         </div>
         <div className="w-[60%] hidden md:block md:relative">
           <img
+            data-aos="zoom-in-left"
             className="max-w-[26rem] rounded-md object-cover max-h-48"
             src="https://img.freepik.com/free-photo/cute-baby-with-stuffed-animal_23-2150573639.jpg?t=st=1716907375~exp=1716910975~hmac=1b192e5fbeecef66545281492d250e8d5527bbcff76511f8e439326847d4adc8&w=1060"
             alt="image 1"
           />
           <img
+            data-aos="zoom-in-left"
             className="ini max-w-[26rem] absolute bottom-0 z-10 left-1/3 rounded-md object-cover max-h-48"
             src="https://img.freepik.com/free-photo/faceless-mother-with-naked-baby-infant-holding-mommy-s-finger-mum-spending-time-with-her-tiny-child-light-background_176532-13966.jpg?t=st=1716907530~exp=1716911130~hmac=1b96fe3fa792414f04d6443d399e5e2da8b85484c24ad9819cc4872b9c2a146e&w=1060"
             alt="image 1"
           />
           <img
+            data-aos="zoom-in-left"
             className="ini max-w-[26rem] hidden lg:absolute lg:block top-0 right-0 rounded-md object-cover max-h-48"
             src="https://img.freepik.com/free-photo/holding-hands_1112-1539.jpg?t=st=1716907998~exp=1716911598~hmac=844bfff3284e843094e4a0b4344a1e0def3764281abfab52fd16fad225b671a2&w=1060"
             alt="image 1"
@@ -168,7 +178,9 @@ export default function Home() {
 
       {/* official brand */}
       <div className="my-14 md:py-24 space-y-24">
-        <h1 className="md:text-5xl text-center text-4xl font-extrabold text-slate-800">
+        <h1
+          data-aos="zoom-in"
+          className="md:text-5xl text-center text-4xl font-extrabold text-slate-800">
           Official Brand
         </h1>
         <div className="marquee-container w-full relative overflow-hidden h-14">
@@ -267,7 +279,9 @@ export default function Home() {
             </div>
           </div>
         </div>
-        <p className="text-center">
+        <p
+          data-aos="zoom-in"
+          className="text-center">
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Inventore
           accusantium ullam nisi porro laudantium saepe beatae provident modi,
           repellat, esse facere! Numquam atque deleniti quidem architecto
