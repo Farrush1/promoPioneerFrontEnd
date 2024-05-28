@@ -1,4 +1,4 @@
-import UserOrderPage from "@/components/UserOrderPage";
+import UserOrderPage from "@/components/user/UserOrderPage";
 
 export default function Page() {
   return (

@@ -1,4 +1,4 @@
-import BioUserPage from "@/components/BioUserPage";
+import BioUserPage from "@/components/user/BioUserPage";
 
 export const metadata = {
   title: "Bio Profile - Promo Pioneer",
