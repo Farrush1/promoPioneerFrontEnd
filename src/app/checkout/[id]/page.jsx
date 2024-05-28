@@ -164,7 +164,8 @@ export default function Checkout({ params: { id } }) {
     try {
       setDisableOrder(true);
       const data = await fetchPostPayment(id);
-      if (data && data.payment.id) {
+      console.log(data)
+      if (data && data.payment?.id) {
         const idURI = encodeURIComponent(JSON.stringify(data.payment.id));
         router.push(`/payment/${idURI}`);
       }

@@ -1,4 +1,4 @@
-import BioFormPage from "@/components/UpdateBioForm";
+import BioFormPage from "@/components/user/UpdateBioForm";
 
 export default async function Page() {
 
