@@ -1,9 +1,9 @@
-import { Nunito } from "next/font/google";
+import { Source_Sans_3 } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
-const nunito = Nunito({ subsets: ["latin"] });
+const sourceSans3 = Source_Sans_3({ subsets: ["latin"] });
 
 export const metadata = {
   title: "Homepage Promo Pioneer",
@@ -16,7 +16,7 @@ export default function RootLayout({ children }) {
     <html
       lang="en"
       data-theme="light">
-      <body className={nunito.className}>
+      <body className={sourceSans3.className}>
         <Navbar />
         {children}
         <Footer />

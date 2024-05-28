@@ -18,7 +18,7 @@ export default function Footer() {
     <>
       {!isNestedDashboardRoute && (
         <footer className="bg-gradient-to-l mt-6 from-orange-600 to-orange-500 text-white shadow-t">
-          <div className="xl:max-w-6xl mx-auto px-4 py-8 xl:px-0">
+          <div className="xl:max-w-6xl mx-auto px-4 py-8 xl:py-14 xl:px-0">
             <div className="grid grid-cols-2 sm:grid-cols-3 lg:flex items-start flex-row gap-6 lg:gap-0 flex-wrap text-sm justify-between">
               <div className="flex flex-col justify-center">
                 <Image
