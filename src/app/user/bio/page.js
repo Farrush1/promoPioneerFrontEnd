@@ -1,5 +1,10 @@
 import BioUserPage from "@/components/BioUserPage";
 
+export const metadata = {
+  title: "Bio Profile - Promo Pioneer",
+  description: "Bio Profile Page",
+};
+
 export default async function Page() {
   // const bio = await fetch("http://localhost:5000/api/users/bio", {
   //   method: "GET",

@@ -78,7 +78,7 @@ export default function Navbar() {
                         <li key={category.id}>
                           <Link
                             href={`/category?search`}
-                            className="hover:text-orange-600 border-b rounded-none border-slate-200 hover:font-bold hover:bg-transparent duration-300">
+                            className="hover:text-orange-600 rounded-md border-b  border-slate-200 hover:font-bold hover:bg-transparent duration-300">
                             {category.name}
                           </Link>
                         </li>

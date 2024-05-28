@@ -1,5 +1,10 @@
 import DashboardMenu from "@/components/DashboardMenu";
 
+export const metadata = {
+  title: "Dashboard Admin - Promo Pioneer",
+  description: "Dashboard for admin promo pioneer",
+};
+
 export default function DashboardLayout({ children }) {
   return (
     <main className="w-full">
