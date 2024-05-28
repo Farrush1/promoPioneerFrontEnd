@@ -438,7 +438,7 @@ export default function Checkout({ params: { id } }) {
       </div>
 
       {/* Voucher Code and Total price */}
-      <div className="shadow-t w-full right-0 px-4 py-3 mt-4 fixed bg-white bottom-0">
+      <div className="shadow-t w-full right-0 px-4 py-3 mt-4 rounded-md sticky bg-white bottom-0">
         <div className="xl:max-w-6xl flex mb-3 items-center justify-between gap-6 !text-sm md:!text-base w-full mx-auto">
           <div className="flex gap-4 items-center w-full max-w-[28rem]">
             <p className="font-bold w-full max-w-24 md:max-w-32">
