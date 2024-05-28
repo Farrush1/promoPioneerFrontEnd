@@ -30,6 +30,7 @@ export default function Home() {
         setLoading(false);
       }
     };
+
     fetchProducts();
   }, []);
 
@@ -74,6 +75,7 @@ export default function Home() {
             // contoh penggunaan component CardProduct
             <CardProduct
               promo={"Special Promo"} // opsional kalo product promo
+              productId={product.id}
               key={product.id}
               name={product.name}
               price={product.price}

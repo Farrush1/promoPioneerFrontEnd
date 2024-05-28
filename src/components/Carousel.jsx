@@ -48,14 +48,14 @@ export default function Carousel() {
         {promoListing &&
           promoListing.length > 0 &&
           promoListing.map(listing => (
-            <SwiperSlide>
+            <SwiperSlide key={listing.id}>
               <Link href={`${listing.id}`}>
                 <div
                   style={{
                     background: `url(${listing.url}) center no-repeat`,
                     backgroundSize: "cover",
                   }}
-                  className="max-h-64 h-72 object-cover rounded-md md:rounded-l-md  w-full"
+                  className="max-h-64 h-72 object-cover rounded-l-md md:rounded-l-md  w-full"
                   key={listing.id}></div>
               </Link>
             </SwiperSlide>
