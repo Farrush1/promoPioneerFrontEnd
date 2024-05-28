@@ -103,7 +103,7 @@ export default function Cart() {
     );
 
   return (
-    <main className="xl:max-w-6xl mx-auto px-4 pt-24 xl:px-0">
+    <main className="xl:max-w-6xl mx-auto px-4 pt-24 xl:px-0 min-h-screen">
       <h1 className="lg:text-3xl font-bold pb-8 text-2xl">My Cart</h1>
       {/* Mobile */}
       <div className="flex flex-col gap-6 md:hidden mb-20">
