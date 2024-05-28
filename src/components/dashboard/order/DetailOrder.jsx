@@ -348,7 +348,7 @@ export default function DetailOrder({ idPayment }) {
 
       {payment.payment_status === "SUCCESS" ||
       payment.payment_status === "FAILED" ? (
-        <div className="mt-5 bg-sky-300">{payment.payment_status}</div>
+        <div className="mt-5 bg-yellow-200 py-5 px-3 text-end ">{payment.payment_status}</div>
       ) : (
         <div className="mt-5 flex justify-between bg-yellow-200 p-8">
           <p>Received an order request?</p>
