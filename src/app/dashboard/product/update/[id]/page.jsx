@@ -41,14 +41,21 @@ export default function UpdateProduct() {
         throw new Error("Network response was not ok");
       }
       const data = await response.json();
-      setFormData(data);
       console.log(data);
+      setFormData({
+        name: data.name,
+        category_id: data.category_id,
+        price: data.price,
+        description: data.description,
+        warehouseName: data.warehouse.name,
+        warehouseFullAddress: data.warehouse.location,
+        warehouseCityId: data.warehouse.city.id,
+        product_image: data.product_image,
+        weight: data.weight,
+        stock: data.stock,
+      });
 
-      setSelectedFile(
-        data.product_image
-          ? `http://localhost:5000/images/${data.product_image}`
-          : null
-      );
+      setSelectedFile(data.product_image || null);
     } catch (error) {
       console.error("Error fetching product details:", error);
     }
@@ -74,7 +81,7 @@ export default function UpdateProduct() {
         throw new Error("Network response was not ok");
       }
       const data = await response.json();
-      setCities(data.cities || []);
+      setCities(data.city);
     } catch (error) {
       console.error("Error fetching cities:", error);
     }
@@ -102,8 +109,11 @@ export default function UpdateProduct() {
 
     const data = new FormData();
     for (const key in formData) {
+      
       data.append(key, formData[key]);
+    
     }
+    console.log(formData);
 
     try {
       const response = await fetch(`http://localhost:5000/api/products/${id}`, {
@@ -152,26 +162,24 @@ export default function UpdateProduct() {
                 <span className="label-text">Category</span>
               </div>
               <select
-                name="categoryId"
+                name="category_id"
                 className="select select-bordered w-full"
-                value={formData?.category_id}
+                value={formData.category_id}
                 onChange={handleChange}
                 required
               >
                 <option disabled value="">
                   Choose Category
                 </option>
-                {categories?.length >0?
-                  categories?.map(category=>{
-                    return (
-                      <option value={category.id} key={category.id}>
+                {categories.length > 0 ? (
+                  categories.map((category) => (
+                    <option value={category.id} key={category.id}>
                       {category.name}
                     </option>
-                    )}) : (
-                    <option disabled>Loading categories...</option>
-                  )}
-
-
+                  ))
+                ) : (
+                  <option disabled>Loading categories...</option>
+                )}
               </select>
             </label>
 
@@ -230,7 +238,18 @@ export default function UpdateProduct() {
               </label>
             ) : (
               <div className="mt-4">
-                <img src={selectedFile} alt="Selected" className="w-full" />
+                <img src={selectedFile} 
+                alt="Selected" 
+                className="w-full cursor-pointer"
+                onClick={() => document.getElementById('dropzone-file').click()}
+                />
+                <input
+                  id="dropzone-file"
+                  type="file"
+                  name="product_image"
+                  className="hidden"
+                  onChange={handleChange}
+                />
               </div>
             )}
           </div>
@@ -299,11 +318,11 @@ export default function UpdateProduct() {
                 required
               >
                 <option disabled value="">
-                  Warehouse City
+                  Choose City
                 </option>
-                {cities.length > 0 ? (
+                {cities?.length > 0 ? (
                   cities.map((city) => (
-                    <option key={city.id} value={city.id}>
+                    <option value={city.id} key={city.id}>
                       {city.name}
                     </option>
                   ))

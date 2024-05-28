@@ -8,8 +8,6 @@ export default function ProductDetailsPage() {
   const { id } = useParams(); 
   const [product, setProduct] = useState(null);
 
-
-
   useEffect(() => {
     if (id) {
       fetchProductDetails(id);
@@ -35,7 +33,7 @@ export default function ProductDetailsPage() {
       {product ? (
         <div>
           <img
-            className="w-full h-64 object-cover mb-4"
+            className="w-full h-64 object-contain mb-4"
             src={product.product_image}
             alt={product.name}
           />
@@ -43,7 +41,7 @@ export default function ProductDetailsPage() {
             <strong>Name:</strong> {product.name}
           </div>
           <div className="mb-4">
-            <strong>Category:</strong> {product.category}
+            <strong>Category:</strong> {product.category?.name}
           </div>
           <div className="mb-4">
             <strong>Price:</strong> Rp. {product.price}
@@ -55,13 +53,14 @@ export default function ProductDetailsPage() {
             <strong>Description:</strong> {product.description}
           </div>
           <div className="mb-4">
-            <strong>Warehouse:</strong> {product.warehouseName}, {product.warehouseFullAddress}
+            <strong>Warehouse:</strong> 
+            {product.warehouse?.name}, {product.warehouse?.location}
           </div>
           <div className="mb-4">
             <strong>Weight:</strong> {product.weight} grams
           </div>
           <div className="mb-4">
-            <strong>City:</strong> {product.warehouseCity}
+            <strong>City:</strong> {product.warehouse?.city.name}
           </div>
         </div>
       ) : (

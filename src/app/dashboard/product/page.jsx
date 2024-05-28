@@ -38,10 +38,10 @@ export default function Product() {
 
   const fetchPromoTypes = async () => {
     try {
-      const response = await fetch("http://localhost:5000/api/promo");
+      const response = await fetch("http://localhost:5000/api/promo-types");
       const data = await response.json();
-      console.log(data)
-      setPromoTypes(data);
+      console.log(data);
+      setPromoTypes(data.promoType);
     } catch (error) {
       console.error("Error fetching promo types:", error);
     }
@@ -63,6 +63,7 @@ export default function Product() {
     try {
       await fetch(`http://localhost:5000/api/products/${productId}`, {
         method: "DELETE",
+        credentials: "include",
       });
       fetchProducts(currentPage);
     } catch (error) {
@@ -247,10 +248,10 @@ export default function Product() {
                 <option disabled value="">
                   Choose Promo
                 </option>
-                {promoTypes.length > 0 ? (
-                  promoTypes.map((promoItem) => (
-                    <option key={promoItem.id} value={promoItem.id}>
-                      {promoItem.name}
+                {promoTypes?.length > 0 ? (
+                  promoTypes.map((promo) => (
+                    <option key={promo.id} value={promo.id}>
+                      {promo.name}
                     </option>
                   ))
                 ) : (

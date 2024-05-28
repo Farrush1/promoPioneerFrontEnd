@@ -1,213 +1,52 @@
+/* eslint-disable jsx-a11y/alt-text */
+/* eslint-disable @next/next/no-img-element */
 
 "use client";
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
-export default function CardProduct({key, name, price, image}) {
-  const [productListing, setProductListing] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
-
-  // useEffect(() => {
-  //   fetchProducts();
-  // }, []);
-
-  // const fetchProducts = async () => {
-  //   try {
-  //     const response = await fetch("http://localhost:5000/api/products");
-  //     if (!response.ok) {
-  //       throw new Error(`Error: ${response.status}`);
-  //     }
-  //     const data = await response.json();
-  //     console.log("Fetched data:", data);  // Add this line to log the fetched data
-  //     setProductListing(data.products);
-  //     setLoading(false);
-  //   } catch (error) {
-  //     console.error("Error fetching products:", error);
-  //     setError(error.message);
-  //     setLoading(false);
-  //   }
-  // };
-
-  if (loading) {
-    return <p>Loading...</p>;
-  }
-
-  if (error) {
-    return <p>Error: {error}</p>;
-  }
-  const [promo, setPromo] = useState([]);
-  const [special, setSpecial] = useState([]);
-  
-  useEffect(() => {
-    const fetchPromo = async () => {
-      const promo = await fetch(
-        "http://localhost:5000/api/products?specialPromo=true",
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          credentials: "include",
-        }
-      );
-      const data = await promo.json();
-      // console.log(data.products);
-      setSpecial(data.products);
-    };
-    fetchPromo();
-  }, []);
-  useEffect(() => {
-    const fetchPromo = async () => {
-      const promo = await fetch("http://localhost:5000/api/products", {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        credentials: "include",
-      });
-      const data = await promo.json();
-      // console.log(data.products);
-      setPromo(data.products);
-    };
-    fetchPromo();
-  }, []);
-
-  useEffect(() => {
-    const dummyData = [
-      {
-        id: 1,
-        title: "Mainan Anak Telephone Mobil Tarik",
-        img: "https://img.lazcdn.com/g/p/0d8f63a7edd37170dd4781676747132a.jpg_720x720q80.jpg",
-        price: 30000,
-        isPromo: true,
-        qty: 9,
-      },
-      {
-        id: 2,
-        title: "Susu Bayi Umur 1-3 Tahun",
-        img: "https://images.unsplash.com/photo-1595930013415-ca6958dc8a8a?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-        price: 30000,
-        isPromo: true,
-        qty: 3,
-      },
-      {
-        id: 3,
-        title: "Troli Bayi",
-        img: "https://images.unsplash.com/photo-1515488042361-ee00e0ddd4e4?q=80&w=1475&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-        price: 40000,
-        isPromo: true,
-        qty: 39,
-      },
-      {
-        id: 4,
-        title: "Mainan Crayon Warna Warni",
-        img: "https://images.unsplash.com/photo-1554343594-1c9d305bd51f?q=80&w=1459&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-        price: 20000,
-        isPromo: true,
-        qty: 33,
-      },
-      {
-        id: 5,
-        title: "Baby doll",
-        img: "https://dynamic.zacdn.com/2_cQoIfksG1L4p7guc46EkBeNgg=/filters:quality(70):format(webp)/https://static-id.zacdn.com/p/figoltoys-0388-6343943-1.jpg",
-        price: 25000,
-        isPromo: false,
-        qty: 19,
-      },
-      {
-        id: 6,
-        title: "Wooden Building Block Mainan Susun Balok Kayu Bangun Geometri",
-        img: "https://images.tokopedia.net/img/cache/700/VqbcmM/2023/5/20/f6274e3c-32f7-403d-b43e-1c1a9068acaa.jpg",
-        price: 20000,
-        isPromo: false,
-        qty: 39,
-      },
-      {
-        id: 7,
-        title: "Mainan Piano",
-        img: "https://down-id.img.susercontent.com/file/13a67dcd643332d580b1710c631e00d4",
-        price: 30000,
-        isPromo: false,
-        qty: 30,
-      },
-      {
-        id: 8,
-        title: "Baju Bayi",
-        img: "https://down-id.img.susercontent.com/file/id-11134207-7qukz-liayj6o1goip4c",
-        price: 30000,
-        isPromo: false,
-        qty: 79,
-      },
-    ];
-    // ambil data disini
-    // const fetchProductListing = async () => {
-    //   try {
-    //     const res = await fetch("your link");
-    //     const data = await res.json();
-    //     setProductListing(data);
-    //   } catch (error) {
-    //     console.log(error);
-    //   }
-    // };
-    setProductListing(dummyData);
-  }, []);
-
+export default function CardProduct({
+  key,
+  name,
+  price,
+  stock,
+  image,
+  className,
+  promo,
+}) {
   return (
     <>
-      
-        <Link
-          key={key}
-          href={`/product/${key}`}
-          className="shadow-sm w-full rounded-md border border-slate-200 hover:shadow-md duration-300 hover:-translate-x-1 hover:-translate-y-1">
-          <img
-            src={image}
-            className="w-full h-52 sm:h-56 lg:h-64 object-cover rounded-t-sm"
-          />
-          <div className="p-1.5 flex flex-col gap-1 justify-between h-[82px]">
-            <h1 className="text-sm font-medium mb-1.5 line-clamp-2">
-              {name}
-            </h1>
-            <p className="text-sm font-semibold text-orange-600">
-              <span>Rp </span>
-              {price}
+      <Link
+        key={key}
+        href={`/product/${key}`}
+        className={`shadow-sm w-full relative rounded-md border border-slate-200 ${className} hover:shadow-md duration-300 hover:-translate-x-1 hover:-translate-y-1`}>
+        {promo && (
+          <span className="absolute object-cover top-0 text-xs font-bold py-1 left-0 bg-gradient-to-t from-orange-600 to-orange-500 text-white px-2 rounded-br-md rounded-tl-md">
+            {/* opsional kalo product promo */}
+            {promo}
+          </span>
+        )}
+        <img
+          src={image}
+          className="w-full h-52 sm:h-56 lg:h-64 object-cover rounded-t-md"
+        />
+        <div className="p-1.5 flex flex-col gap-1 justify-between md:h-24">
+          <h1 className="text-sm md:text-base flex-1 font-semibold mb-1.5 line-clamp-2">
+            {name}
+          </h1>
+          <div className="flex justify-between items-end">
+            <span className="text-sm">Stock: {stock}</span>
+            <p className="font-semibold text-orange-600">
+              <span className="text-sm md:text-base">Rp.</span>
+              {price.toLocaleString("id-ID", {
+                minimumFractionDigits: 0,
+                maximumFractionDigits: 0,
+              })}
             </p>
           </div>
-        </Link>
-      
-      {productListing &&
-        productListing.length > 0 &&
-        productListing.map(listing => (
-          <Link
-            href={`/product/${listing.id}`}
-            className="shadow-sm w-full rounded-md border border-slate-200 hover:shadow-md duration-300 hover:-translate-x-1 hover:-translate-y-1 relative">
-            {listing.isPromo && (
-              <div className="absolute top-0 left-0 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-br-md">
-                Spesial Promo
-              </div>
-            )}
-            <img
-              src={listing.img}
-              className="w-full h-52 sm:h-56 lg:h-64 object-cover rounded-t-sm"
-            />
-            <div className="p-1.5 flex flex-col gap-1 justify-between h-[82px]">
-              <h1 className="text-sm font-semibold mb-1.5 line-clamp-2">
-                {listing.title}
-              </h1>
-              <div className="flex justify-between text-sm">
-                <p className="flex-1">Qty: {listing.qty}</p>
-                <p className="flex justify-between w-1/2 font-bold text-orange-600">
-                  <span>Rp </span>
-                  {listing.price.toLocaleString("id-ID", {
-                    minimumFractionDigits: 0,
-                    maximumFractionDigits: 0,
-                  })}
-                </p>
-              </div>
-            </div>
-          </Link>
-        ))}
+        </div>
+      </Link>
     </>
   );
 }
