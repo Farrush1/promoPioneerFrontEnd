@@ -1,8 +1,10 @@
 "use client";
+import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { GrFormNext, GrFormPrevious } from "react-icons/gr";
 
 export default function UserOrderPage() {
+  const router = useRouter();
   const [checkout, setCheckout] = useState([]);
 
   useEffect(() => {
@@ -21,6 +23,14 @@ export default function UserOrderPage() {
     fetchCheckout();
   }, []);
 
+  const handleAction = () => {
+    if (condition) {
+    }
+  };
+
+  const handleDetail = (id) => {
+    router.push(`/user/order/${id}`);
+  };
   return (
     <div className="bg-orange-300 ml-3 p-5 w-full">
       <h1 className="text-xl font-bold">My Order</h1>
@@ -53,13 +63,38 @@ export default function UserOrderPage() {
                     <p className="product-name">{checkoutItem.product.name}</p>
                   </div>
                   <div className="product-price flex items-center">
-                    <p className="price">Rp. {checkoutItem.price}</p>
+                    <p className="price">
+                      Rp.{" "}
+                      {checkoutItem.product.price.toLocaleString("id-ID", {
+                        minimumFractionDigits: 0,
+                        maximumFractionDigits: 0,
+                      })}
+                    </p>
                   </div>
                   <div className="product-quantity flex items-center">
                     <p className="quantity">{checkoutItem.quantity}</p>
                   </div>
                   <div className="product-subtotal flex items-center">
-                    <p className="subtotal">Rp. {checkoutItem.subtotal}</p>
+                    {checkoutItem.original_price !==
+                      checkoutItem.total_specific_price && (
+                      <p className="original_price line-through bg-red-200 px-2">
+                        Rp.{" "}
+                        {checkoutItem.original_price.toLocaleString("id-ID", {
+                          minimumFractionDigits: 0,
+                          maximumFractionDigits: 0,
+                        })}
+                      </p>
+                    )}
+                    <p className="subtotal">
+                      Rp.{" "}
+                      {checkoutItem.total_specific_price.toLocaleString(
+                        "id-ID",
+                        {
+                          minimumFractionDigits: 0,
+                          maximumFractionDigits: 0,
+                        }
+                      )}
+                    </p>
                   </div>
                 </div>
               ))}
@@ -68,19 +103,37 @@ export default function UserOrderPage() {
                 <div className="shipping flex text-right">
                   <p className="shipping">Sub total price</p>
                   <p className="shipping grow-0 w-48">
-                    {checkoutByCity.subtotal_price}
+                    Rp.{" "}
+                    {checkoutByCity.subtotal_price.toLocaleString("id-ID", {
+                      minimumFractionDigits: 0,
+                      maximumFractionDigits: 0,
+                    })}
                   </p>
                 </div>
                 <div className="shipping flex text-right">
                   <p className="shipping">Shipping Cost</p>
                   <p className="shipping grow-0 w-48">
-                    {checkoutByCity.shippingCheckout.price}
+                    Rp.{" "}
+                    {checkoutByCity.shippingCheckout.price.toLocaleString(
+                      "id-ID",
+                      {
+                        minimumFractionDigits: 0,
+                        maximumFractionDigits: 0,
+                      }
+                    )}
                   </p>
                 </div>
                 <div className="total flex text-right">
                   <p className="total">Total</p>
                   <p className="total-price grow-0 w-48">
-                    {checkoutByCity.total_checkout_price}
+                    Rp.{" "}
+                    {checkoutByCity.total_checkout_price?.toLocaleString(
+                      "id-ID",
+                      {
+                        minimumFractionDigits: 0,
+                        maximumFractionDigits: 0,
+                      }
+                    )}
                   </p>
                 </div>
               </div>
@@ -89,10 +142,43 @@ export default function UserOrderPage() {
 
           <div className="total mx-4 text-end mb-5">
             <p className="total">
-              Total Shipping Price: {items.total_shipping_price}
+              Total Shipping Price: Rp.{" "}
+              {items.total_shipping_price.toLocaleString("id-ID", {
+                minimumFractionDigits: 0,
+                maximumFractionDigits: 0,
+              })}
             </p>
-            <p className="total">Total Item Price: {items.total_item_price}</p>
-            <p className="total">Total Price: {items.total_price}</p>
+            <p className="total">
+              Total Item Price: Rp.{" "}
+              {items.total_item_price.toLocaleString("id-ID", {
+                minimumFractionDigits: 0,
+                maximumFractionDigits: 0,
+              })}
+            </p>
+            <p className="total">
+              Total Price: Rp.{" "}
+              {items.total_price.toLocaleString("id-ID", {
+                minimumFractionDigits: 0,
+                maximumFractionDigits: 0,
+              })}
+            </p>
+            {items.payment.payment_status === "WAITING" ||
+            items.payment.payment_status === "SUCCESS" ||
+            items.payment.payment_status === "FAILED" ? (
+              <button
+                onClick={() => handleDetail(items.payment.id)}
+                className="btn btn-warning my-4 px-8"
+              >
+                Detail
+              </button>
+            ) : (
+              <button
+                onClick={() => handleDetail(items.id)}
+                className="btn btn-primary my-4 px-8"
+              >
+                Selesaikan Pembayaran
+              </button>
+            )}
           </div>
         </div>
       ))}

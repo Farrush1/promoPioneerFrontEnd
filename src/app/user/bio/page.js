@@ -1,4 +1,4 @@
-import BioUserPage from "@/components/BioUserPage";
+import BioUserPage from "@/components/user/BioUserPage";
 
 export default async function Page() {
   // const bio = await fetch("http://localhost:5000/api/users/bio", {
