@@ -24,7 +24,7 @@ export default function Product() {
     fetchPromoTypes();
   }, []);
 
-  const fetchProducts = async (page) => {
+  const fetchProducts = async page => {
     try {
       const response = await fetch(
         `http://localhost:5000/api/products?limit=10&page=${page}`
@@ -39,10 +39,9 @@ export default function Product() {
 
   const fetchPromoTypes = async () => {
     try {
-      const response = await fetch("http://localhost:5000/api/promo-types");
+      const response = await fetch("http://localhost:5000/api/promo");
       const data = await response.json();
-      console.log(data);
-      setPromoTypes(data.promoType);
+      setPromoTypes(data);
     } catch (error) {
       console.error("Error fetching promo types:", error);
     }
@@ -50,14 +49,6 @@ export default function Product() {
 
   const handleAddPromo = () => {
     setIsModalOpen(true);
-  };
-
-  const handleCloseModal = () => {
-    setIsModalOpen(false);
-  };
-
-  const handleEditProduct = (productId) => {
-    router.push(`/dashboard/product/update/${productId}`);
   };
 
   const handleCloseModal = () => {
@@ -72,7 +63,7 @@ export default function Product() {
     try {
       await fetch(`http://localhost:5000/api/products/${productId}`, {
         method: "DELETE",
-        credentials: "include",
+        credentials: 'include'
       });
       fetchProducts(currentPage);
     } catch (error) {
@@ -80,20 +71,19 @@ export default function Product() {
     }
   };
 
-
-  const handleViewDetails = (productId) => {
-    router.push(`/dashboard/product/detail/${productId}`);
+  const handleViewDetails = productId => {
+    router.push(`/dashboard/product/${productId}`);
   };
 
   const handleNextPage = () => {
     if (currentPage < Math.ceil(totalProducts / productsPerPage)) {
-      setCurrentPage((prevPage) => prevPage + 1);
+      setCurrentPage(prevPage => prevPage + 1);
     }
   };
 
   const handlePrevPage = () => {
     if (currentPage > 1) {
-      setCurrentPage((prevPage) => prevPage - 1);
+      setCurrentPage(prevPage => prevPage - 1);
     }
   };
 
@@ -146,10 +136,6 @@ export default function Product() {
                   type="checkbox"
                   className="checkbox"
                 />
-                <input
-                  type="checkbox"
-                  className="checkbox"
-                />
               </label>
             </th>
             <th>Name</th>
@@ -162,14 +148,10 @@ export default function Product() {
         </thead>
         <tbody>
           {products?.length > 0 ? (
-            products.map((product) => (
+            products.map(product => (
               <tr key={product.id}>
                 <th>
                   <label>
-                    <input
-                      type="checkbox"
-                      className="checkbox"
-                    />
                     <input
                       type="checkbox"
                       className="checkbox"
@@ -180,10 +162,6 @@ export default function Product() {
                   <div className="flex items-center gap-3">
                     <div className="avatar">
                       <div className="mask mask-squircle w-12 h-12">
-                        <img
-                          src={product.product_image}
-                          alt={product.name}
-                        />
                         <img
                           src={product.product_image}
                           alt={product.name}
@@ -233,9 +211,6 @@ export default function Product() {
               <td
                 colSpan="7"
                 className="text-center">
-              <td
-                colSpan="7"
-                className="text-center">
                 Loading...
               </td>
             </tr>
@@ -247,7 +222,6 @@ export default function Product() {
           onClick={handlePrevPage}
           disabled={currentPage === 1}
           className="px-4 py-2 mx-2 bg-gray-300 rounded disabled:opacity-50">
-          className="px-4 py-2 mx-2 bg-gray-300 rounded disabled:opacity-50">
           Previous
         </button>
         <span className="px-4 py-2 mx-2">
@@ -256,7 +230,6 @@ export default function Product() {
         <button
           onClick={handleNextPage}
           disabled={currentPage === totalPages}
-          className="px-4 py-2 mx-2 bg-gray-300 rounded disabled:opacity-50">
           className="px-4 py-2 mx-2 bg-gray-300 rounded disabled:opacity-50">
           Next
         </button>
@@ -272,16 +245,19 @@ export default function Product() {
               </div>
               <select
                 className="select select-bordered w-full"
-                onChange={(e) => setSelectedPromo(e.target.value)}
-                value={selectedPromo}
-              >
-                <option disabled value="">
+                onChange={e => setSelectedPromo(e.target.value)}
+                value={selectedPromo}>
+                <option
+                  disabled
+                  value="">
                   Choose Promo
                 </option>
-                {promoTypes?.length > 0 ? (
-                  promoTypes.map((promo) => (
-                    <option key={promo.id} value={promo.id}>
-                      {promo.name}
+                {promoTypes.length > 0 ? (
+                  promoTypes.map(promoItem => (
+                    <option
+                      key={promoItem.id}
+                      value={promoItem.id}>
+                      {promoItem.name}
                     </option>
                   ))
                 ) : (
@@ -296,9 +272,8 @@ export default function Product() {
                 Cancel
               </button>
               <button
-                className="btn btn-primary bg-orange-600"
-                onClick={handleSavePromo}
-              >
+                className="bg-gradient-to-l from-green-600 to-green-500 text-white px-3 py-1 shadow-md rounded-md hover:opacity-70 duration-300"
+                onClick={handleSavePromo}>
                 Save
               </button>
             </div>
