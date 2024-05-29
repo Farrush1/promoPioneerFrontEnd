@@ -1,5 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import React from "react";
+
 const CardCategory = ({ name, imageUrl, price, currency }) => {
   return (
     <div className="bg-white rounded-md flex-wrap flex flex-col shadow-md w-full h-full duration-300 m-1 hover:-translate-x-1 hover:-translate-y-1">

@@ -1,14 +1,15 @@
 /* eslint-disable @next/next/no-img-element */
-'use client';
-import React, { useState, useEffect } from 'react';
-import { useParams } from 'next/navigation';
-import DetailProductCard from '@/components/DetailProductCard';
+"use client";
+import React, { useState, useEffect } from "react";
+import { useParams, useRouter } from "next/navigation";
+import DetailProductCard from "@/components/DetailProductCard";
 
 const DetailCard = () => {
   const { productId } = useParams();
   const [product, setProduct] = useState(null);
   const [relatedProducts, setRelatedProducts] = useState([]);
   const [quantity, setQuantity] = useState(1);
+  const router = useRouter();
 
   useEffect(() => {
     const fetchProductDetail = async () => {
@@ -20,7 +21,6 @@ const DetailCard = () => {
           throw new Error('Failed to fetch product detail');
         }
         const data = await response.json();
-        // console.log("Response from API:", data);
         setProduct(data);
         const categoryId = data.category_id;
         fetchProductsByCategory(categoryId, data.id);
@@ -34,30 +34,53 @@ const DetailCard = () => {
     }
   }, [productId]);
 
-  const fetchProductsByCategory = async (categoryId, productId) => {
+  const handleCheckout = async () => {
     try {
-      const response = await fetch(
-        `http://localhost:5000/api/products?categories=${categoryId}`,
-        {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          credentials: 'include',
-        }
-      );
-      if (!response.ok) {
-        throw new Error('Failed to fetch related products');
-      }
+      const url = `http://localhost:5000/api/checkouts/products/${product.id}`;
+      const response = await fetch(url, {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          quantity: quantity, 
+        }),
+      });
       const data = await response.json();
-      // console.log("Filtered Data:", data);
-      const filteredProducts = data.filter(item => item.id !== productId);
-      setRelatedProducts(filteredProducts);
+  
+      const checkoutId = data.checkoutColection.id;
+      router.push(`/checkout/${checkoutId}`); 
     } catch (error) {
-      console.error('Error fetching related products:', error);
-      setRelatedProducts([]);
+      console.log(error);
     }
   };
+  
+
+  // const fetchProductsByCategory = async (categoryId, productId) => {
+  //   try {
+  //     const response = await fetch(
+  //       `http://localhost:5000/api/products?categories=${categoryId}`,
+  //       {
+  //         method: "GET",
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //         },
+  //         credentials: "include",
+  //       }
+  //     );
+  //     if (!response.ok) {
+  //       throw new Error("Failed to fetch related products");
+  //     }
+  //     const data = await response.json();
+  //     // console.log("Filtered Data:", data);
+  //     const filteredProducts = data.filter(item => item.id !== productId);
+  //     setRelatedProducts(filteredProducts);
+  //   } catch (error) {
+  //     console.error("Error fetching related products:", error);
+  //     setRelatedProducts([]);
+  //   }
+  // };
 
   const handleIncrement = () => {
     setQuantity(quantity + 1);
@@ -103,7 +126,7 @@ const DetailCard = () => {
               />
               <div className="flex flex-col justify-between w-full md:w-2/3">
                 <h2 className="text-2xl font-bold mb-3">{product.name}</h2>
-                <p className="mb-2">Brand</p>
+                <p className="mb-2">Weight: {product.weight}</p>
                 <p className="mb-2">Stock: {product.stock}</p>
                 <p className="font-bold">
                   Price: Rp{' '}
@@ -132,7 +155,7 @@ const DetailCard = () => {
                 <div className="flex mt-4 items-center">
                   <button
                     onClick={handleAddCart}
-                    className="btn w-auto mr-2 shadow-md bg-orange-600 hover:text-black transition duration-200 text-white hover:bg-white border-none"
+                    className="btn w-auto mr-2 shadow-md bg-orange-600 transition duration-200 text-white hover:bg-orange-700  border-none"
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -150,7 +173,10 @@ const DetailCard = () => {
                     </svg>
                     Add to Cart
                   </button>
-                  <button className="btn w-24 shadow-md bg-orange-600 hover:text-black transition duration-200 text-white hover:bg-white border-none">
+                  <button
+                    onClick={handleCheckout}
+                    className="btn w-24 shadow-md bg-orange-600 transition duration-200 text-white hover:bg-orange-700 border-none"
+                  >
                     Checkout
                   </button>
                 </div>

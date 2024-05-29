@@ -1,22 +1,33 @@
-'use client';
-import React, { useState, useEffect } from 'react';
-import CardCategoryList from '@/components/category/CardCategoryList';
-import ReactPaginate from 'react-paginate';
-import Stack from '@mui/material/Stack';
-import ReactSelect from 'react-select';
-import Pagination from '@mui/material/Pagination';
+/* eslint-disable react-hooks/exhaustive-deps */
+"use client";
+import React, { useState, useEffect } from "react";
+import CardCategoryList from "@/components/category/CardCategoryList";
+import Stack from "@mui/material/Stack";
+import ReactSelect from "react-select";
+import Pagination from "@mui/material/Pagination";
 
 const Category = () => {
   const [categories, setCategories] = useState([]);
   const [cities, setCities] = useState([]);
-  const [selectedCategory, setSelectedCategory] = useState('');
-  const [minPrice, setMinPrice] = useState('');
-  const [maxPrice, setMaxPrice] = useState('');
-  const [cityId, setCityId] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState("");
+  const [defaultSelectedCategory, setDefaultSelectedCategory] = useState("");
+  const [initialSelectedCategory, setInitialSelectedCategory] = useState("");
+  const [minPrice, setMinPrice] = useState("");
+  const [initialMinPrice, setInitialMinPrice] = useState("");
+  const [maxPrice, setMaxPrice] = useState("");
+  const [initialMaxPrice, setInitialMaxPrice] = useState("");
+  const [cityId, setCityId] = useState("");
+  const [defaultCityId, setDefaultCityId] = useState("");
+  const [initialCityId, setInitialCityId] = useState("");
   const [data, setData] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
   const itemsPerPage = 10;
   const [currentPage, setCurrentPage] = useState(0);
+
+  useEffect(() => {
+    setDefaultSelectedCategory(selectedCategory);
+    setDefaultCityId(cityId);
+  }, []);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -91,7 +102,8 @@ const Category = () => {
   };
 
   const handleCategorySelect = (selectedOption) => {
-    setSelectedCategory(selectedOption ? selectedOption.value : '');
+    setSelectedCategory(selectedOption ? selectedOption.value : "");
+    setInitialSelectedCategory(selectedOption ? selectedOption.value : "");
     setCurrentPage(0);
   };
 
@@ -99,22 +111,50 @@ const Category = () => {
     const input = event.target.value;
     if (!isNaN(input) || input === '') {
       setMinPrice(input);
+      setInitialMinPrice(input);
     }
   };
 
   const handleMaxPriceChange = (event) => {
     setMaxPrice(event.target.value);
+    setInitialMaxPrice(event.target.value);
   };
 
   const handleCityIdChange = (selectedOption) => {
-    setCityId(selectedOption ? selectedOption.value : '');
+    setCityId(selectedOption ? selectedOption.value : "");
+    setInitialCityId(selectedOption ? selectedOption.value : "");
+  };
+
+  const handleFilter = () => {
+    const filterUrl = `http://localhost:5000/api/products/?${
+      cityId ? `cities=${cityId}&` : ""
+    }${minPrice ? `minPrice=${minPrice}&` : ""}${
+      maxPrice ? `maxPrice=${maxPrice}&` : ""
+    }${selectedCategory ? `categories=${selectedCategory}&` : ""}`;
+
+    fetch(filterUrl)
+      .then((response) => response.json())
+      .then((result) => {
+        setData(result.products);
+        setFilteredData(result.products);
+      })
+      .catch((error) =>
+        console.error("Error fetching filtered products:", error)
+      );
+  };
+
+  const handleReset = () => {
+    setSelectedCategory(defaultSelectedCategory);
+    setMinPrice(initialMinPrice);
+    setMaxPrice(initialMaxPrice);
+    setCityId(defaultCityId);
+    setData([]);
+    setFilteredData([]);
   };
 
   return (
     <main className="xl:max-w-6xl min-h-screen mx-auto px-4 pt-24 xl:px-0 mb-4">
       <div className="flex w-full flex-col sm:flex-row gap-8 relative">
-        {/* <div className="grid grid-cols-12 gap-4"> */}
-        {/* <div className="col-span-12 md:col-span-3 sm:col-span-12 bg-[#f36812] p-4 rounded-lg font-semibold text-white"> */}
         <div className="bg-gradient-to-l text-sm md:text-base from-orange-600 to-orange-500 flex flex-col justify-between sm:min-h-[83vh] p-4 rounded-md shadow-md md:h-fit md:sticky md:top-24">
           <h1 className="text-2xl font-bold text-white pb-2 border-b border-orange-400">
             Filter
@@ -165,10 +205,7 @@ const Category = () => {
                       ...styles,
                       zIndex: '9999',
                     }),
-                    option: (
-                      styles,
-                      { isDisabled, isFocused, isSelected }
-                    ) => ({
+                    option: (styles, { isDisabled, isFocused, isSelected }) => ({
                       ...styles,
                       backgroundColor: isSelected
                         ? '#f36'
@@ -204,10 +241,7 @@ const Category = () => {
                         ...styles,
                         zIndex: '9999',
                       }),
-                      option: (
-                        styles,
-                        { isDisabled, isFocused, isSelected }
-                      ) => ({
+                      option: (styles, { isDisabled, isFocused, isSelected }) => ({
                         ...styles,
                         backgroundColor: isSelected
                           ? '#f36'
@@ -225,24 +259,20 @@ const Category = () => {
           </div>
           <div className="flex justify-center">
             <div className="w-full">
-              <button className="py-1.5 bg-white text-slate-700 font-semibold rounded-md hover:bg-orange-200 duration-300 w-full mt-5">
-                Filter
-              </button>
-              <button className="py-1.5 bg-white text-slate-700 font-semibold rounded-md hover:bg-orange-200 duration-300 w-full mt-2">
+              <button
+                onClick={handleReset}
+                className="py-1.5 bg-white text-slate-700 font-semibold rounded-md hover:bg-orange-200 duration-300 w-full mt-2"
+              >
                 Reset
               </button>
             </div>
           </div>
         </div>
-        {/* </div> */}
-        {/* <div className="col-span-12 md:col-span-9 sm:col-span-12 flex justify-center"> */}
         <div>
           <CardCategoryList data={data} />
         </div>
-        {/* </div> */}
-        {/* </div> */}
       </div>
-      <section className="flex justify-center mt-5">
+      <section className="flex justify-center mt-7">
         <Stack spacing={2}>
           <Pagination
             count={Math.ceil(filteredData.length / itemsPerPage)}
@@ -253,7 +283,6 @@ const Category = () => {
           />
         </Stack>
       </section>
-      {/* <section>Footer</section> */}
     </main>
   );
 };
