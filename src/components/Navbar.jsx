@@ -12,6 +12,7 @@ import CounterCart from "./CounterCart";
 import getCategory from "@/libs/fetch/getCategory";
 
 export default function Navbar() {
+  const [search, setSearch] = useState('')
   const [isLogin, setIsLogin] = useState(false);
   const [categoriesList, setCategoriesList] = useState([]);
   const [cookies, _setCookies, removeCookie] = useCookies(["accessToken"]);
@@ -39,7 +40,8 @@ export default function Navbar() {
 
   const handleSearch = e => {
     e.preventDefault();
-    router.push("/category?search");
+    // console.log(search)
+    router.push(`/search?keyword=${search}`);
   };
 
   return (
@@ -77,7 +79,8 @@ export default function Navbar() {
                       {categoriesList.map(category => (
                         <li key={category.id}>
                           <Link
-                            href={`/category?search`}
+                            // href={`/category?search`}
+                            href={`/${category.name}`}
                             className="hover:text-orange-600 rounded-md border-b  border-slate-200 hover:font-bold hover:bg-transparent duration-300">
                             {category.name}
                           </Link>
@@ -87,6 +90,8 @@ export default function Navbar() {
                   </div>
                   <form className="flex bg-white rounded-md p-1 flex-1 shadow-sm justify-between">
                     <input
+                    value={search}
+                    onChange={e => setSearch(e.target.value)}
                       type="text"
                       className="w-36 bg-white flex-1 sm:w-60 h-full focus:outline-none text-sm px-2 py-1 rounded-md"
                     />
