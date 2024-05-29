@@ -7,16 +7,37 @@ export default function Dashboard() {
   const [products, setProducts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalProducts, setTotalProducts] = useState(0);
-  const [stats, setStats] = useState({
-    totalOrders: 0,
-    totalRevenue: 0,
-    orderCancelled: 0,
-  });
-  const productsPerPage = 9;
+  const productsPerPage = 10;
+
+
+  const orders = [
+    { id: 1, status: "completed" },
+    { id: 2, status: "completed" },
+    { id: 3, status: "cancelled" },
+  ];
+  const transactions = [
+    { id: 1, amount: 200000 },
+    { id: 2, amount: 300000 },
+    { id: 3, amount: 150000 },
+  ];
+  const shipments = [
+    { id: 1, status: "shipped" },
+    { id: 2, status: "cancelled" },
+    { id: 3, status: "cancelled" },
+  ];
+  const totalOrders = orders.filter(
+    (order) => order.status === "completed"
+  ).length;
+  const totalRevenue = transactions.reduce(
+    (total, transaction) => total + transaction.amount,
+    0
+  );
+  const orderCancelled = shipments.filter(
+    (shipment) => shipment.status === "cancelled"
+  ).length;
 
   useEffect(() => {
     fetchProducts(currentPage);
-    fetchStats();
   }, [currentPage]);
 
   const fetchProducts = async (page) => {
@@ -29,20 +50,6 @@ export default function Dashboard() {
       setTotalProducts(data.totalProducts);
     } catch (error) {
       console.error("Error fetching products:", error);
-    }
-  };
-
-  const fetchStats = async () => {
-    try {
-      const response = await fetch(`http://localhost:5000/api/payments/stats`);
-      const data = await response.json();
-      setStats({
-        totalOrders: data.totalOrders,
-        totalRevenue: data.totalRevenue,
-        orderCancelled: data.orderCancelled,
-      });
-    } catch (error) {
-      console.error("Error fetching stats:", error);
     }
   };
 
@@ -68,15 +75,15 @@ export default function Dashboard() {
         <div className="stats stats-vertical lg:stats-horizontal gap-6">
           <div className="stat place-items-center text-center">
             <div className="stat-title">Total Orders</div>
-            <div className="stat-value">{stats.totalOrders}</div>
+            <div className="stat-value">{totalOrders}</div>
           </div>
           <div className="stat place-items-center text-center">
             <div className="stat-title">Total Revenue</div>
-            <div className="stat-value">Rp.{stats.totalRevenue}</div>
+            <div className="stat-value">Rp.{totalRevenue}</div>
           </div>
           <div className="stat place-items-center text-center">
             <div className="stat-title">Order Cancelled</div>
-            <div className="stat-value">{stats.orderCancelled}</div>
+            <div className="stat-value">{orderCancelled}</div>
           </div>
         </div>
       </div>
@@ -88,7 +95,7 @@ export default function Dashboard() {
             <CardProduct
               key={product.id}
               name={product.name}
-              stock={product.stock}
+              description={product.description}
               image={product.product_image}
               price={product.price}
             />
