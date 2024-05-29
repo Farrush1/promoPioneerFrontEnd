@@ -17,18 +17,18 @@ export default function Footer() {
   return (
     <>
       {!isNestedDashboardRoute && (
-        <footer className="bg-gradient-to-tl mt-6 from-orange-600 to-orange-500 text-white shadow-t">
-          <div className="xl:max-w-6xl mx-auto px-4 py-8 xl:px-0">
-            <div className="flex items-start flex-row gap-6 md:gap-0 flex-wrap text-sm justify-between">
+        <footer className="bg-gradient-to-l mt-6 from-orange-600 to-orange-500 text-white shadow-t">
+          <div className="xl:max-w-6xl mx-auto px-4 py-8 xl:py-14 xl:px-0">
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:flex items-start flex-row gap-6 lg:gap-0 flex-wrap text-sm justify-between">
               <div className="flex flex-col justify-center">
                 <Image
                   src={"/logo-white.svg"}
                   alt="logo"
                   width={120}
                   height={120}
-                  className="w-20 mx-auto lg:w-40"
+                  className="w-32 lg:mx-auto lg:w-40"
                 />
-                <p className="font-sans font-bold dark:text-white text-sm lg:text-2xl">
+                <p className="font-sans font-bold dark:text-white text-xl lg:text-2xl">
                   Promo Pioneer
                 </p>
               </div>

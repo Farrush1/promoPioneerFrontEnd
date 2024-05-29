@@ -20,7 +20,7 @@ const DetailCard = () => {
           throw new Error("Failed to fetch product detail");
         }
         const data = await response.json();
-        console.log("Response from API:", data);
+        // console.log("Response from API:", data);
         setProduct(data);
         const categoryId = data.category_id;
         fetchProductsByCategory(categoryId, data.id);
@@ -50,7 +50,7 @@ const DetailCard = () => {
         throw new Error("Failed to fetch related products");
       }
       const data = await response.json();
-      console.log("Filtered Data:", data);
+      // console.log("Filtered Data:", data);
       const filteredProducts = data.filter(item => item.id !== productId);
       setRelatedProducts(filteredProducts);
     } catch (error) {
@@ -84,14 +84,14 @@ const DetailCard = () => {
         }),
       });
       const data = await response.json();
-      console.log(data);
+      // console.log(data);
     } catch (error) {
       console.log(error);
     }
   };
 
   return (
-    <main className="xl:max-w-6xl mx-auto px-4 pt-24 xl:px-0">
+    <main className="xl:max-w-6xl mx-auto px-4 pt-24 xl:px-0 min-h-screen">
       {product && (
         <section>
           <div className="p-3 bg-white border rounded-md shadow-md">
