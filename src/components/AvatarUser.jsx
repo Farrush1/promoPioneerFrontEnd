@@ -6,7 +6,6 @@ import { FaUserCircle } from "react-icons/fa";
 
 export default function AvatarUser() {
   const [avatar, setAvatar] = useState(null);
-  console.log(avatar);
 
   const getAvatar = async () => {
     try {

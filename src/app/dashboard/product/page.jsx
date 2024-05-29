@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 "use client";
 
 import React, { useState, useEffect } from "react";
@@ -59,7 +60,15 @@ export default function Product() {
     router.push(`/dashboard/product/update/${productId}`);
   };
 
-  const handleDeleteProduct = async (productId) => {
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
+
+  const handleEditProduct = productId => {
+    router.push(`/dashboard/product/update/${productId}`);
+  };
+
+  const handleDeleteProduct = async productId => {
     try {
       await fetch(`http://localhost:5000/api/products/${productId}`, {
         method: "DELETE",
@@ -70,6 +79,7 @@ export default function Product() {
       console.error("Error deleting product:", error);
     }
   };
+
 
   const handleViewDetails = (productId) => {
     router.push(`/dashboard/product/detail/${productId}`);
@@ -112,20 +122,21 @@ export default function Product() {
   const totalPages = Math.ceil(totalProducts / productsPerPage);
 
   return (
-    <div className="mx-auto">
-      <h1 className="text-2xl font-bold mb-6 text-center">Product List</h1>
-      <div className="flex gap-4 justify-end mb-4 p-3">
-        <Link
-          href="/dashboard/product/create"
-          className="bg-orange-600 text-sm px-3 py-1.5 rounded-md shadow-md text-white font-semibold">
-          + Product
-        </Link>
-        <button
-          className="bg-orange-600 text-sm px-3 py-1.5 rounded-md shadow-md text-white font-semibold"
-          onClick={handleAddPromo}>
-          + Promo Product
-        </button>
+    <div className="">
+      <div className="flex justify-between mb-12 items-center">
+        <h1 className="text-2xl font-bold">Product List</h1>
+        <div className="flex justify-end">
+          <button className="bg-gradient-to-l from-orange-600 to-orange-500 text-white font-semibold rounded-md shadow-md text-sm px-3 py-3 min-h-0 mx-1 hover:opacity-70 duration-300">
+            <Link href="/dashboard/product/create">+ Product</Link>
+          </button>
+          <button
+            className="bg-gradient-to-l from-orange-600 to-orange-500 text-white font-semibold rounded-md shadow-md text-sm px-3 py-3 min-h-0 mx-1 hover:opacity-70 duration-300"
+            onClick={handleAddPromo}>
+            + Promo Product
+          </button>
+        </div>
       </div>
+
       <table className="table">
         <thead className="bg-gray-200 text-gray-600">
           <tr>
@@ -194,25 +205,27 @@ export default function Product() {
                     ? `${product.warehouse.name}, ${product.warehouse.location}`
                     : "No Warehouse"}
                 </td>
-                <td className="border-t py-2 px-4 flex justify-center space-x-2">
-                  <Button
-                    color="blue"
-                    onClick={() => handleEditProduct(product.id)}>
-                    Edit
-                  </Button>
-                  <Button
-                    color="red"
-                    onClick={() => handleDeleteProduct(product.id)}>
-                    Delete
-                  </Button>
+                <td className="border-t py-2 px-4 h-full">
+                  <div className="flex justify-center gap-2">
+                    <button
+                      className="bg-gradient-to-l from-blue-600 to-blue-500 text-white px-3 py-1 shadow-md rounded-md hover:opacity-70 duration-300"
+                      onClick={() => handleEditProduct(product.id)}>
+                      Edit
+                    </button>
+                    <button
+                      className="bg-gradient-to-l from-red-600 to-red-500 text-white px-3 py-1 shadow-md rounded-md hover:opacity-70 duration-300"
+                      onClick={() => handleDeleteProduct(product.id)}>
+                      Delete
+                    </button>
+                  </div>
                 </td>
-                <th>
+                <td>
                   <button
-                    className="btn btn-ghost btn-xs"
+                    className="bg-gradient-to-l from-green-600 to-green-500 text-white px-3 py-1 shadow-md rounded-md hover:opacity-70 duration-300"
                     onClick={() => handleViewDetails(product.id)}>
                     Details
                   </button>
-                </th>
+                </td>
               </tr>
             ))
           ) : (
@@ -276,9 +289,9 @@ export default function Product() {
                 )}
               </select>
             </label>
-            <div className="flex justify-end mt-4">
+            <div className="flex justify-end mt-4 gap-3">
               <button
-                className="btn btn-primary bg-red-500"
+                className="bg-gradient-to-l from-red-600 to-red-500 text-white px-3 py-1 shadow-md rounded-md hover:opacity-70 duration-300"
                 onClick={handleCloseModal}>
                 Cancel
               </button>

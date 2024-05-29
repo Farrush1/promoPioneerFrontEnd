@@ -23,7 +23,7 @@ export default function Order() {
             <td className="border-t py-2 px-4"> -</td>
             <td className="border-t py-2 px-4"> -</td>
             <td className="border-t py-2 px-4 flex justify-center space-x-2">
-              <Link href="/dashboard/order/order-details">
+              <Link href="/dashboard/order/1">
                 <button className="btn btn-primary"> Detail</button>
                </Link>
               <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">

@@ -7,6 +7,7 @@ export default function Dashboard() {
   const [products, setProducts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalProducts, setTotalProducts] = useState(0);
+
   const [stats, setStats] = useState({
     totalOrders: 0,
     totalRevenue: 0,
@@ -32,6 +33,7 @@ export default function Dashboard() {
     }
   };
 
+
   const fetchStats = async () => {
     try {
       const response = await fetch(`http://localhost:5000/api/payments/stats`);
@@ -45,6 +47,7 @@ export default function Dashboard() {
       console.error("Error fetching stats:", error);
     }
   };
+
 
   const handleNextPage = () => {
     if (currentPage < Math.ceil(totalProducts / productsPerPage)) {

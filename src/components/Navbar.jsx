@@ -7,22 +7,27 @@ import { useRouter, usePathname } from "next/navigation";
 import { useCookies } from "react-cookie";
 import Image from "next/image";
 import { IoCartOutline, IoSearch } from "react-icons/io5";
-import { IoCart } from "react-icons/io5";
-import { FaUserCircle } from "react-icons/fa";
 import AvatarUser from "./AvatarUser";
 import CounterCart from "./CounterCart";
+import getCategory from "@/libs/fetch/getCategory";
 
 export default function Navbar() {
   const [isLogin, setIsLogin] = useState(false);
+  const [categoriesList, setCategoriesList] = useState([]);
   const [cookies, _setCookies, removeCookie] = useCookies(["accessToken"]);
   const router = useRouter();
   const pathname = usePathname();
   const isNestedDashboardRoute = pathname.startsWith("/dashboard");
 
   useEffect(() => {
+    const fetchCategories = async () => {
+      const categories = await getCategory();
+      setCategoriesList(categories);
+    };
     if (cookies.accessToken) {
       setIsLogin(true);
     }
+    fetchCategories();
   }, [cookies]);
 
   const handleLogOut = () => {
@@ -30,6 +35,11 @@ export default function Navbar() {
     removeCookie("accessToken");
     setIsLogin(false);
     router.push("/");
+  };
+
+  const handleSearch = e => {
+    e.preventDefault();
+    router.push("/category?search");
   };
 
   return (
@@ -45,24 +55,44 @@ export default function Navbar() {
                   src={"/logo-white.svg"}
                   alt="logo"
                   width={34}
-                  height={34}></Image>
+                  height={34}
+                />
                 <span className="hidden font-sans font-bold dark:text-white lg:block text-2xl">
                   Promo Pioneer
                 </span>
               </Link>
               <div className="md:flex-1 md:mx-2">
                 <div className="flex max-w-[70%] items-center gap-3 md:mx-auto">
-                  <Link href={"/category"}>
-                    <p className="text-white hidden sm:block cursor-pointer hover:opacity-80 duration-300 font-semibold">
+                  <div className="dropdown">
+                    <div
+                      tabIndex={0}
+                      role="button"
+                      className="text-white hidden sm:block cursor-pointer hover:opacity-80 duration-300 font-semibold">
                       Category
-                    </p>
-                  </Link>
+                    </div>
+
+                    <ul
+                      tabIndex={0}
+                      className="dropdown-content rounded-md mt-2 z-[1] menu py-1 px-2 shadow bg-base-100 w-64">
+                      {categoriesList.map(category => (
+                        <li key={category.id}>
+                          <Link
+                            href={`/category?search`}
+                            className="hover:text-orange-600 rounded-md border-b  border-slate-200 hover:font-bold hover:bg-transparent duration-300">
+                            {category.name}
+                          </Link>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
                   <form className="flex bg-white rounded-md p-1 flex-1 shadow-sm justify-between">
                     <input
                       type="text"
                       className="w-36 bg-white flex-1 sm:w-60 h-full focus:outline-none text-sm px-2 py-1 rounded-md"
                     />
-                    <button className="border-l-2 w-8 flex items-center justify-center">
+                    <button
+                      onClick={handleSearch}
+                      className="border-l-2 w-8 flex items-center justify-center">
                       <IoSearch className="ml-1 hover:opacity-60 duration-300 rounded-r-md w-full h-full p-1 text-orange-600" />
                     </button>
                   </form>

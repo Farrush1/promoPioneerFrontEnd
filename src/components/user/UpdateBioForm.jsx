@@ -17,6 +17,36 @@ export default function UpdateBioForm() {
   const [cities, setCities] = useState([]);
 
   useEffect(() => {
+    const fetchBio = async () => {
+      try {
+        const response = await fetch("http://localhost:5000/api/users/bio", {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "include",
+        });
+        const data = await response.json();
+        console.log(data, 'kdjklajdkla')
+        setFormData({
+          name: data.users.name,
+          userCityId: data.users.city_id,
+          fullAddress: data.users.full_address,
+          age: data.users.age,
+          gender: data.users.gender,
+          phoneNumber: data.users.phone_number,
+          avatar: null,
+        });
+        // setFormData(data.users);
+      } catch (error) {
+        console.error("Error fetching cities:", error);
+      }
+    };
+
+    fetchBio();
+  }, []);
+
+  useEffect(() => {
     const fetchCities = async () => {
       try {
         const response = await fetch("http://localhost:5000/api/cities", {

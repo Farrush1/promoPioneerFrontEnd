@@ -7,7 +7,7 @@ import { Navigation, Autoplay, Pagination, EffectFade } from "swiper/modules";
 import "swiper/css/bundle";
 import { useEffect, useState } from "react";
 
-export default function Carousel() {
+export default function Carousel({ style }) {
   SwiperCore.use([Autoplay, Navigation, Pagination, EffectFade]);
   const [promoListing, setPromoListing] = useState([]);
 
@@ -40,23 +40,22 @@ export default function Carousel() {
   }, []);
 
   return (
-    <div className="my-8 ">
+    <div>
       <Swiper
         effect={"fade"}
         autoplay={{ delay: 5000, pauseOnMouseEnter: true }}
-        navigation={true}
-        className="shadow-lg">
+        pagination={true}>
         {promoListing &&
           promoListing.length > 0 &&
           promoListing.map(listing => (
-            <SwiperSlide>
+            <SwiperSlide key={listing.id}>
               <Link href={`${listing.id}`}>
                 <div
                   style={{
                     background: `url(${listing.url}) center no-repeat`,
                     backgroundSize: "cover",
                   }}
-                  className="h-72 sm:h-96 object-cover rounded-lg lg:h-[460px]"
+                  className={`max-h-64 ${style} h-72 object-cover rounded-md  w-full`}
                   key={listing.id}></div>
               </Link>
             </SwiperSlide>
