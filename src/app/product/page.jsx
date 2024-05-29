@@ -1,7 +1,7 @@
-"use client"
+'use client';
 import React, { useEffect, useState } from 'react';
-import CardProduct from "@/components/CardProduct";
-import Carousel from "@/components/Carousel";
+import CardProduct from '@/components/CardProduct';
+import Carousel from '@/components/Carousel';
 
 const Product = () => {
   const [productListing, setProductListing] = useState([]);
@@ -11,12 +11,12 @@ const Product = () => {
   useEffect(() => {
     const fetchProductListing = async () => {
       try {
-        const res = await fetch("http://localhost:5000/api/products");
+        const res = await fetch('http://localhost:5000/api/products');
         if (!res.ok) {
-          throw new Error("Network response was not ok");
+          throw new Error('Network response was not ok');
         }
         const data = await res.json();
-        console.log("Data fetched from API:", data);
+        console.log('Data fetched from API:', data);
         const products = data.products || [];
         setProductListing(products);
       } catch (error) {

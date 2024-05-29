@@ -1,16 +1,16 @@
-"use client";
-import React, { useEffect, useState } from "react";
+'use client';
+import React, { useEffect, useState } from 'react';
 
 export default function DetailUserPage({ userParams }) {
   const [user, setUser] = useState({});
   useEffect(() => {
     const fetchBio = async () => {
       const bio = await fetch(`http://localhost:5000/api/users/${userParams}`, {
-        method: "GET",
+        method: 'GET',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
-        credentials: "include",
+        credentials: 'include',
       });
       const data = await bio.json();
       console.log(data.users);

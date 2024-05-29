@@ -1,25 +1,25 @@
-"use client";
-import { useState } from "react";
-import toast, { Toaster } from "react-hot-toast";
-import { useRouter } from "next/navigation";
-import Link from "next/link";
-import { useCookies } from "react-cookie";
+'use client';
+import { useState } from 'react';
+import toast, { Toaster } from 'react-hot-toast';
+import { useRouter } from 'next/navigation';
+import Link from 'next/link';
+import { useCookies } from 'react-cookie';
 
 export default function LoginPage() {
   const [formData, setFormData] = useState({
-    email: "",
-    password: "",
+    email: '',
+    password: '',
   });
   const router = useRouter();
-  const [_cookies, setCookies, _removeCookie] = useCookies(["accessToken"]); // untuk simpan cookies
+  const [_cookies, setCookies, _removeCookie] = useCookies(['accessToken']); // untuk simpan cookies
 
   // fetch post login
   const login = async () => {
     try {
-      const res = await fetch("http://localhost:5000/api/auth/login", {
-        method: "POST",
+      const res = await fetch('http://localhost:5000/api/auth/login', {
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify(formData),
       });
@@ -29,33 +29,33 @@ export default function LoginPage() {
         toast.error(data.message);
         return;
       }
-      if (data.role === "ADMIN") {
-        setCookies("accessToken", data.accessToken);
-        toast.success("You are logged in as ADMIN", { duration: 3000 });
+      if (data.role === 'ADMIN') {
+        setCookies('accessToken', data.accessToken);
+        toast.success('You are logged in as ADMIN', { duration: 3000 });
         setTimeout(() => {
-          router.push("/dashboard");
+          router.push('/dashboard');
         }, 3000);
       } else {
-        setCookies("accessToken", data.accessToken);
-        toast.success("Successful login", { duration: 3000 });
+        setCookies('accessToken', data.accessToken);
+        toast.success('Successful login', { duration: 3000 });
         setTimeout(() => {
-          router.push("/");
+          router.push('/');
         }, 3000);
       }
     } catch (error) {
       console.error(error);
-      toast.error("An error occurred. Please try again.");
+      toast.error('An error occurred. Please try again.');
     }
   };
 
   // simpan nilai input
-  const handleChange = async e => {
+  const handleChange = async (e) => {
     const { name, value } = e.target;
-    setFormData(prevData => ({ ...prevData, [name]: value }));
+    setFormData((prevData) => ({ ...prevData, [name]: value }));
   };
 
   // handle submit
-  const handleSubmit = async e => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     login();
   };
@@ -65,7 +65,7 @@ export default function LoginPage() {
       <Toaster
         position="top-center"
         reverseOrder={false}
-        containerStyle={{ marginTop: "65px" }}
+        containerStyle={{ marginTop: '65px' }}
       />
       <div className="max-w-md w-full space-y-16">
         <div>
@@ -76,15 +76,14 @@ export default function LoginPage() {
             or
             <Link
               href="/register"
-              className="text-blue-500 hover:text-blue-600hover:text-indigo-500 px-2">
+              className="text-blue-500 hover:text-blue-600hover:text-indigo-500 px-2"
+            >
               Register
             </Link>
           </p>
         </div>
 
-        <form
-          onSubmit={handleSubmit}
-          className="space-y-8">
+        <form onSubmit={handleSubmit} className="space-y-8">
           <div className="flex flex-col gap-4">
             <input
               name="email"
@@ -123,7 +122,8 @@ export default function LoginPage() {
           <div>
             <button
               type="submit"
-              className="w-full flex justify-center items-center px-4 py-2 bg-gradient-to-l from-orange-600 to-orange-500 hover:bg-orange-700 text-white font-bold rounded-md shadow-md hover:translate-x-1 hover:translate-y-1 duration-300">
+              className="w-full flex justify-center items-center px-4 py-2 bg-gradient-to-l from-orange-600 to-orange-500 hover:bg-orange-700 text-white font-bold rounded-md shadow-md hover:translate-x-1 hover:translate-y-1 duration-300"
+            >
               Login
             </button>
           </div>

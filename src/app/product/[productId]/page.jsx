@@ -1,8 +1,8 @@
 /* eslint-disable @next/next/no-img-element */
-"use client";
-import React, { useState, useEffect } from "react";
-import { useParams } from "next/navigation";
-import DetailProductCard from "@/components/DetailProductCard";
+'use client';
+import React, { useState, useEffect } from 'react';
+import { useParams } from 'next/navigation';
+import DetailProductCard from '@/components/DetailProductCard';
 
 const DetailCard = () => {
   const { productId } = useParams();
@@ -17,7 +17,7 @@ const DetailCard = () => {
           `http://localhost:5000/api/products/${productId}`
         );
         if (!response.ok) {
-          throw new Error("Failed to fetch product detail");
+          throw new Error('Failed to fetch product detail');
         }
         const data = await response.json();
         // console.log("Response from API:", data);
@@ -25,7 +25,7 @@ const DetailCard = () => {
         const categoryId = data.category_id;
         fetchProductsByCategory(categoryId, data.id);
       } catch (error) {
-        console.error("Error fetching product detail:", error);
+        console.error('Error fetching product detail:', error);
       }
     };
 
@@ -39,22 +39,22 @@ const DetailCard = () => {
       const response = await fetch(
         `http://localhost:5000/api/products?categories=${categoryId}`,
         {
-          method: "GET",
+          method: 'GET',
           headers: {
-            "Content-Type": "application/json",
+            'Content-Type': 'application/json',
           },
-          credentials: "include",
+          credentials: 'include',
         }
       );
       if (!response.ok) {
-        throw new Error("Failed to fetch related products");
+        throw new Error('Failed to fetch related products');
       }
       const data = await response.json();
       // console.log("Filtered Data:", data);
       const filteredProducts = data.filter(item => item.id !== productId);
       setRelatedProducts(filteredProducts);
     } catch (error) {
-      console.error("Error fetching related products:", error);
+      console.error('Error fetching related products:', error);
       setRelatedProducts([]);
     }
   };
@@ -73,10 +73,10 @@ const DetailCard = () => {
     try {
       const url = `http://localhost:5000/api/carts/cart-items`;
       const response = await fetch(url, {
-        method: "POST",
-        credentials: "include",
+        method: 'POST',
+        credentials: 'include',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify({
           productId: product.id,
@@ -106,8 +106,8 @@ const DetailCard = () => {
                 <p className="mb-2">Brand</p>
                 <p className="mb-2">Stock: {product.stock}</p>
                 <p className="font-bold">
-                  Price: Rp{" "}
-                  {product.price.toLocaleString("id-ID", {
+                  Price: Rp{' '}
+                  {product.price.toLocaleString('id-ID', {
                     minimumFractionDigits: 0,
                     maximumFractionDigits: 0,
                   })}
@@ -115,7 +115,8 @@ const DetailCard = () => {
                 <div className="flex items-center mt-4">
                   <button
                     onClick={handleDecrement}
-                    className="bg-white hover:bg-orange-600 transition duration-200 text-black shadow-md hover:text-white px-4 py-2 rounded-md">
+                    className="bg-white hover:bg-orange-600 transition duration-200 text-black shadow-md hover:text-white px-4 py-2 rounded-md"
+                  >
                     -
                   </button>
                   <span className="bg-white shadow-md border-gray-300 px-4 py-2 mx-2 rounded-md">
@@ -123,21 +124,24 @@ const DetailCard = () => {
                   </span>
                   <button
                     onClick={handleIncrement}
-                    className="bg-white hover:bg-orange-600 transition duration-200 text-black hover:text-white shadow-md px-4 py-2 rounded-md">
+                    className="bg-white hover:bg-orange-600 transition duration-200 text-black hover:text-white shadow-md px-4 py-2 rounded-md"
+                  >
                     +
                   </button>
                 </div>
                 <div className="flex mt-4 items-center">
                   <button
                     onClick={handleAddCart}
-                    className="btn w-auto mr-2 shadow-md bg-orange-600 hover:text-black transition duration-200 text-white hover:bg-white border-none">
+                    className="btn w-auto mr-2 shadow-md bg-orange-600 hover:text-black transition duration-200 text-white hover:bg-white border-none"
+                  >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       fill="none"
                       viewBox="0 0 24 24"
                       strokeWidth={1.5}
                       stroke="currentColor"
-                      className="w-6 h-6 mr-2 inline-block">
+                      className="w-6 h-6 mr-2 inline-block"
+                    >
                       <path
                         strokeLinecap="round"
                         strokeLinejoin="round"
@@ -174,10 +178,11 @@ const DetailCard = () => {
               <div className="grid grid-flow-col auto-cols-max gap-4 overflow-x-auto sb-hidden">
                 {Array.isArray(relatedProducts) &&
                 relatedProducts.length > 0 ? (
-                  relatedProducts.map(relatedProduct => (
+                  relatedProducts.map((relatedProduct) => (
                     <div
                       key={relatedProduct.id}
-                      className="w-2/3 sm:w-1/3 md:w-1/6 mb-2">
+                      className="w-2/3 sm:w-1/3 md:w-1/6 mb-2"
+                    >
                       <DetailProductCard
                         title={relatedProduct.name}
                         price={relatedProduct.price}

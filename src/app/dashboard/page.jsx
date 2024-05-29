@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
-import React, { useState, useEffect } from "react";
-import CardProduct from "@/components/CardProduct";
+import React, { useState, useEffect } from 'react';
+import CardProduct from '@/components/CardProduct';
 
 export default function Dashboard() {
   const [products, setProducts] = useState([]);
@@ -9,11 +9,10 @@ export default function Dashboard() {
   const [totalProducts, setTotalProducts] = useState(0);
   const productsPerPage = 10;
 
-
   const orders = [
-    { id: 1, status: "completed" },
-    { id: 2, status: "completed" },
-    { id: 3, status: "cancelled" },
+    { id: 1, status: 'completed' },
+    { id: 2, status: 'completed' },
+    { id: 3, status: 'cancelled' },
   ];
   const transactions = [
     { id: 1, amount: 200000 },
@@ -21,19 +20,19 @@ export default function Dashboard() {
     { id: 3, amount: 150000 },
   ];
   const shipments = [
-    { id: 1, status: "shipped" },
-    { id: 2, status: "cancelled" },
-    { id: 3, status: "cancelled" },
+    { id: 1, status: 'shipped' },
+    { id: 2, status: 'cancelled' },
+    { id: 3, status: 'cancelled' },
   ];
   const totalOrders = orders.filter(
-    (order) => order.status === "completed"
+    (order) => order.status === 'completed'
   ).length;
   const totalRevenue = transactions.reduce(
     (total, transaction) => total + transaction.amount,
     0
   );
   const orderCancelled = shipments.filter(
-    (shipment) => shipment.status === "cancelled"
+    (shipment) => shipment.status === 'cancelled'
   ).length;
 
   useEffect(() => {
@@ -49,7 +48,7 @@ export default function Dashboard() {
       setProducts(data.products);
       setTotalProducts(data.totalProducts);
     } catch (error) {
-      console.error("Error fetching products:", error);
+      console.error('Error fetching products:', error);
     }
   };
 
@@ -106,7 +105,8 @@ export default function Dashboard() {
         <button
           onClick={handlePrevPage}
           disabled={currentPage === 1}
-          className="px-4 py-2 mx-2 bg-gray-300 rounded disabled:opacity-50">
+          className="px-4 py-2 mx-2 bg-gray-300 rounded disabled:opacity-50"
+        >
           Previous
         </button>
         <span className="px-4 py-2 mx-2">
@@ -115,7 +115,8 @@ export default function Dashboard() {
         <button
           onClick={handleNextPage}
           disabled={currentPage === totalPages}
-          className="px-4 py-2 mx-2 bg-gray-300 rounded disabled:opacity-50">
+          className="px-4 py-2 mx-2 bg-gray-300 rounded disabled:opacity-50"
+        >
           Next
         </button>
       </div>

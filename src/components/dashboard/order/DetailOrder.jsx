@@ -1,6 +1,7 @@
-"use client";
-import { useRouter } from "next/navigation";
-import React, { useEffect, useState } from "react";
+/* eslint-disable @next/next/no-img-element */
+'use client';
+import { useRouter } from 'next/navigation';
+import React, { useEffect, useState } from 'react';
 
 export default function DetailOrder({ idPayment }) {
   const router = useRouter();
@@ -33,17 +34,17 @@ export default function DetailOrder({ idPayment }) {
         const response = await fetch(
           `http://localhost:5000/api/payments/${idPayment}`,
           {
-            method: "GET",
+            method: 'GET',
             headers: {
-              "Content-Type": "application/json",
+              'Content-Type': 'application/json',
             },
-            credentials: "include",
+            credentials: 'include',
           }
         );
         const data = await response.json();
         setPayment(data.payment);
       } catch (error) {
-        console.error("Error fetching payment data:", error);
+        console.error('Error fetching payment data:', error);
       }
     };
 
@@ -55,14 +56,14 @@ export default function DetailOrder({ idPayment }) {
       const response = await fetch(
         `http://localhost:5000/api/payments/status/${idPayment}`,
         {
-          method: "PUT",
+          method: 'PUT',
           headers: {
-            "Content-Type": "application/json",
+            'Content-Type': 'application/json',
           },
           body: JSON.stringify({
-            paymentStatus: "SUCCESS",
+            paymentStatus: 'SUCCESS',
           }),
-          credentials: "include",
+          credentials: 'include',
         }
       );
       if (!response.ok) {
@@ -70,7 +71,7 @@ export default function DetailOrder({ idPayment }) {
       }
       const data = await response.json();
       console.log(data);
-      router.push("/dashboard");
+      router.push('/dashboard');
     } catch (error) {
       console.log(error);
     }
@@ -80,14 +81,14 @@ export default function DetailOrder({ idPayment }) {
       const response = await fetch(
         `http://localhost:5000/api/payments/status/${idPayment}`,
         {
-          method: "PUT",
+          method: 'PUT',
           headers: {
-            "Content-Type": "application/json",
+            'Content-Type': 'application/json',
           },
           body: JSON.stringify({
-            paymentStatus: "FAILED",
+            paymentStatus: 'FAILED',
           }),
-          credentials: "include",
+          credentials: 'include',
         }
       );
       if (!response.ok) {
@@ -95,7 +96,7 @@ export default function DetailOrder({ idPayment }) {
       }
       const data = await response.json();
       console.log(data);
-      router.push("/dashboard");
+      router.push('/dashboard');
     } catch (error) {
       console.log(error);
     }
@@ -327,6 +328,13 @@ export default function DetailOrder({ idPayment }) {
             }
           )}
         </p>
+      </div>
+      <div className="mt-5">
+        <h2 className="text-xl font-bold">Shipping</h2>
+        <p>
+          <strong>Type:</strong>{' '}
+          {payment.checkout_colection?.checkout?.[0]?.shippingCheckout?.service}
+        </p>
         <p>
           Total Price: Rp.{" "}
           {payment.checkout_colection.total_price.toLocaleString("id-ID", {
@@ -345,10 +353,9 @@ export default function DetailOrder({ idPayment }) {
           />
         </div>
       </div>
-
-      {payment.payment_status === "SUCCESS" ||
-      payment.payment_status === "FAILED" ? (
-        <div className="mt-5 bg-yellow-200 py-5 px-3 text-end ">{payment.payment_status}</div>
+      {payment.payment_status === 'SUCCESS' ||
+      payment.payment_status === 'FAILED' ? (
+        <div className="mt-5 bg-sky-300">{payment.payment_status}</div>
       ) : (
         <div className="mt-5 flex justify-between bg-yellow-200 p-8">
           <p>Received an order request?</p>

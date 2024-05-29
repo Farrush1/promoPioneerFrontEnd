@@ -1,10 +1,10 @@
 export default async function getCategory() {
-  const response = await fetch("http://localhost:5000/api/categories", {
-    method: "GET",
+  const response = await fetch('http://localhost:5000/api/categories', {
+    method: 'GET',
     headers: {
-      "Content-Type": "application/json",
+      'Content-Type': 'application/json',
     },
-    credentials: "include",
+    credentials: 'include',
   });
   const data = await response.json();
   return data.category;

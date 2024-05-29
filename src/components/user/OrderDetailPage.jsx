@@ -1,5 +1,5 @@
-"use client";
-import React, { useEffect, useState } from "react";
+'use client';
+import React, { useEffect, useState } from 'react';
 
 export default function OrderDetailPage({ paymentId }) {
   const [payment, setPayment] = useState(null);
@@ -8,17 +8,17 @@ export default function OrderDetailPage({ paymentId }) {
   useEffect(() => {
     const fetchCities = async () => {
       try {
-        const response = await fetch("http://localhost:5000/api/cities", {
-          method: "GET",
+        const response = await fetch('http://localhost:5000/api/cities', {
+          method: 'GET',
           headers: {
-            "Content-Type": "application/json",
+            'Content-Type': 'application/json',
           },
-          credentials: "include",
+          credentials: 'include',
         });
         const data = await response.json();
         setCities(data.city);
       } catch (error) {
-        console.error("Error fetching cities:", error);
+        console.error('Error fetching cities:', error);
       }
     };
 
@@ -31,17 +31,17 @@ export default function OrderDetailPage({ paymentId }) {
         const response = await fetch(
           `http://localhost:5000/api/payments/${paymentId}`,
           {
-            method: "GET",
+            method: 'GET',
             headers: {
-              "Content-Type": "application/json",
+              'Content-Type': 'application/json',
             },
-            credentials: "include",
+            credentials: 'include',
           }
         );
         const data = await response.json();
         setPayment(data.payment);
       } catch (error) {
-        console.error("Error fetching payment:", error);
+        console.error('Error fetching payment:', error);
       }
     };
 
@@ -50,7 +50,7 @@ export default function OrderDetailPage({ paymentId }) {
 
   function findCityNameById(id) {
     const city = cities.find((city) => city.id === id);
-    return city ? city.name : "City not found";
+    return city ? city.name : 'City not found';
   }
 
   if (!payment || !cities.length) {
@@ -72,7 +72,7 @@ export default function OrderDetailPage({ paymentId }) {
       {payment.checkout_colection?.checkout.map((checkout) => (
         <div key={checkout.id} className="bg-slate-200 mb-5 p-2">
           <p>
-            Order from {findCityNameById(checkout.city_id)} to{" "}
+            Order from {findCityNameById(checkout.city_id)} to{' '}
             {findCityNameById(payment.checkout_colection.user.city_id)}
           </p>
           <p>Address: {payment.checkout_colection.user.full_address}</p>
@@ -155,7 +155,7 @@ export default function OrderDetailPage({ paymentId }) {
           })}
         </p>
         <p>
-          Total Shipping Price: Rp.{" "}
+          Total Shipping Price:{' '}
           {payment.checkout_colection.total_shipping_price}
         </p>
         <p>
@@ -169,7 +169,7 @@ export default function OrderDetailPage({ paymentId }) {
       <div className="flex mt-5 justify-between bg-yellow-200 p-4 items-center">
         <p className="">Contact admin for more information</p>
         <a href="https://wa.me/6285738436019" className="btn btn-primary px-4">
-          {" "}
+          {' '}
           Contact
         </a>
       </div>

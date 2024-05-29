@@ -1,21 +1,21 @@
 /* eslint-disable @next/next/no-img-element */
-"use client";
-import Link from "next/link";
-import React, { useEffect, useState } from "react";
-import { FaUser } from "react-icons/fa6";
-import { BsCartCheckFill } from "react-icons/bs";
-import { FaSignOutAlt } from "react-icons/fa";
+'use client';
+import Link from 'next/link';
+import React, { useEffect, useState } from 'react';
+import { FaUser } from 'react-icons/fa6';
+import { BsCartCheckFill } from 'react-icons/bs';
+import { FaSignOutAlt } from 'react-icons/fa';
 
 export default function ProfileSidebar() {
   const [user, setUser] = useState({});
   useEffect(() => {
     const fetchBio = async () => {
-      const bio = await fetch("http://localhost:5000/api/users/bio", {
-        method: "GET",
+      const bio = await fetch('http://localhost:5000/api/users/bio', {
+        method: 'GET',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
-        credentials: "include",
+        credentials: 'include',
       });
       const data = await bio.json();
       console.log(data.users);
@@ -36,7 +36,8 @@ export default function ProfileSidebar() {
       <div className="flex md:flex-col w-full justify-between md:gap-4 md:text-left">
         <Link
           href="/user/bio"
-          className="p-2 md:p-0 w-full inline-flex md:justify-start justify-center rounded-full duration-300 hover:bg-white hover:text-orange-600 text-white">
+          className="p-2 md:p-0 w-full inline-flex md:justify-start justify-center rounded-full duration-300 hover:bg-white hover:text-orange-600 text-white"
+        >
           <p className="hidden md:block text-white cursor-pointer rounded-full hover:shadow-md px-3 py-1 hover:bg-white hover:text-black w-full duration-300">
             My Profile
           </p>
@@ -44,7 +45,8 @@ export default function ProfileSidebar() {
         </Link>
         <Link
           href="/user/order"
-          className="p-2 md:p-0 w-full inline-flex md:justify-start justify-center rounded-full duration-300 hover:bg-white hover:text-orange-600 text-white">
+          className="p-2 md:p-0 w-full inline-flex md:justify-start justify-center rounded-full duration-300 hover:bg-white hover:text-orange-600 text-white"
+        >
           <p className="hidden md:block text-white cursor-pointer rounded-full hover:shadow-md px-3 py-1 hover:bg-white hover:text-black w-full duration-300">
             My Order
           </p>

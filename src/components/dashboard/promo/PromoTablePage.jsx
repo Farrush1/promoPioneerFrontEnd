@@ -1,22 +1,22 @@
-"use client";
-import { FaPen } from "react-icons/fa6";
-import { FaRegTrashCan } from "react-icons/fa6";
-import Link from "next/link";
+'use client';
+import { FaPen } from 'react-icons/fa6';
+import { FaRegTrashCan } from 'react-icons/fa6';
+import Link from 'next/link';
 
-import React, { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+import React, { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
 
 export default function PromoTablePage() {
   const router = useRouter();
   const [promo, setPromo] = useState([]);
   useEffect(() => {
     const fetchPromo = async () => {
-      const promo = await fetch("http://localhost:5000/api/promo", {
-        method: "GET",
+      const promo = await fetch('http://localhost:5000/api/promo', {
+        method: 'GET',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
-        credentials: "include",
+        credentials: 'include',
       });
       const data = await promo.json();
       console.log(data.promo);
@@ -28,11 +28,11 @@ export default function PromoTablePage() {
   const handleDelete = async (id) => {
     console.log(id);
     const promo = await fetch(`http://localhost:5000/api/promo/${id}`, {
-      method: "DELETE",
+      method: 'DELETE',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
-      credentials: "include",
+      credentials: 'include',
     });
     const data = await promo.json();
     console.log(data);
@@ -42,7 +42,7 @@ export default function PromoTablePage() {
   };
   const handleUpdate = async (id) => {
     console.log(id);
-    router.push(`/dashboard/promo/update/${id}`)
+    router.push(`/dashboard/promo/update/${id}`);
   };
   return (
     <div>
@@ -74,27 +74,29 @@ export default function PromoTablePage() {
                 <th>{index + 1}</th>
                 <td>{items.name}</td>
                 <td>{items.discount_percent}%</td>
-                <td>{items.isLimitedQuantity ? "Yes" : "No"}</td>
-                <td>{items.isLimitedTime ? "Yes" : "No"}</td>
-                <td>{items.isLimitedQuantity ? items.quantity : "-"}</td>
+                <td>{items.isLimitedQuantity ? 'Yes' : 'No'}</td>
+                <td>{items.isLimitedTime ? 'Yes' : 'No'}</td>
+                <td>{items.isLimitedQuantity ? items.quantity : '-'}</td>
                 <td>
-                  {items.isLimitedTime ? items.start_date.slice(0, 10) : "-"}
+                  {items.isLimitedTime ? items.start_date.slice(0, 10) : '-'}
                 </td>
                 <td>
-                  {items.isLimitedTime ? items.end_date.slice(0, 10) : "-"}
+                  {items.isLimitedTime ? items.end_date.slice(0, 10) : '-'}
                 </td>
                 <td>All Product</td>
                 <td className="flex gap-1">
                   <button
                     onClick={() => handleUpdate(items.id)}
                     className="btn btn-sm btn-warning"
-                    disabled={items.name === "SPECIAL_USER"}>
+                    disabled={items.name === 'SPECIAL_USER'}
+                  >
                     <FaPen />
                   </button>
                   <button
                     onClick={() => handleDelete(items.id)}
                     className="btn btn-sm btn-error"
-                    disabled={items.name === "SPECIAL_USER"}>
+                    disabled={items.name === 'SPECIAL_USER'}
+                  >
                     <FaRegTrashCan />
                   </button>
                 </td>

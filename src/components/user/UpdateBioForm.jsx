@@ -1,17 +1,17 @@
-"use client";
-import { useRouter } from "next/navigation";
-import React, { useState, useEffect } from "react";
-import { useDropzone } from "react-dropzone";
+'use client';
+import { useRouter } from 'next/navigation';
+import React, { useState, useEffect } from 'react';
+import { useDropzone } from 'react-dropzone';
 
 export default function UpdateBioForm() {
   const router = useRouter();
   const [formData, setFormData] = useState({
-    name: "",
-    userCityId: "",
-    fullAddress: "",
-    age: "",
-    gender: "",
-    phoneNumber: "",
+    name: '',
+    userCityId: '',
+    fullAddress: '',
+    age: '',
+    gender: '',
+    phoneNumber: '',
     avatar: null,
   });
   const [cities, setCities] = useState([]);
@@ -19,15 +19,15 @@ export default function UpdateBioForm() {
   useEffect(() => {
     const fetchBio = async () => {
       try {
-        const response = await fetch("http://localhost:5000/api/users/bio", {
-          method: "GET",
+        const response = await fetch('http://localhost:5000/api/users/bio', {
+          method: 'GET',
           headers: {
-            "Content-Type": "application/json",
+            'Content-Type': 'application/json',
           },
-          credentials: "include",
+          credentials: 'include',
         });
         const data = await response.json();
-        console.log(data, 'kdjklajdkla')
+        console.log(data, 'kdjklajdkla');
         setFormData({
           name: data.users.name,
           userCityId: data.users.city_id,
@@ -39,7 +39,7 @@ export default function UpdateBioForm() {
         });
         // setFormData(data.users);
       } catch (error) {
-        console.error("Error fetching cities:", error);
+        console.error('Error fetching cities:', error);
       }
     };
 
@@ -49,17 +49,17 @@ export default function UpdateBioForm() {
   useEffect(() => {
     const fetchCities = async () => {
       try {
-        const response = await fetch("http://localhost:5000/api/cities", {
-          method: "GET",
+        const response = await fetch('http://localhost:5000/api/cities', {
+          method: 'GET',
           headers: {
-            "Content-Type": "application/json",
+            'Content-Type': 'application/json',
           },
-          credentials: "include",
+          credentials: 'include',
         });
         const data = await response.json();
         setCities(data.city);
       } catch (error) {
-        console.error("Error fetching cities:", error);
+        console.error('Error fetching cities:', error);
       }
     };
 
@@ -84,34 +84,34 @@ export default function UpdateBioForm() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const form = new FormData();
-    form.append("name", formData.name);
-    form.append("userCityId", formData.userCityId);
-    form.append("fullAddress", formData.fullAddress);
-    form.append("age", formData.age);
-    form.append("gender", formData.gender);
-    form.append("phoneNumber", formData.phoneNumber);
+    form.append('name', formData.name);
+    form.append('userCityId', formData.userCityId);
+    form.append('fullAddress', formData.fullAddress);
+    form.append('age', formData.age);
+    form.append('gender', formData.gender);
+    form.append('phoneNumber', formData.phoneNumber);
     if (formData.avatar) {
-      form.append("avatar", formData.avatar);
+      form.append('avatar', formData.avatar);
     }
 
     try {
-      const response = await fetch("http://localhost:5000/api/users/bio", {
-        method: "PUT",
-        credentials: "include",
+      const response = await fetch('http://localhost:5000/api/users/bio', {
+        method: 'PUT',
+        credentials: 'include',
         body: form,
       });
       const data = await response.json();
       console.log(data);
-      router.push("/user/bio");
+      router.push('/user/bio');
     } catch (error) {
-      console.error("Error updating bio:", error);
+      console.error('Error updating bio:', error);
     }
   };
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop: handleDrop,
     accept: {
-      "image/*": [".jpeg", ".jpg", ".png", ".gif"],
+      'image/*': ['.jpeg', '.jpg', '.png', '.gif'],
     },
     multiple: false,
   });
@@ -235,7 +235,7 @@ export default function UpdateBioForm() {
           <div
             {...getRootProps()}
             className={`w-full p-4 border-2 border-dashed rounded ${
-              isDragActive ? "border-blue-500" : "border-gray-300"
+              isDragActive ? 'border-blue-500' : 'border-gray-300'
             }`}
           >
             <input {...getInputProps()} />
