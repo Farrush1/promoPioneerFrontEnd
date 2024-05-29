@@ -10,7 +10,13 @@ const UserTable = () => {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await fetch('http://localhost:5000/api/users');
+        const response = await fetch('http://localhost:5000/api/users', {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          credentials: 'include',
+        });
         if (!response.ok) {
           throw new Error('Failed to fetch users');
         }
@@ -24,7 +30,7 @@ const UserTable = () => {
         }
       } catch (error) {
         console.error('Error fetching users:', error);
-        setUsers([]); 
+        setUsers([]);
       }
     };
 
@@ -55,9 +61,7 @@ const UserTable = () => {
             <th className="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">
               View
             </th>
-            <th className="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">
-              Action
-            </th>
+            
           </tr>
         </thead>
         <tbody className="divide-y divide-gray-200 text-center">
@@ -79,9 +83,7 @@ const UserTable = () => {
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                   <button className="btn bg-[#ea580c] text-white ml-2" onClick={() => handleViewUser(user.id)}>View</button>
                 </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                  <input type="checkbox" className="checkbox" />
-                </td>
+                
               </tr>
             ))
           ) : (
