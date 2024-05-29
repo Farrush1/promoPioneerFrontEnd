@@ -3,8 +3,8 @@ import React from "react";
 
 const CardCategory = ({ name, imageUrl, price, currency }) => {
   return (
-    <div className="bg-white rounded-md flex-wrap flex flex-col shadow-md w-full h-full duration-300 m-1 hover:-translate-x-1 hover:-translate-y-1">
-      <div className="h-36 flex bg-gray-200 rounded-t-lg cursor-pointer">
+    <div className="bg-gray-50 rounded-md flex-wrap flex flex-col shadow-md w-full h-full duration-300 m-1 hover:-translate-x-1 hover:-translate-y-1">
+      <div className="h-52 w-full flex bg-gray-200 rounded-t-lg cursor-pointer">
         {imageUrl ? (
           <img
             className="object-cover w-full h-full rounded-t-lg"
@@ -19,8 +19,9 @@ const CardCategory = ({ name, imageUrl, price, currency }) => {
         <h2 className="text-sm font-semibold px-3 py-2 line-clamp-2 overflow-hidden">
           {name}
         </h2>
-        <p className="text-base font-semibold flex justify-between px-3 py-2 text-orange-600">
-          <span>Rp </span>
+        <p className="text-base font-semibold flex m-6 text-orange-600">
+          <span>Rp
+          &nbsp;</span>
           {price.toLocaleString("id-ID", {
             minimumFractionDigits: 0,
             maximumFractionDigits: 0,
