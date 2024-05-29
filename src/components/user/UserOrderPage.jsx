@@ -109,7 +109,7 @@ export default function UserOrderPage() {
                   <p className="shipping">Sub total price</p>
                   <p className="shipping">
                     Rp.{" "}
-                    {checkoutByCity.subtotal_price.toLocaleString("id-ID", {
+                    {checkoutByCity.subtotal_price?.toLocaleString("id-ID", {
                       minimumFractionDigits: 0,
                       maximumFractionDigits: 0,
                     })}
@@ -119,7 +119,7 @@ export default function UserOrderPage() {
                   <p className="shipping">Shipping Cost</p>
                   <p className="shipping">
                     Rp.{" "}
-                    {checkoutByCity.shippingCheckout.price.toLocaleString(
+                    {checkoutByCity.shippingCheckout?.price.toLocaleString(
                       "id-ID",
                       {
                         minimumFractionDigits: 0,
