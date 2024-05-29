@@ -211,6 +211,10 @@ export default function Product() {
               <td
                 colSpan="7"
                 className="text-center">
+              </td>
+                <td
+                colSpan="7"
+                className="text-center">
                 Loading...
               </td>
             </tr>
