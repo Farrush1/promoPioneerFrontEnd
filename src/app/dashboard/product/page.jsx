@@ -220,7 +220,8 @@ export default function Product() {
               <td
                 colSpan="7"
                 className="text-center">
-              <td
+              </td>
+                <td
                 colSpan="7"
                 className="text-center">
                 Loading...
@@ -234,7 +235,6 @@ export default function Product() {
           onClick={handlePrevPage}
           disabled={currentPage === 1}
           className="px-4 py-2 mx-2 bg-gray-300 rounded disabled:opacity-50">
-          className="px-4 py-2 mx-2 bg-gray-300 rounded disabled:opacity-50">
           Previous
         </button>
         <span className="px-4 py-2 mx-2">
@@ -243,7 +243,6 @@ export default function Product() {
         <button
           onClick={handleNextPage}
           disabled={currentPage === totalPages}
-          className="px-4 py-2 mx-2 bg-gray-300 rounded disabled:opacity-50">
           className="px-4 py-2 mx-2 bg-gray-300 rounded disabled:opacity-50">
           Next
         </button>
