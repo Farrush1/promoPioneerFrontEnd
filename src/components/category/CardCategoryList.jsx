@@ -8,7 +8,7 @@ const CardCategoryList = ({ data }) => {
         <CardCategory
           key={index}
           name={product.name}
-          imageUrl={product.imageUrl}
+          imageUrl={product.product_image}
           price={product.price}
           currency={product.currency}
         />
