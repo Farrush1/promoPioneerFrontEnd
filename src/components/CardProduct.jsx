@@ -1,5 +1,7 @@
 /* eslint-disable jsx-a11y/alt-text */
 /* eslint-disable @next/next/no-img-element */
+/* eslint-disable jsx-a11y/alt-text */
+/* eslint-disable @next/next/no-img-element */
 
 "use client";
 
@@ -7,10 +9,10 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 
 export default function CardProduct({
-  productId,
+  key,
   name,
   price,
-  qty,
+  stock,
   image,
   className,
   promo,
@@ -18,7 +20,8 @@ export default function CardProduct({
   return (
     <>
       <Link
-        href={`/product/${productId}`}
+        key={key}
+        href={`/product/${key}`}
         className={`shadow-sm w-full relative rounded-md border border-slate-200 ${className} hover:shadow-md duration-300 hover:-translate-x-1 hover:-translate-y-1`}>
         {promo && (
           <span className="absolute object-cover top-0 text-xs font-bold py-1 left-0 bg-gradient-to-t from-orange-600 to-orange-500 text-white px-2 rounded-br-md rounded-tl-md">
@@ -35,9 +38,9 @@ export default function CardProduct({
             {name}
           </h1>
           <div className="flex justify-between items-end">
-            <span className="text-sm">x{qty}</span>
+            <span className="text-sm">Stock: {stock}</span>
             <p className="font-semibold text-orange-600">
-              <span className="text-sm md:text-base">Rp </span>
+              <span className="text-sm md:text-base">Rp.</span>
               {price.toLocaleString("id-ID", {
                 minimumFractionDigits: 0,
                 maximumFractionDigits: 0,
