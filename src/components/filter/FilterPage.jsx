@@ -1,12 +1,15 @@
-'use client';
-import React, { useState, useEffect } from 'react';
-import CardCategoryList from '@/components/category/CardCategoryList';
-import ReactPaginate from 'react-paginate';
-import Stack from '@mui/material/Stack';
-import ReactSelect from 'react-select';
-import Pagination from '@mui/material/Pagination';
+"use client";
+import React, { useState, useEffect } from "react";
+import CardCategoryList from "@/components/category/CardCategoryList";
+import ReactPaginate from "react-paginate";
+import Stack from "@mui/material/Stack";
+import ReactSelect from "react-select";
+import Pagination from "@mui/material/Pagination";
+import { useSearchParams } from "next/navigation";
 
-const Category = () => {
+export default function FilterPage({categoryParams}) {
+  const searchParams = useSearchParams();
+  const newParams = searchParams.get("keyword");
   const [categories, setCategories] = useState([]);
   const [cities, setCities] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState('');
@@ -19,6 +22,7 @@ const Category = () => {
   const [currentPage, setCurrentPage] = useState(0);
 
   useEffect(() => {
+    
     const fetchData = async () => {
       try {
         let apiUrl = 'http://localhost:5000/api/products?';
@@ -26,6 +30,8 @@ const Category = () => {
         if (minPrice) apiUrl += `minPrice=${minPrice}&`;
         if (maxPrice) apiUrl += `maxPrice=${maxPrice}&`;
         if (cityId) apiUrl += `cities=${cityId}&`;
+		if (newParams) apiUrl += `search=${newParams}`
+
 
         const response = await fetch(apiUrl);
         if (!response.ok) {
@@ -40,7 +46,7 @@ const Category = () => {
     };
 
     fetchData();
-  }, [selectedCategory, minPrice, maxPrice, cityId]);
+  }, [selectedCategory, minPrice, maxPrice, cityId, newParams]);
 
   const handlePageChange = (event, value) => {
     setCurrentPage(value - 1);
@@ -86,12 +92,24 @@ const Category = () => {
     setData(currentItems);
   }, [currentPage, filteredData]);
 
+  useEffect(() => {
+    if (categoryParams && categories.length > 0) {
+      const decodedCategoryName = decodeURIComponent(categoryParams);
+      const matchedCategory = categories.find(
+        (category) => category.name === decodedCategoryName
+      );
+      if (matchedCategory) {
+        setSelectedCategory(matchedCategory.id);
+      }
+    }
+  }, [categoryParams, categories]);
+
   const handlePageClick = ({ selected }) => {
     setCurrentPage(selected);
   };
 
   const handleCategorySelect = (selectedOption) => {
-    setSelectedCategory(selectedOption ? selectedOption.value : '');
+    setSelectedCategory(selectedOption ? selectedOption.value : "");
     setCurrentPage(0);
   };
 
@@ -107,7 +125,7 @@ const Category = () => {
   };
 
   const handleCityIdChange = (selectedOption) => {
-    setCityId(selectedOption ? selectedOption.value : '');
+    setCityId(selectedOption ? selectedOption.value : "");
   };
 
   return (
@@ -152,6 +170,16 @@ const Category = () => {
                     value: category.id,
                     label: category.name,
                   }))}
+                  value={
+                    selectedCategory
+                      ? {
+                          value: selectedCategory,
+                          label: categories.find(
+                            (category) => category.id === selectedCategory
+                          )?.name,
+                        }
+                      : null
+                  }
                   onChange={handleCategorySelect}
                   styles={{
                     control: (styles) => ({
@@ -237,6 +265,14 @@ const Category = () => {
         {/* </div> */}
         {/* <div className="col-span-12 md:col-span-9 sm:col-span-12 flex justify-center"> */}
         <div>
+          {categoryParams && (
+            <div className="my-3">
+              Search Product with category {decodeURIComponent(categoryParams)}
+            </div>
+          )}
+          {newParams && (
+            <div className="my-3">Search Product with keyword {newParams}</div>
+          )}
           <CardCategoryList data={data} />
         </div>
         {/* </div> */}
@@ -256,6 +292,4 @@ const Category = () => {
       {/* <section>Footer</section> */}
     </main>
   );
-};
-
-export default Category;
+}

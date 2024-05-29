@@ -63,7 +63,7 @@ export default function Product() {
     try {
       await fetch(`http://localhost:5000/api/products/${productId}`, {
         method: "DELETE",
-        credentials: "include",
+        credentials: 'include'
       });
       fetchProducts(currentPage);
     } catch (error) {
