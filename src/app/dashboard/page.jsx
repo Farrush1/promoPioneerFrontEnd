@@ -90,9 +90,10 @@ export default function Dashboard() {
       <h1 className="text-xl font-bold mb-6">Our Products</h1>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
         {Array.isArray(products) &&
-          products.map((product) => (
+          products.map(product => (
             <CardProduct
               key={product.id}
+              productId={`/dashboard/product/${product.id}`}
               name={product.name}
               description={product.description}
               image={product.product_image}
@@ -105,8 +106,7 @@ export default function Dashboard() {
         <button
           onClick={handlePrevPage}
           disabled={currentPage === 1}
-          className="px-4 py-2 mx-2 bg-gray-300 rounded disabled:opacity-50"
-        >
+          className="px-4 py-2 mx-2 bg-gray-300 rounded disabled:opacity-50">
           Previous
         </button>
         <span className="px-4 py-2 mx-2">
@@ -115,8 +115,7 @@ export default function Dashboard() {
         <button
           onClick={handleNextPage}
           disabled={currentPage === totalPages}
-          className="px-4 py-2 mx-2 bg-gray-300 rounded disabled:opacity-50"
-        >
+          className="px-4 py-2 mx-2 bg-gray-300 rounded disabled:opacity-50">
           Next
         </button>
       </div>

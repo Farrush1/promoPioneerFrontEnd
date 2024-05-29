@@ -18,7 +18,7 @@ export default function CardProduct({
   return (
     <>
       <Link
-        href={`/product/${productId}`}
+        href={`${productId}`}
         className={`shadow-sm w-full relative rounded-md border border-slate-200 ${className} hover:shadow-md duration-300 hover:-translate-x-1 hover:-translate-y-1`}>
         {promo && (
           <span className="absolute object-cover top-0 text-xs font-bold py-1 left-0 bg-gradient-to-t from-orange-600 to-orange-500 text-white px-2 rounded-br-md rounded-tl-md">

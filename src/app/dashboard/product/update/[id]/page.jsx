@@ -24,12 +24,20 @@ export default function UpdateProduct({ params }) {
     const fetchProduct = async () => {
       try {
         const response = await fetch(
-          `http://localhost:5000/api/products/${params.id}`
+          `http://localhost:5000/api/products/${params.id}`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            credentials: "include",
+          }
         );
         if (!response.ok) {
-          throw new Error('Network response was not ok');
+          throw new Error("Network response was not ok");
         }
         const data = await response.json();
+        console.log(data);
         if (!data.product) {
           throw new Error('Product data is missing');
         }
