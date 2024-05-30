@@ -1,15 +1,15 @@
-"use client";
-import React, { useState, useEffect } from "react";
-import CardCategoryList from "@/components/category/CardCategoryList";
-import ReactPaginate from "react-paginate";
-import Stack from "@mui/material/Stack";
-import ReactSelect from "react-select";
-import Pagination from "@mui/material/Pagination";
-import { useSearchParams } from "next/navigation";
+'use client';
+import React, { useState, useEffect } from 'react';
+import CardCategoryList from '@/components/category/CardCategoryList';
+import ReactPaginate from 'react-paginate';
+import Stack from '@mui/material/Stack';
+import ReactSelect from 'react-select';
+import Pagination from '@mui/material/Pagination';
+import { useSearchParams } from 'next/navigation';
 
-export default function FilterPage({categoryParams}) {
+export default function FilterPage({ categoryParams }) {
   const searchParams = useSearchParams();
-  const newParams = searchParams.get("keyword");
+  const newParams = searchParams.get('keyword');
   const [categories, setCategories] = useState([]);
   const [cities, setCities] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState('');
@@ -22,16 +22,14 @@ export default function FilterPage({categoryParams}) {
   const [currentPage, setCurrentPage] = useState(0);
 
   useEffect(() => {
-    
     const fetchData = async () => {
       try {
-        let apiUrl = 'http://localhost:5000/api/products?';
+        let apiUrl = 'http://localhost:4000/api/products?';
         if (selectedCategory) apiUrl += `categories=${selectedCategory}&`;
         if (minPrice) apiUrl += `minPrice=${minPrice}&`;
         if (maxPrice) apiUrl += `maxPrice=${maxPrice}&`;
         if (cityId) apiUrl += `cities=${cityId}&`;
-		if (newParams) apiUrl += `search=${newParams}`
-
+        if (newParams) apiUrl += `search=${newParams}`;
 
         const response = await fetch(apiUrl);
         if (!response.ok) {
@@ -55,7 +53,7 @@ export default function FilterPage({categoryParams}) {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await fetch('http://localhost:5000/api/categories');
+        const response = await fetch('http://localhost:4000/api/categories');
         if (!response.ok) {
           throw new Error('Failed to fetch categories');
         }
@@ -72,7 +70,7 @@ export default function FilterPage({categoryParams}) {
   useEffect(() => {
     const fetchCities = async () => {
       try {
-        const response = await fetch('http://localhost:5000/api/cities');
+        const response = await fetch('http://localhost:4000/api/cities');
         if (!response.ok) {
           throw new Error('Failed to fetch cities');
         }
@@ -109,7 +107,7 @@ export default function FilterPage({categoryParams}) {
   };
 
   const handleCategorySelect = (selectedOption) => {
-    setSelectedCategory(selectedOption ? selectedOption.value : "");
+    setSelectedCategory(selectedOption ? selectedOption.value : '');
     setCurrentPage(0);
   };
 
@@ -125,7 +123,7 @@ export default function FilterPage({categoryParams}) {
   };
 
   const handleCityIdChange = (selectedOption) => {
-    setCityId(selectedOption ? selectedOption.value : "");
+    setCityId(selectedOption ? selectedOption.value : '');
   };
 
   return (

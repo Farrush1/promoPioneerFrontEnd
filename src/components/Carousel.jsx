@@ -43,12 +43,12 @@ export default function Carousel({ style }) {
     <div>
       <Swiper
         effect={'fade'}
-        autoplay={{ delay: 5000, pauseOnMouseEnter: true }}
+        autoplay={{ delay: 4000, pauseOnMouseEnter: true }}
         pagination={true}
       >
         {promoListing &&
           promoListing.length > 0 &&
-          promoListing.map(listing => (
+          promoListing.map((listing) => (
             <SwiperSlide key={listing.id}>
               <Link href={`${listing.id}`}>
                 <div
@@ -57,7 +57,8 @@ export default function Carousel({ style }) {
                     backgroundSize: 'cover',
                   }}
                   className={`max-h-64 ${style} h-72 object-cover rounded-md  w-full`}
-                  key={listing.id}></div>
+                  key={listing.id}
+                ></div>
               </Link>
             </SwiperSlide>
           ))}

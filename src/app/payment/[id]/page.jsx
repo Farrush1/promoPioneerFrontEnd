@@ -19,7 +19,7 @@ export default function PaymentPage({ params: { id } }) {
     setLoading(true);
     const fetchPayment = async () => {
       try {
-        const res = await fetch(`http://localhost:5000/api/payments/${id}`, {
+        const res = await fetch(`http://localhost:4000/api/payments/${id}`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
@@ -62,7 +62,7 @@ export default function PaymentPage({ params: { id } }) {
     console.log(imageData);
     try {
       const res = await fetch(
-        `http://localhost:5000/api/payments/proof/${id}`,
+        `http://localhost:4000/api/payments/proof/${id}`,
         {
           method: 'PUT',
           headers: {
@@ -98,7 +98,7 @@ export default function PaymentPage({ params: { id } }) {
     const uploadPaymentProof = async () => {
       try {
         const response = await fetch(
-          `http://localhost:5000/api/payments/proof/${id}`,
+          `http://localhost:4000/api/payments/proof/${id}`,
           {
             method: 'PUT',
             credentials: 'include',

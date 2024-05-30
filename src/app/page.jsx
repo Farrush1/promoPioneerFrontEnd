@@ -1,13 +1,13 @@
 /* eslint-disable @next/next/no-img-element */
 'use client';
 
-import AOS from "aos";
-import CardProduct from "@/components/CardProduct";
-import Carousel from "@/components/Carousel";
-import Link from "next/link";
-import { useEffect, useState } from "react";
-import { BiLoaderCircle } from "react-icons/bi";
-import { RiDiscountPercentFill } from "react-icons/ri";
+import AOS from 'aos';
+import CardProduct from '@/components/CardProduct';
+import Carousel from '@/components/Carousel';
+import Link from 'next/link';
+import { useEffect, useState } from 'react';
+import { BiLoaderCircle } from 'react-icons/bi';
+import { RiDiscountPercentFill } from 'react-icons/ri';
 
 export default function Home() {
   const [products, setProducts] = useState([]);
@@ -22,7 +22,7 @@ export default function Home() {
     setLoading(true);
     const fetchProducts = async () => {
       try {
-        const res = await fetch('http://localhost:5000/api/products');
+        const res = await fetch('http://localhost:4000/api/products');
         if (!res.ok) {
           throw new Error('Network response was not ok');
         }
@@ -51,7 +51,7 @@ export default function Home() {
       {/* hero 1 */}
       <div className="md:flex max-h-64 md:flex-row gap-2 my-8">
         <div className="w-full md:w-2/3">
-          <Carousel style={"md:rounded-r-none"} />
+          <Carousel style={'md:rounded-r-none'} />
         </div>
         <div className="md:w-1/3 hidden md:flex flex-col h-full justify-between">
           <Link href={'/category'}>
@@ -83,10 +83,10 @@ export default function Home() {
           </div>
         </div>
         <div className="grid xl:grid-flow-row grid-cols-2 auto-cols-max gap-3 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
-          {products.map(product => (
+          {products.map((product) => (
             // contoh penggunaan component CardProduct
             <CardProduct
-              promo={"Special Promo"} // opsional kalo product promo
+              promo={'Special Promo'} // opsional kalo product promo
               productId={product.id}
               key={product.id}
               name={product.name}
@@ -103,7 +103,8 @@ export default function Home() {
         <div className="w-full flex gap-8 lg:gap-24 flex-col md:w-[40%] justify-between">
           <h1
             data-aos="fade-right"
-            className="md:text-5xl text-4xl font-extrabold text-slate-800">
+            className="md:text-5xl text-4xl font-extrabold text-slate-800"
+          >
             Love Mom for Baby
           </h1>
           <div className="w-full min-h-60 md:hidden relative">
@@ -127,7 +128,8 @@ export default function Home() {
             </p>
             <button
               data-aos="fade-right"
-              className="px-4 py-2 bg-orange-500 text-white font-bold rounded-full shadow-md hover:bg-slate-800 duration-300">
+              className="px-4 py-2 bg-orange-500 text-white font-bold rounded-full shadow-md hover:bg-slate-800 duration-300"
+            >
               Explore
             </button>
           </div>
@@ -162,7 +164,7 @@ export default function Home() {
           </h1>
         </div>
         <div className="grid xl:grid-flow-row grid-cols-2 auto-cols-max gap-3 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
-          {products.map(product => (
+          {products.map((product) => (
             // contoh penggunaan component CardProduct
             <CardProduct
               productId={product.id}
@@ -180,7 +182,8 @@ export default function Home() {
       <div className="my-14 md:py-24 space-y-24">
         <h1
           data-aos="zoom-in"
-          className="md:text-5xl text-center text-4xl font-extrabold text-slate-800">
+          className="md:text-5xl text-center text-4xl font-extrabold text-slate-800"
+        >
           Official Brand
         </h1>
         <div className="marquee-container w-full relative overflow-hidden h-14">
@@ -279,9 +282,7 @@ export default function Home() {
             </div>
           </div>
         </div>
-        <p
-          data-aos="zoom-in"
-          className="text-center">
+        <p data-aos="zoom-in" className="text-center">
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Inventore
           accusantium ullam nisi porro laudantium saepe beatae provident modi,
           repellat, esse facere! Numquam atque deleniti quidem architecto
@@ -297,7 +298,7 @@ export default function Home() {
           </h1>
         </div>
         <div className="grid xl:grid-flow-row grid-cols-2 auto-cols-max gap-3 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
-          {products.map(product => (
+          {products.map((product) => (
             // contoh penggunaan component CardProduct
             <CardProduct
               productId={product.id}

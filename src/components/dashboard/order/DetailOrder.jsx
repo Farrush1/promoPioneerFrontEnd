@@ -11,17 +11,17 @@ export default function DetailOrder({ idPayment }) {
   useEffect(() => {
     const fetchCities = async () => {
       try {
-        const response = await fetch("http://localhost:5000/api/cities", {
-          method: "GET",
+        const response = await fetch('http://localhost:4000/api/cities', {
+          method: 'GET',
           headers: {
-            "Content-Type": "application/json",
+            'Content-Type': 'application/json',
           },
-          credentials: "include",
+          credentials: 'include',
         });
         const data = await response.json();
         setCities(data.city);
       } catch (error) {
-        console.error("Error fetching cities:", error);
+        console.error('Error fetching cities:', error);
       }
     };
 
@@ -32,7 +32,7 @@ export default function DetailOrder({ idPayment }) {
     const fetchPayment = async () => {
       try {
         const response = await fetch(
-          `http://localhost:5000/api/payments/${idPayment}`,
+          `http://localhost:4000/api/payments/${idPayment}`,
           {
             method: 'GET',
             headers: {
@@ -54,7 +54,7 @@ export default function DetailOrder({ idPayment }) {
   const handleSuccess = async () => {
     try {
       const response = await fetch(
-        `http://localhost:5000/api/payments/status/${idPayment}`,
+        `http://localhost:4000/api/payments/status/${idPayment}`,
         {
           method: 'PUT',
           headers: {
@@ -79,7 +79,7 @@ export default function DetailOrder({ idPayment }) {
   const handleFailed = async () => {
     try {
       const response = await fetch(
-        `http://localhost:5000/api/payments/status/${idPayment}`,
+        `http://localhost:4000/api/payments/status/${idPayment}`,
         {
           method: 'PUT',
           headers: {
@@ -104,7 +104,7 @@ export default function DetailOrder({ idPayment }) {
 
   function findCityNameById(id) {
     const city = cities.find((city) => city.id === id);
-    return city ? city.name : "City not found";
+    return city ? city.name : 'City not found';
   }
 
   if (!payment || !cities.length) {
@@ -260,10 +260,10 @@ export default function DetailOrder({ idPayment }) {
                         </p>
                       )}
                       <p className="text-center">
-                        {" "}
-                        Rp.{" "}
+                        {' '}
+                        Rp.{' '}
                         {checkoutItems.total_specific_price.toLocaleString(
-                          "id-ID",
+                          'id-ID',
                           {
                             minimumFractionDigits: 0,
                             maximumFractionDigits: 0,
@@ -285,8 +285,8 @@ export default function DetailOrder({ idPayment }) {
                 <p>{checkout.shippingCheckout.service}</p>
               </div>
               <p>
-                Rp.{" "}
-                {checkout.shippingCheckout.price.toLocaleString("id-ID", {
+                Rp.{' '}
+                {checkout.shippingCheckout.price.toLocaleString('id-ID', {
                   minimumFractionDigits: 0,
                   maximumFractionDigits: 0,
                 })}
@@ -295,8 +295,8 @@ export default function DetailOrder({ idPayment }) {
           </div>
           <div className="total">
             <p>
-              Total: Rp.{" "}
-              {checkout.total_checkout_price.toLocaleString("id-ID", {
+              Total: Rp.{' '}
+              {checkout.total_checkout_price.toLocaleString('id-ID', {
                 minimumFractionDigits: 0,
                 maximumFractionDigits: 0,
               })}
@@ -306,22 +306,22 @@ export default function DetailOrder({ idPayment }) {
       ))}
 
       <p>
-        <strong>Address:</strong>{" "}
-        {findCityNameById(payment.checkout_colection?.user.city_id)},{" "}
+        <strong>Address:</strong>{' '}
+        {findCityNameById(payment.checkout_colection?.user.city_id)},{' '}
         {payment.checkout_colection?.user.full_address}
       </p>
       <div className="total text-end">
         <p>
-          Total Product Price: Rp.{" "}
-          {payment.checkout_colection.total_item_price.toLocaleString("id-ID", {
+          Total Product Price: Rp.{' '}
+          {payment.checkout_colection.total_item_price.toLocaleString('id-ID', {
             minimumFractionDigits: 0,
             maximumFractionDigits: 0,
           })}
         </p>
         <p>
-          Total Shipping Price: Rp.{" "}
+          Total Shipping Price: Rp.{' '}
           {payment.checkout_colection.total_shipping_price.toLocaleString(
-            "id-ID",
+            'id-ID',
             {
               minimumFractionDigits: 0,
               maximumFractionDigits: 0,
@@ -336,8 +336,8 @@ export default function DetailOrder({ idPayment }) {
           {payment.checkout_colection?.checkout?.[0]?.shippingCheckout?.service}
         </p>
         <p>
-          Total Price: Rp.{" "}
-          {payment.checkout_colection.total_price.toLocaleString("id-ID", {
+          Total Price: Rp.{' '}
+          {payment.checkout_colection.total_price.toLocaleString('id-ID', {
             minimumFractionDigits: 0,
             maximumFractionDigits: 0,
           })}

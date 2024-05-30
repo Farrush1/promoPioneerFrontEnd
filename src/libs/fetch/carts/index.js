@@ -1,6 +1,6 @@
 const fetchCarts = async (setIsLoading) => {
   try {
-    const res = await fetch('http://localhost:5000/api/carts', {
+    const res = await fetch('http://localhost:4000/api/carts', {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -19,7 +19,7 @@ const fetchCarts = async (setIsLoading) => {
 const updateCartItem = async (itemId, newQuantity) => {
   try {
     const res = await fetch(
-      `http://localhost:5000/api/carts/cart-items/${itemId}`,
+      `http://localhost:4000/api/carts/cart-items/${itemId}`,
       {
         method: 'PUT',
         headers: {
@@ -40,7 +40,7 @@ const updateCartItem = async (itemId, newQuantity) => {
 const deleteCartItem = async (itemId) => {
   try {
     const res = await fetch(
-      `http://localhost:5000/api/carts/cart-items/${itemId}`,
+      `http://localhost:4000/api/carts/cart-items/${itemId}`,
       {
         method: 'DELETE',
         credentials: 'include',

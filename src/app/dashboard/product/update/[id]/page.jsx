@@ -1,21 +1,21 @@
-"use client";
+'use client';
 
-import React, { useState, useEffect } from "react";
-import { FaFileUpload } from "react-icons/fa";
-import { useParams, useRouter } from "next/navigation";
+import React, { useState, useEffect } from 'react';
+import { FaFileUpload } from 'react-icons/fa';
+import { useParams, useRouter } from 'next/navigation';
 
 export default function UpdateProduct() {
   const [formData, setFormData] = useState({
-    name: "",
-    category_id: "",
-    price: "",
-    description: "",
-    warehouseName: "",
-    warehouseFullAddress: "",
-    warehouseCityId: "",
+    name: '',
+    category_id: '',
+    price: '',
+    description: '',
+    warehouseName: '',
+    warehouseFullAddress: '',
+    warehouseCityId: '',
     product_image: null,
-    weight: "",
-    stock: "",
+    weight: '',
+    stock: '',
   });
 
   const [selectedFile, setSelectedFile] = useState(null);
@@ -35,10 +35,10 @@ export default function UpdateProduct() {
   const fetchProductDetails = async (productId) => {
     try {
       const response = await fetch(
-        `http://localhost:5000/api/products/${productId}`
+        `http://localhost:4000/api/products/${productId}`
       );
       if (!response.ok) {
-        throw new Error("Network response was not ok");
+        throw new Error('Network response was not ok');
       }
       const data = await response.json();
       console.log(data);
@@ -57,33 +57,33 @@ export default function UpdateProduct() {
 
       setSelectedFile(data.product_image || null);
     } catch (error) {
-      console.error("Error fetching product details:", error);
+      console.error('Error fetching product details:', error);
     }
   };
 
   const fetchCategories = async () => {
     try {
-      const response = await fetch(`http://localhost:5000/api/categories`);
+      const response = await fetch(`http://localhost:4000/api/categories`);
       if (!response.ok) {
-        throw new Error("Network response was not ok");
+        throw new Error('Network response was not ok');
       }
       const data = await response.json();
       setCategories(data.category);
     } catch (error) {
-      console.error("Error fetching categories:", error);
+      console.error('Error fetching categories:', error);
     }
   };
 
   const fetchCities = async () => {
     try {
-      const response = await fetch(`http://localhost:5000/api/cities`);
+      const response = await fetch(`http://localhost:4000/api/cities`);
       if (!response.ok) {
-        throw new Error("Network response was not ok");
+        throw new Error('Network response was not ok');
       }
       const data = await response.json();
       setCities(data.city);
     } catch (error) {
-      console.error("Error fetching cities:", error);
+      console.error('Error fetching cities:', error);
     }
   };
 
@@ -114,23 +114,23 @@ export default function UpdateProduct() {
     console.log(formData);
 
     try {
-      const response = await fetch(`http://localhost:5000/api/products/${id}`, {
-        method: "PUT",
+      const response = await fetch(`http://localhost:4000/api/products/${id}`, {
+        method: 'PUT',
         body: data,
-        credentials: "include",
+        credentials: 'include',
       });
 
       if (response.ok) {
-        alert("Product updated successfully!");
+        alert('Product updated successfully!');
         router.push(`/dashboard/product`);
       } else {
         const errorData = await response.json();
-        console.error("Failed to update product:", errorData);
+        console.error('Failed to update product:', errorData);
         alert(`Failed to update product: ${errorData.message}`);
       }
     } catch (error) {
-      console.error("Error:", error);
-      alert("An error occurred while updating the product");
+      console.error('Error:', error);
+      alert('An error occurred while updating the product');
     }
   };
 
@@ -241,7 +241,7 @@ export default function UpdateProduct() {
                   alt="Selected"
                   className="w-full cursor-pointer"
                   onClick={() =>
-                    document.getElementById("dropzone-file").click()
+                    document.getElementById('dropzone-file').click()
                   }
                 />
                 <input

@@ -89,6 +89,9 @@ export default function Warehouse() {
             <th onClick={() => requestSort('address')}>
               Address {getSortIcon('address')}
             </th>
+            <th onClick={() => requestSort('province')}>
+              Province {getSortIcon('province')}
+            </th>
           </tr>
         </thead>
         <tbody>
@@ -97,6 +100,7 @@ export default function Warehouse() {
               <td className="border-t py-2 px-4 text-center">{warehouse.city_id}</td>
               <td className="border-t py-2 px-4">{warehouse.name}</td>
               <td className="border-t py-2 px-4">{warehouse.location}</td>
+              <td className="border-t py-2 px-4">{warehouse.city.province_name}</td>
             </tr>
           ))}
         </tbody>

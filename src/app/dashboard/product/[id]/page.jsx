@@ -1,11 +1,11 @@
-"use client";
+'use client';
 
-import React, { useState, useEffect } from "react";
-import { useParams, useRouter } from "next/navigation";
+import React, { useState, useEffect } from 'react';
+import { useParams, useRouter } from 'next/navigation';
 
 export default function ProductDetailsPage() {
   const router = useRouter();
-  const { id } = useParams(); 
+  const { id } = useParams();
   const [product, setProduct] = useState(null);
 
   useEffect(() => {
@@ -16,14 +16,16 @@ export default function ProductDetailsPage() {
 
   const fetchProductDetails = async (productId) => {
     try {
-      const response = await fetch(`http://localhost:5000/api/products/${productId}`);
+      const response = await fetch(
+        `http://localhost:4000/api/products/${productId}`
+      );
       if (!response.ok) {
-        throw new Error("Network response was not ok");
+        throw new Error('Network response was not ok');
       }
       const data = await response.json();
       setProduct(data);
     } catch (error) {
-      console.error("Error fetching product details:", error);
+      console.error('Error fetching product details:', error);
     }
   };
 
@@ -53,7 +55,7 @@ export default function ProductDetailsPage() {
             <strong>Description:</strong> {product.description}
           </div>
           <div className="mb-4">
-            <strong>Warehouse:</strong> 
+            <strong>Warehouse:</strong>
             {product.warehouse?.name}, {product.warehouse?.location}
           </div>
           <div className="mb-4">

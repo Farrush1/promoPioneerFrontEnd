@@ -1,6 +1,6 @@
 const editPromo = async (id, objPayload) => {
   try {
-    const response = await fetch(`http://localhost:5000/api/promo/${id}`, {
+    const response = await fetch(`http://localhost:4000/api/promo/${id}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -19,7 +19,7 @@ const editPromo = async (id, objPayload) => {
 
 const createPromo = async (objPayload) => {
   try {
-    const response = await fetch('http://localhost:5000/api/promo', {
+    const response = await fetch('http://localhost:4000/api/promo', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

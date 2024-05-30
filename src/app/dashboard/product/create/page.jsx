@@ -30,7 +30,7 @@ export default function CreateProduct() {
 
   const fetchCategories = async () => {
     try {
-      const response = await fetch(`http://localhost:5000/api/categories`);
+      const response = await fetch(`http://localhost:4000/api/categories`);
       if (!response.ok) {
         throw new Error('Network response was not ok');
       }
@@ -44,7 +44,7 @@ export default function CreateProduct() {
 
   const fetchCities = async () => {
     try {
-      const response = await fetch(`http://localhost:5000/api/cities`);
+      const response = await fetch(`http://localhost:4000/api/cities`);
       if (!response.ok) {
         throw new Error('Network response was not ok');
       }
@@ -83,7 +83,7 @@ export default function CreateProduct() {
     }
 
     try {
-      const response = await fetch(`http://localhost:5000/api/products`, {
+      const response = await fetch(`http://localhost:4000/api/products`, {
         method: 'POST',
         body: data,
         credentials: 'include',

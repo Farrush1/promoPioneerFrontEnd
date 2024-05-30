@@ -8,7 +8,7 @@ export default function OrderDetailPage({ paymentId }) {
   useEffect(() => {
     const fetchCities = async () => {
       try {
-        const response = await fetch('http://localhost:5000/api/cities', {
+        const response = await fetch('http://localhost:4000/api/cities', {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
@@ -29,7 +29,7 @@ export default function OrderDetailPage({ paymentId }) {
     const fetchPayment = async () => {
       try {
         const response = await fetch(
-          `http://localhost:5000/api/payments/${paymentId}`,
+          `http://localhost:4000/api/payments/${paymentId}`,
           {
             method: 'GET',
             headers: {
@@ -138,8 +138,8 @@ export default function OrderDetailPage({ paymentId }) {
           </div>
           <div className="total">
             <p>
-              Total:{" "}
-              {checkout.total_checkout_price.toLocaleString("id-ID", {
+              Total:{' '}
+              {checkout.total_checkout_price.toLocaleString('id-ID', {
                 minimumFractionDigits: 0,
                 maximumFractionDigits: 0,
               })}
@@ -149,7 +149,8 @@ export default function OrderDetailPage({ paymentId }) {
       ))}
       <div className="total text-end">
         <p>
-          Total Product Price: Rp.{payment.checkout_colection.total_item_price.toLocaleString("id-ID", {
+          Total Product Price: Rp.
+          {payment.checkout_colection.total_item_price.toLocaleString('id-ID', {
             minimumFractionDigits: 0,
             maximumFractionDigits: 0,
           })}
@@ -159,8 +160,8 @@ export default function OrderDetailPage({ paymentId }) {
           {payment.checkout_colection.total_shipping_price}
         </p>
         <p>
-          Total Price: Rp.{" "}
-          {payment.checkout_colection.total_price.toLocaleString("id-ID", {
+          Total Price: Rp.{' '}
+          {payment.checkout_colection.total_price.toLocaleString('id-ID', {
             minimumFractionDigits: 0,
             maximumFractionDigits: 0,
           })}

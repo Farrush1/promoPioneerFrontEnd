@@ -8,7 +8,7 @@ export default function CounterCart() {
 
   const getCount = async () => {
     try {
-      const res = await fetch('http://localhost:5000/api/carts', {
+      const res = await fetch('http://localhost:4000/api/carts', {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',

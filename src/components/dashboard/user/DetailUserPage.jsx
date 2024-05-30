@@ -5,7 +5,7 @@ export default function DetailUserPage({ userParams }) {
   const [user, setUser] = useState({});
   useEffect(() => {
     const fetchBio = async () => {
-      const bio = await fetch(`http://localhost:5000/api/users/${userParams}`, {
+      const bio = await fetch(`http://localhost:4000/api/users/${userParams}`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',

@@ -10,7 +10,7 @@ const UserTable = () => {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await fetch('http://localhost:5000/api/users');
+        const response = await fetch('http://localhost:4000/api/users');
         if (!response.ok) {
           throw new Error('Failed to fetch users');
         }

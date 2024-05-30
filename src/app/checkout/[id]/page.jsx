@@ -30,7 +30,7 @@ export default function Checkout({ params: { id } }) {
   // fetching get promo
   const loadPromo = async () => {
     try {
-      const res = await fetch('http://localhost:5000/api/promo', {
+      const res = await fetch('http://localhost:4000/api/promo', {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -65,7 +65,7 @@ export default function Checkout({ params: { id } }) {
   const applyPromo = async () => {
     try {
       const res = await fetch(
-        `http://localhost:5000/api/checkouts/promo/${id}`,
+        `http://localhost:4000/api/checkouts/promo/${id}`,
         {
           method: 'POST',
           headers: {
@@ -80,12 +80,12 @@ export default function Checkout({ params: { id } }) {
       }
 
       toast.success(`${voucher} voucher promo successfully applied!`, {
-        duration: 5000,
+        duration: 4000,
       });
 
       setTimeout(() => {
         window.location.reload();
-      }, 5000);
+      }, 4000);
     } catch (error) {
       console.log(error);
       toast.error(error.message);

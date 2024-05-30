@@ -19,7 +19,7 @@ export default function UpdateBioForm() {
   useEffect(() => {
     const fetchBio = async () => {
       try {
-        const response = await fetch('http://localhost:5000/api/users/bio', {
+        const response = await fetch('http://localhost:4000/api/users/bio', {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
@@ -49,7 +49,7 @@ export default function UpdateBioForm() {
   useEffect(() => {
     const fetchCities = async () => {
       try {
-        const response = await fetch('http://localhost:5000/api/cities', {
+        const response = await fetch('http://localhost:4000/api/cities', {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
@@ -95,7 +95,7 @@ export default function UpdateBioForm() {
     }
 
     try {
-      const response = await fetch('http://localhost:5000/api/users/bio', {
+      const response = await fetch('http://localhost:4000/api/users/bio', {
         method: 'PUT',
         credentials: 'include',
         body: form,
