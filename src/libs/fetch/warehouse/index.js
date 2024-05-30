@@ -1,6 +1,6 @@
 export const getWarehouse = async () => {
   try {
-    const res = await fetch('http://localhost:4000/api/warehouses', {
+    const res = await fetch('http://localhost:5000/api/warehouses', {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',

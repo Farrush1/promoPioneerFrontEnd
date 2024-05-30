@@ -43,7 +43,7 @@ export default function Carousel({ style }) {
     <div>
       <Swiper
         effect={'fade'}
-        autoplay={{ delay: 4000, pauseOnMouseEnter: true }}
+        autoplay={{ delay: 5000, pauseOnMouseEnter: true }}
         pagination={true}
       >
         {promoListing &&

@@ -11,7 +11,7 @@ export default function DetailOrder({ idPayment }) {
   useEffect(() => {
     const fetchCities = async () => {
       try {
-        const response = await fetch('http://localhost:4000/api/cities', {
+        const response = await fetch('http://localhost:5000/api/cities', {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
@@ -32,7 +32,7 @@ export default function DetailOrder({ idPayment }) {
     const fetchPayment = async () => {
       try {
         const response = await fetch(
-          `http://localhost:4000/api/payments/${idPayment}`,
+          `http://localhost:5000/api/payments/${idPayment}`,
           {
             method: 'GET',
             headers: {
@@ -54,7 +54,7 @@ export default function DetailOrder({ idPayment }) {
   const handleSuccess = async () => {
     try {
       const response = await fetch(
-        `http://localhost:4000/api/payments/status/${idPayment}`,
+        `http://localhost:5000/api/payments/status/${idPayment}`,
         {
           method: 'PUT',
           headers: {
@@ -79,7 +79,7 @@ export default function DetailOrder({ idPayment }) {
   const handleFailed = async () => {
     try {
       const response = await fetch(
-        `http://localhost:4000/api/payments/status/${idPayment}`,
+        `http://localhost:5000/api/payments/status/${idPayment}`,
         {
           method: 'PUT',
           headers: {

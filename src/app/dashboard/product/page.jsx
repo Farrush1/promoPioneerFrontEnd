@@ -27,7 +27,7 @@ export default function Product() {
   const fetchProducts = async (page) => {
     try {
       const response = await fetch(
-        `http://localhost:4000/api/products?limit=10&page=${page}`
+        `http://localhost:5000/api/products?limit=10&page=${page}`
       );
       const data = await response.json();
       setProducts(data.products);
@@ -39,7 +39,7 @@ export default function Product() {
 
   const fetchPromoTypes = async () => {
     try {
-      const response = await fetch('http://localhost:4000/api/promo');
+      const response = await fetch('http://localhost:5000/api/promo');
       const data = await response.json();
       setPromoTypes(data);
     } catch (error) {
@@ -61,7 +61,7 @@ export default function Product() {
 
   const handleDeleteProduct = async (productId) => {
     try {
-      await fetch(`http://localhost:4000/api/products/${productId}`, {
+      await fetch(`http://localhost:5000/api/products/${productId}`, {
         method: 'DELETE',
         credentials: 'include',
       });
@@ -94,7 +94,7 @@ export default function Product() {
     }
 
     try {
-      const response = await fetch(`http://localhost:4000/api/promo`, {
+      const response = await fetch(`http://localhost:5000/api/promo`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

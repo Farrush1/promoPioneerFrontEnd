@@ -23,7 +23,7 @@ const CreateFormPage = ({ id }) => {
     const fetchUpdate = async (id) => {
       if (!id) return; // Only fetch if ID is provided
       try {
-        const response = await fetch(`http://localhost:4000/api/promo/${id}`);
+        const response = await fetch(`http://localhost:5000/api/promo/${id}`);
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
@@ -55,7 +55,7 @@ const CreateFormPage = ({ id }) => {
   useEffect(() => {
     const fetchPromoTypes = async () => {
       try {
-        const response = await fetch('http://localhost:4000/api/promo-types');
+        const response = await fetch('http://localhost:5000/api/promo-types');
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }

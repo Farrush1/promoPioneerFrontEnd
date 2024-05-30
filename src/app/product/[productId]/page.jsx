@@ -14,7 +14,7 @@ const DetailCard = () => {
     const fetchProductDetail = async () => {
       try {
         const response = await fetch(
-          `http://localhost:4000/api/products/${productId}`
+          `http://localhost:5000/api/products/${productId}`
         );
         if (!response.ok) {
           throw new Error('Failed to fetch product detail');
@@ -37,7 +37,7 @@ const DetailCard = () => {
   const fetchProductsByCategory = async (categoryId, productId) => {
     try {
       const response = await fetch(
-        `http://localhost:4000/api/products?categories=${categoryId}`,
+        `http://localhost:5000/api/products?categories=${categoryId}`,
         {
           method: 'GET',
           headers: {
@@ -71,7 +71,7 @@ const DetailCard = () => {
 
   const handleAddCart = async () => {
     try {
-      const url = `http://localhost:4000/api/carts/cart-items`;
+      const url = `http://localhost:5000/api/carts/cart-items`;
       const response = await fetch(url, {
         method: 'POST',
         credentials: 'include',

@@ -35,7 +35,7 @@ export default function UpdateProduct() {
   const fetchProductDetails = async (productId) => {
     try {
       const response = await fetch(
-        `http://localhost:4000/api/products/${productId}`
+        `http://localhost:5000/api/products/${productId}`
       );
       if (!response.ok) {
         throw new Error('Network response was not ok');
@@ -63,7 +63,7 @@ export default function UpdateProduct() {
 
   const fetchCategories = async () => {
     try {
-      const response = await fetch(`http://localhost:4000/api/categories`);
+      const response = await fetch(`http://localhost:5000/api/categories`);
       if (!response.ok) {
         throw new Error('Network response was not ok');
       }
@@ -76,7 +76,7 @@ export default function UpdateProduct() {
 
   const fetchCities = async () => {
     try {
-      const response = await fetch(`http://localhost:4000/api/cities`);
+      const response = await fetch(`http://localhost:5000/api/cities`);
       if (!response.ok) {
         throw new Error('Network response was not ok');
       }
@@ -114,7 +114,7 @@ export default function UpdateProduct() {
     console.log(formData);
 
     try {
-      const response = await fetch(`http://localhost:4000/api/products/${id}`, {
+      const response = await fetch(`http://localhost:5000/api/products/${id}`, {
         method: 'PUT',
         body: data,
         credentials: 'include',

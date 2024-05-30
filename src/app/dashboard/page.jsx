@@ -17,7 +17,7 @@ export default function Dashboard() {
   const transactions = [
     { id: 1, amount: 200000 },
     { id: 2, amount: 300000 },
-    { id: 3, amount: 140000 },
+    { id: 3, amount: 150000 },
   ];
   const shipments = [
     { id: 1, status: 'shipped' },
@@ -42,7 +42,7 @@ export default function Dashboard() {
   const fetchProducts = async (page) => {
     try {
       const response = await fetch(
-        `http://localhost:4000/api/products?limit=${productsPerPage}&page=${page}`
+        `http://localhost:5000/api/products?limit=${productsPerPage}&page=${page}`
       );
       const data = await response.json();
       setProducts(data.products);

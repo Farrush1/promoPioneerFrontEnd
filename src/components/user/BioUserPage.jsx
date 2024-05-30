@@ -8,7 +8,7 @@ export default function BioUserPage() {
   const [user, setUser] = useState({});
   useEffect(() => {
     const fetchBio = async () => {
-      const bio = await fetch('http://localhost:4000/api/users/bio', {
+      const bio = await fetch('http://localhost:5000/api/users/bio', {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -24,7 +24,7 @@ export default function BioUserPage() {
   const handleClick = async () => {
     router.push('/user/bio/update');
     // try {
-    //   const login = await fetch("http://localhost:4000/api/auth/login", {
+    //   const login = await fetch("http://localhost:5000/api/auth/login", {
     //     method: "POST",
     //     credentials: "include",
     //     headers: {

@@ -3,7 +3,7 @@ import { NextResponse } from 'next/server';
 const allowedOrigins = [
   'https://acme.com',
   'https://my-app.org',
-  'http://localhost:4000/*',
+  'http://localhost:5000/*',
 ];
 
 const corsOptions = {

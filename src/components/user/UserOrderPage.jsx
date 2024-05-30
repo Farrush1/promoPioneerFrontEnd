@@ -10,7 +10,7 @@ export default function UserOrderPage() {
 
   useEffect(() => {
     const fetchCheckout = async () => {
-      const check = await fetch('http://localhost:4000/api/users/checkouts', {
+      const check = await fetch('http://localhost:5000/api/users/checkouts', {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',

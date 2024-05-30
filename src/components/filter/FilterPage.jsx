@@ -24,7 +24,7 @@ export default function FilterPage({ categoryParams }) {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        let apiUrl = 'http://localhost:4000/api/products?';
+        let apiUrl = 'http://localhost:5000/api/products?';
         if (selectedCategory) apiUrl += `categories=${selectedCategory}&`;
         if (minPrice) apiUrl += `minPrice=${minPrice}&`;
         if (maxPrice) apiUrl += `maxPrice=${maxPrice}&`;
@@ -53,7 +53,7 @@ export default function FilterPage({ categoryParams }) {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await fetch('http://localhost:4000/api/categories');
+        const response = await fetch('http://localhost:5000/api/categories');
         if (!response.ok) {
           throw new Error('Failed to fetch categories');
         }
@@ -70,7 +70,7 @@ export default function FilterPage({ categoryParams }) {
   useEffect(() => {
     const fetchCities = async () => {
       try {
-        const response = await fetch('http://localhost:4000/api/cities');
+        const response = await fetch('http://localhost:5000/api/cities');
         if (!response.ok) {
           throw new Error('Failed to fetch cities');
         }

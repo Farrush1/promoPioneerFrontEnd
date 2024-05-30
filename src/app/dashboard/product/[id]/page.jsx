@@ -17,7 +17,7 @@ export default function ProductDetailsPage() {
   const fetchProductDetails = async (productId) => {
     try {
       const response = await fetch(
-        `http://localhost:4000/api/products/${productId}`
+        `http://localhost:5000/api/products/${productId}`
       );
       if (!response.ok) {
         throw new Error('Network response was not ok');

@@ -8,7 +8,7 @@ export default function OrderDetailPage({ paymentId }) {
   useEffect(() => {
     const fetchCities = async () => {
       try {
-        const response = await fetch('http://localhost:4000/api/cities', {
+        const response = await fetch('http://localhost:5000/api/cities', {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
@@ -29,7 +29,7 @@ export default function OrderDetailPage({ paymentId }) {
     const fetchPayment = async () => {
       try {
         const response = await fetch(
-          `http://localhost:4000/api/payments/${paymentId}`,
+          `http://localhost:5000/api/payments/${paymentId}`,
           {
             method: 'GET',
             headers: {

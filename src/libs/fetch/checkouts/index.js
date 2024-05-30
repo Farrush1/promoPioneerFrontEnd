@@ -1,6 +1,6 @@
 const storeCarts = async () => {
   try {
-    const res = await fetch('http://localhost:4000/api/checkouts/carts', {
+    const res = await fetch('http://localhost:5000/api/checkouts/carts', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -18,7 +18,7 @@ const storeCarts = async () => {
 
 const fetchCheckouts = async (id) => {
   try {
-    const res = await fetch(`http://localhost:4000/api/checkouts/${id}`, {
+    const res = await fetch(`http://localhost:5000/api/checkouts/${id}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -34,7 +34,7 @@ const fetchCheckouts = async (id) => {
 
 const fetchCities = async () => {
   try {
-    const res = await fetch(`http://localhost:4000/api/cities`, {
+    const res = await fetch(`http://localhost:5000/api/cities`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -50,7 +50,7 @@ const fetchCities = async () => {
 
 const fetchBio = async () => {
   try {
-    const res = await fetch(`http://localhost:4000/api/users/bio`, {
+    const res = await fetch(`http://localhost:5000/api/users/bio`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -66,7 +66,7 @@ const fetchBio = async () => {
 
 const fetchPostPayment = async (id) => {
   try {
-    const res = await fetch(`http://localhost:4000/api/payments`, {
+    const res = await fetch(`http://localhost:5000/api/payments`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -84,7 +84,7 @@ const fetchPostPayment = async (id) => {
 };
 
 const fecthChangeAddress = async (newAddress) => {
-  await fetch(`http://localhost:4000/api/users/change-address`, {
+  await fetch(`http://localhost:5000/api/users/change-address`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',

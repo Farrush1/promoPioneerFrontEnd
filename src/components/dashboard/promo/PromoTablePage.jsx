@@ -11,7 +11,7 @@ export default function PromoTablePage() {
   const [promo, setPromo] = useState([]);
   useEffect(() => {
     const fetchPromo = async () => {
-      const promo = await fetch('http://localhost:4000/api/promo', {
+      const promo = await fetch('http://localhost:5000/api/promo', {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -27,7 +27,7 @@ export default function PromoTablePage() {
   // console.log(promo, "-----------")
   const handleDelete = async (id) => {
     console.log(id);
-    const promo = await fetch(`http://localhost:4000/api/promo/${id}`, {
+    const promo = await fetch(`http://localhost:5000/api/promo/${id}`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',

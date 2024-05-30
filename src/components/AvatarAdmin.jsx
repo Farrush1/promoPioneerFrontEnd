@@ -9,7 +9,7 @@ export default function AvatarAdmin() {
 
   const getAvatar = async () => {
     try {
-      const res = await fetch('http://localhost:4000/api/users/bio', {
+      const res = await fetch('http://localhost:5000/api/users/bio', {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
