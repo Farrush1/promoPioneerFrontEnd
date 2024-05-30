@@ -3,14 +3,17 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
-import Button from '@/components/Button';
 import { useRouter } from 'next/navigation';
+import toast, { Toaster } from 'react-hot-toast';
 
 export default function Product() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [products, setProducts] = useState([]);
   const [promoTypes, setPromoTypes] = useState([]);
   const [selectedPromo, setSelectedPromo] = useState('');
+  const [selectedProduct, setSelectedProduct] = useState([]);
+  const [itemsPromo, setItemsPromo] = useState({});
+  const [shouldFetchProducts, setShouldFetchProducts] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalProducts, setTotalProducts] = useState(0);
   const router = useRouter();
@@ -18,7 +21,7 @@ export default function Product() {
 
   useEffect(() => {
     fetchProducts(currentPage);
-  }, [currentPage]);
+  }, [currentPage, shouldFetchProducts]);
 
   useEffect(() => {
     fetchPromoTypes();
@@ -30,8 +33,16 @@ export default function Product() {
         `http://localhost:5000/api/products?limit=10&page=${page}`
       );
       const data = await response.json();
+      console.log(data.products)
       setProducts(data.products);
       setTotalProducts(data.totalProducts);
+
+      const initialItemsPromo = {};
+      data.products.forEach((product) => {
+        initialItemsPromo[product.id] = false;
+      });
+      setItemsPromo(initialItemsPromo);
+
     } catch (error) {
       console.error('Error fetching products:', error);
     }
@@ -39,20 +50,30 @@ export default function Product() {
 
   const fetchPromoTypes = async () => {
     try {
-      const response = await fetch('http://localhost:5000/api/promo');
+      const response = await fetch(
+        "http://localhost:5000/api/promo-types/promo/2"
+      );
       const data = await response.json();
-      setPromoTypes(data);
+      console.log(data.promoType.promo, "ini promotrye");
+      setPromoTypes(data.promoType.promo);
     } catch (error) {
       console.error('Error fetching promo types:', error);
     }
   };
 
   const handleAddPromo = () => {
+     const selectedItems = Object.entries(itemsPromo).filter(
+       ([key, value]) => value === true
+     );
+     console.log("Selected Items:", selectedItems);
+     setSelectedProduct(selectedItems)
+
     setIsModalOpen(true);
   };
 
   const handleCloseModal = () => {
     setIsModalOpen(false);
+    setSelectedPromo("");
   };
 
   const handleEditProduct = (productId) => {
@@ -93,26 +114,51 @@ export default function Product() {
       return;
     }
 
+    console.log(selectedPromo, "promo id");
+    console.log(selectedProduct, "product id");
+
+    for(let product of selectedProduct){
+      await fetchAddPromoProduct(parseInt(product[0]), parseInt(selectedPromo))
+    }
+    toast.success("Successfully add promo!");
+    setShouldFetchProducts((prev) => !prev);
+    setSelectedPromo("");
+  };
+
+  const fetchAddPromoProduct = async (productId, promoId) =>{
     try {
-      const response = await fetch(`http://localhost:5000/api/promo`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ promoTypeId: selectedPromo }),
-      });
+      const response = await fetch(
+        `http://localhost:5000/api/promo/products/${productId}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ promoId: promoId }),
+        }
+      );
       const data = await response.json();
       console.log('Promotion Created:', data);
       setIsModalOpen(false);
     } catch (error) {
       console.error('Error creating promotion:', error);
     }
-  };
+  }
 
   const totalPages = Math.ceil(totalProducts / productsPerPage);
 
+  const checkBoxChange = (id) => {
+    setItemsPromo((prevItemsPromo) => ({
+      ...prevItemsPromo,
+      [id]: !prevItemsPromo[id],
+    }));
+    
+  };
+
   return (
     <div className="">
+      <Toaster position="top-center" reverseOrder={false} />
+      {console.log(itemsPromo)}
       <div className="flex justify-between mb-12 items-center">
         <h1 className="text-2xl font-bold">Product List</h1>
         <div className="flex justify-end">
@@ -132,14 +178,13 @@ export default function Product() {
         <thead className="bg-gray-200 text-gray-600">
           <tr>
             <th>
-              <label>
-                <input type="checkbox" className="checkbox" />
-              </label>
+              
             </th>
             <th>Name</th>
             <th>Price</th>
             <th className="text-center">Stock</th>
             <th>Warehouse</th>
+            <th className="text-center">Promo</th>
             <th className="text-center">Action</th>
             <th>Details</th>
           </tr>
@@ -150,7 +195,12 @@ export default function Product() {
               <tr key={product.id}>
                 <th>
                   <label>
-                    <input type="checkbox" className="checkbox" />
+                    <input
+                      onChange={() => checkBoxChange(product.id)}
+                      type="checkbox"
+                      className="checkbox"
+                      checked={itemsPromo[product.id]}
+                    />
                   </label>
                 </th>
                 <td>
@@ -173,7 +223,18 @@ export default function Product() {
                 <td>
                   {product.warehouse
                     ? `${product.warehouse.name}, ${product.warehouse.location}`
-                    : 'No Warehouse'}
+                    : "No Warehouse"}
+                </td>
+                <td>
+                  <p
+                    className={
+                      product.PromoProduct.length === 0
+                        ? "bg-red-200 py-1 px-3 text-center rounded-full"
+                        : "bg-green-200 py-1 px-3 text-center rounded-full"
+                    }
+                  >
+                    {product.PromoProduct.length === 0 ? "No" : "Yes"}
+                  </p>
                 </td>
                 <td className="border-t py-2 px-4 h-full">
                   <div className="flex justify-center gap-2">
@@ -203,15 +264,10 @@ export default function Product() {
             ))
           ) : (
             <tr>
-              <td
-                colSpan="7"
-                className="text-center">
-              </td>
-                <td
-                colSpan="7"
-                className="text-center">
-                  {/* punya mas farras */}
-              {/* <td colSpan="7" className="text-center"> */}
+              <td colSpan="7" className="text-center"></td>
+              <td colSpan="7" className="text-center">
+                {/* punya mas farras */}
+                {/* <td colSpan="7" className="text-center"> */}
                 Loading...
               </td>
             </tr>
