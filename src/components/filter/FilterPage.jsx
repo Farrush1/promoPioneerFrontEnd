@@ -7,41 +7,39 @@ import ReactSelect from "react-select";
 import Pagination from "@mui/material/Pagination";
 import { useSearchParams } from "next/navigation";
 
-export default function FilterPage({categoryParams}) {
+export default function FilterPage({ categoryParams }) {
   const searchParams = useSearchParams();
   const newParams = searchParams.get("keyword");
   const [categories, setCategories] = useState([]);
   const [cities, setCities] = useState([]);
-  const [selectedCategory, setSelectedCategory] = useState('');
-  const [minPrice, setMinPrice] = useState('');
-  const [maxPrice, setMaxPrice] = useState('');
-  const [cityId, setCityId] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState("");
+  const [minPrice, setMinPrice] = useState("");
+  const [maxPrice, setMaxPrice] = useState("");
+  const [cityId, setCityId] = useState("");
   const [data, setData] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
   const itemsPerPage = 10;
   const [currentPage, setCurrentPage] = useState(0);
 
   useEffect(() => {
-    
     const fetchData = async () => {
       try {
-        let apiUrl = 'http://localhost:5000/api/products?';
+        let apiUrl = "http://localhost:5000/api/products?";
         if (selectedCategory) apiUrl += `categories=${selectedCategory}&`;
         if (minPrice) apiUrl += `minPrice=${minPrice}&`;
         if (maxPrice) apiUrl += `maxPrice=${maxPrice}&`;
         if (cityId) apiUrl += `cities=${cityId}&`;
-		if (newParams) apiUrl += `search=${newParams}`
-
+        if (newParams) apiUrl += `search=${newParams}`;
 
         const response = await fetch(apiUrl);
         if (!response.ok) {
-          throw new Error('Failed to fetch products');
+          throw new Error("Failed to fetch products");
         }
         const result = await response.json();
         setData(result.products);
         setFilteredData(result.products);
       } catch (error) {
-        console.error('Error fetching products:', error);
+        console.error("Error fetching products:", error);
       }
     };
 
@@ -55,14 +53,14 @@ export default function FilterPage({categoryParams}) {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await fetch('http://localhost:5000/api/categories');
+        const response = await fetch("http://localhost:5000/api/categories");
         if (!response.ok) {
-          throw new Error('Failed to fetch categories');
+          throw new Error("Failed to fetch categories");
         }
         const result = await response.json();
         setCategories(result.category);
       } catch (error) {
-        console.error('Error fetching categories:', error);
+        console.error("Error fetching categories:", error);
       }
     };
 
@@ -72,14 +70,14 @@ export default function FilterPage({categoryParams}) {
   useEffect(() => {
     const fetchCities = async () => {
       try {
-        const response = await fetch('http://localhost:5000/api/cities');
+        const response = await fetch("http://localhost:5000/api/cities");
         if (!response.ok) {
-          throw new Error('Failed to fetch cities');
+          throw new Error("Failed to fetch cities");
         }
         const result = await response.json();
         setCities(result.city);
       } catch (error) {
-        console.error('Error fetching cities:', error);
+        console.error("Error fetching cities:", error);
       }
     };
 
@@ -115,7 +113,7 @@ export default function FilterPage({categoryParams}) {
 
   const handleMinPriceChange = (event) => {
     const input = event.target.value;
-    if (!isNaN(input) || input === '') {
+    if (!isNaN(input) || input === "") {
       setMinPrice(input);
     }
   };
@@ -126,6 +124,15 @@ export default function FilterPage({categoryParams}) {
 
   const handleCityIdChange = (selectedOption) => {
     setCityId(selectedOption ? selectedOption.value : "");
+  };
+
+  const resetFilter = () => {
+    setSelectedCategory("");
+    setMinPrice("");
+    setMaxPrice("");
+    setCityId("");
+    setData([]);
+    setFilteredData([]);
   };
 
   return (
@@ -184,14 +191,14 @@ export default function FilterPage({categoryParams}) {
                   styles={{
                     control: (styles) => ({
                       ...styles,
-                      width: '100%',
-                      borderRadius: '0.375rem',
-                      borderColor: '#d2d6dc',
-                      minHeight: '38px',
+                      width: "100%",
+                      borderRadius: "0.375rem",
+                      borderColor: "#d2d6dc",
+                      minHeight: "38px",
                     }),
                     menu: (styles) => ({
                       ...styles,
-                      zIndex: '9999',
+                      zIndex: "9999",
                     }),
                     option: (
                       styles,
@@ -199,12 +206,12 @@ export default function FilterPage({categoryParams}) {
                     ) => ({
                       ...styles,
                       backgroundColor: isSelected
-                        ? '#f36'
+                        ? "#f36"
                         : isFocused
-                        ? '#f0f0f0'
+                        ? "#f0f0f0"
                         : null,
-                      color: isSelected ? 'white' : 'black',
-                      cursor: isDisabled ? 'not-allowed' : 'default',
+                      color: isSelected ? "white" : "black",
+                      cursor: isDisabled ? "not-allowed" : "default",
                     }),
                   }}
                 />
@@ -223,14 +230,14 @@ export default function FilterPage({categoryParams}) {
                     styles={{
                       control: (styles) => ({
                         ...styles,
-                        width: '100%',
-                        borderRadius: '0.375rem',
-                        borderColor: '#d2d6dc',
-                        minHeight: '38px',
+                        width: "100%",
+                        borderRadius: "0.375rem",
+                        borderColor: "#d2d6dc",
+                        minHeight: "38px",
                       }),
                       menu: (styles) => ({
                         ...styles,
-                        zIndex: '9999',
+                        zIndex: "9999",
                       }),
                       option: (
                         styles,
@@ -238,12 +245,12 @@ export default function FilterPage({categoryParams}) {
                       ) => ({
                         ...styles,
                         backgroundColor: isSelected
-                          ? '#f36'
+                          ? "#f36"
                           : isFocused
-                          ? '#f0f0f0'
+                          ? "#f0f0f0"
                           : null,
-                        color: isSelected ? 'white' : 'black',
-                        cursor: isDisabled ? 'not-allowed' : 'default',
+                        color: isSelected ? "white" : "black",
+                        cursor: isDisabled ? "not-allowed" : "default",
                       }),
                     }}
                   />
@@ -256,9 +263,17 @@ export default function FilterPage({categoryParams}) {
               <button className="py-1.5 bg-white text-slate-700 font-semibold rounded-md hover:bg-orange-200 duration-300 w-full mt-5">
                 Filter
               </button>
-              <button className="py-1.5 bg-white text-slate-700 font-semibold rounded-md hover:bg-orange-200 duration-300 w-full mt-2">
-                Reset
-              </button>
+              <div className="flex justify-center">
+                <div className="w-full">
+                 
+                  <button
+                    className="py-1.5 bg-white text-slate-700 font-semibold rounded-md hover:bg-orange-200 duration-300 w-full mt-2"
+                    onClick={resetFilter}
+                  >
+                    Reset
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
         </div>
