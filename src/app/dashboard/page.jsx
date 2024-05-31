@@ -1,42 +1,22 @@
-'use client';
+"use client";
 
-import React, { useState, useEffect } from 'react';
-import CardProduct from '@/components/CardProduct';
+import React, { useState, useEffect } from "react";
+import CardProduct from "@/components/CardProduct";
 
 export default function Dashboard() {
   const [products, setProducts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalProducts, setTotalProducts] = useState(0);
-  const productsPerPage = 10;
-
-  const orders = [
-    { id: 1, status: 'completed' },
-    { id: 2, status: 'completed' },
-    { id: 3, status: 'cancelled' },
-  ];
-  const transactions = [
-    { id: 1, amount: 200000 },
-    { id: 2, amount: 300000 },
-    { id: 3, amount: 150000 },
-  ];
-  const shipments = [
-    { id: 1, status: 'shipped' },
-    { id: 2, status: 'cancelled' },
-    { id: 3, status: 'cancelled' },
-  ];
-  const totalOrders = orders.filter(
-    (order) => order.status === 'completed'
-  ).length;
-  const totalRevenue = transactions.reduce(
-    (total, transaction) => total + transaction.amount,
-    0
-  );
-  const orderCancelled = shipments.filter(
-    (shipment) => shipment.status === 'cancelled'
-  ).length;
+  const [stats, setStats] = useState({
+    total: 0,
+    failedPayment: 0,
+    totalRevenue: 0,
+  });
+  const productsPerPage = 9;
 
   useEffect(() => {
     fetchProducts(currentPage);
+    fetchStats();
   }, [currentPage]);
 
   const fetchProducts = async (page) => {
@@ -48,7 +28,46 @@ export default function Dashboard() {
       setProducts(data.products);
       setTotalProducts(data.totalProducts);
     } catch (error) {
-      console.error('Error fetching products:', error);
+      console.error("Error fetching products:", error);
+    }
+  };
+
+  const fetchStats = async () => {
+    try {
+      console.log("Starting fetch for stats...");
+      const response = await fetch("http://localhost:5000/api/payments/stats", {
+        method: "GET",
+        credentials: "include",
+      });
+
+      console.log("Response status:", response.status);
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const data = await response.json();
+      console.log("Fetched stats data:", data);
+
+      setStats({
+        total: data.total,
+        failedPayment: data.failedPayment,
+        totalRevenue:
+          data.totalRevenue.length > 0
+            ? data.totalRevenue[0]._sum.total_price
+            : 0,
+      });
+
+      console.log("Updated stats:", {
+        total: data.total,
+        failedPayment: data.failedPayment,
+        totalRevenue:
+          data.totalRevenue.length > 0
+            ? data.totalRevenue[0]._sum.total_price
+            : 0,
+      });
+    } catch (error) {
+      console.error("Error fetching stats:", error);
     }
   };
 
@@ -66,6 +85,10 @@ export default function Dashboard() {
 
   const totalPages = Math.ceil(totalProducts / productsPerPage);
 
+  useEffect(() => {
+    console.log("Stats updated:", stats);
+  }, [stats]);
+
   return (
     <div className="p-6">
       <h1 className="text-2xl font-bold mb-6">Dashboard</h1>
@@ -74,15 +97,15 @@ export default function Dashboard() {
         <div className="stats stats-vertical lg:stats-horizontal gap-6">
           <div className="stat place-items-center text-center">
             <div className="stat-title">Total Orders</div>
-            <div className="stat-value">{totalOrders}</div>
+            <div className="stat-value">{stats.total}</div>
           </div>
           <div className="stat place-items-center text-center">
             <div className="stat-title">Total Revenue</div>
-            <div className="stat-value">Rp.{totalRevenue}</div>
+            <div className="stat-value">Rp.{stats.totalRevenue}</div>
           </div>
           <div className="stat place-items-center text-center">
-            <div className="stat-title">Order Cancelled</div>
-            <div className="stat-value">{orderCancelled}</div>
+            <div className="stat-title">Failed Payments</div>
+            <div className="stat-value">{stats.failedPayment}</div>
           </div>
         </div>
       </div>
@@ -97,6 +120,7 @@ export default function Dashboard() {
               description={product.description}
               image={product.product_image}
               price={product.price}
+              qty={product.stock}
             />
           ))}
       </div>

@@ -35,7 +35,7 @@ export default function CardProduct({
             {name}
           </h1>
           <div className="flex justify-between items-end">
-            <span className="text-sm">x{qty}</span>
+            <span className="text-sm">Stock: {qty}</span>
             <p className="font-semibold text-orange-600">
               <span className="text-sm md:text-base">Rp </span>
               {price.toLocaleString("id-ID", {
