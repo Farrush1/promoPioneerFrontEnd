@@ -1,8 +1,8 @@
 /* eslint-disable @next/next/no-img-element */
-'use client';
-import React, { useState, useEffect } from 'react';
-import { useParams } from 'next/navigation';
-import DetailProductCard from '@/components/DetailProductCard';
+"use client";
+import React, { useState, useEffect } from "react";
+import { useParams } from "next/navigation";
+import DetailProductCard from "@/components/DetailProductCard";
 
 const DetailCard = () => {
   const { productId } = useParams();
@@ -17,15 +17,15 @@ const DetailCard = () => {
           `http://localhost:5000/api/products/${productId}`
         );
         if (!response.ok) {
-          throw new Error('Failed to fetch product detail');
+          throw new Error("Failed to fetch product detail");
         }
         const data = await response.json();
-        // console.log("Response from API:", data);
+        console.log("Response from API:", data);
         setProduct(data);
         const categoryId = data.category_id;
         fetchProductsByCategory(categoryId, data.id);
       } catch (error) {
-        console.error('Error fetching product detail:', error);
+        console.error("Error fetching product detail:", error);
       }
     };
 
@@ -39,22 +39,22 @@ const DetailCard = () => {
       const response = await fetch(
         `http://localhost:5000/api/products?categories=${categoryId}`,
         {
-          method: 'GET',
+          method: "GET",
           headers: {
-            'Content-Type': 'application/json',
+            "Content-Type": "application/json",
           },
-          credentials: 'include',
+          credentials: "include",
         }
       );
       if (!response.ok) {
-        throw new Error('Failed to fetch related products');
+        throw new Error("Failed to fetch related products");
       }
       const data = await response.json();
-      // console.log("Filtered Data:", data);
-      const filteredProducts = data.filter(item => item.id !== productId);
+      console.log("Filtered Data:", data.products);
+      const filteredProducts = data.products.filter(item => item.id !== productId);
       setRelatedProducts(filteredProducts);
     } catch (error) {
-      console.error('Error fetching related products:', error);
+      console.error("Error fetching related products:", error);
       setRelatedProducts([]);
     }
   };
@@ -73,10 +73,10 @@ const DetailCard = () => {
     try {
       const url = `http://localhost:5000/api/carts/cart-items`;
       const response = await fetch(url, {
-        method: 'POST',
-        credentials: 'include',
+        method: "POST",
+        credentials: "include",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
           productId: product.id,
@@ -106,8 +106,8 @@ const DetailCard = () => {
                 <p className="mb-2">Brand</p>
                 <p className="mb-2">Stock: {product.stock}</p>
                 <p className="font-bold">
-                  Price: Rp{' '}
-                  {product.price.toLocaleString('id-ID', {
+                  Price: Rp{" "}
+                  {product.price.toLocaleString("id-ID", {
                     minimumFractionDigits: 0,
                     maximumFractionDigits: 0,
                   })}
@@ -183,11 +183,11 @@ const DetailCard = () => {
                       key={relatedProduct.id}
                       className="w-2/3 sm:w-1/3 md:w-1/6 mb-2"
                     >
-                      <DetailProductCard
+                       <DetailProductCard
                         title={relatedProduct.name}
                         price={relatedProduct.price}
                         imageUrl={relatedProduct.product_image}
-                      />
+                      /> 
                     </div>
                   ))
                 ) : (
