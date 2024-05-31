@@ -117,7 +117,7 @@ export default function UpdateBioForm() {
   });
 
   return (
-    <div className="ml-3 w-full bg-orange-300 shadow-md rounded p-6">
+    <div className="ml-3 w-full bg-orange-300 shadow-md rounded p-6 h-[800px]">
       <h2 className="text-2xl font-bold mb-4">Update Bio</h2>
       <form onSubmit={handleSubmit}>
         <div className="mb-4">
