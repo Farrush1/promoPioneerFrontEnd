@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { FaFileUpload } from 'react-icons/fa';
 import { useRouter } from 'next/navigation';
+import toast, { Toaster } from 'react-hot-toast';
 
 export default function CreateProduct() {
   const [formData, setFormData] = useState({
@@ -90,7 +91,7 @@ export default function CreateProduct() {
       });
 
       if (response.ok) {
-        alert('Product added successfully!');
+        toast.success('Successfully added product');
         setFormData({
           name: '',
           categoryId: '',

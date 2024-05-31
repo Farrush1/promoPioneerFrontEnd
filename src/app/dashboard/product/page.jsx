@@ -86,6 +86,7 @@ export default function Product() {
         method: "DELETE",
         credentials: 'include'
       });
+      toast.success('Successfully deleted product');
       fetchProducts(currentPage);
     } catch (error) {
       console.error('Error deleting product:', error);

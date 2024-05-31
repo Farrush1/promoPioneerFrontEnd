@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { FaFileUpload } from "react-icons/fa";
 import { useParams, useRouter } from "next/navigation";
+import toast, { Toaster } from "react-hot-toast";
 
 export default function UpdateProduct() {
   const [formData, setFormData] = useState({
@@ -121,7 +122,7 @@ export default function UpdateProduct() {
       });
 
       if (response.ok) {
-        alert("Product updated successfully!");
+        toast.success("Successfully updated product");
         router.push(`/dashboard/product`);
       } else {
         const errorData = await response.json();

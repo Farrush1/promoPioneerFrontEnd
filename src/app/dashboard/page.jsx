@@ -89,6 +89,10 @@ export default function Dashboard() {
     console.log("Stats updated:", stats);
   }, [stats]);
 
+  const formatNumber = (number) => {
+    return number.toLocaleString("id-ID")
+  }
+
   return (
     <div className="p-6">
       <h1 className="text-2xl font-bold mb-6">Dashboard</h1>
@@ -101,7 +105,7 @@ export default function Dashboard() {
           </div>
           <div className="stat place-items-center text-center">
             <div className="stat-title">Total Revenue</div>
-            <div className="stat-value">Rp.{stats.totalRevenue}</div>
+            <div className="stat-value">Rp.{formatNumber(stats.totalRevenue)}</div>
           </div>
           <div className="stat place-items-center text-center">
             <div className="stat-title">Failed Payments</div>
