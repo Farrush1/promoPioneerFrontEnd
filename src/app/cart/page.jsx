@@ -9,6 +9,7 @@ import { BiLoaderCircle } from "react-icons/bi";
 import { useRouter } from "next/navigation";
 import { deleteCartItem, fetchCarts, updateCartItem } from "@/libs/fetch/carts";
 import { storeCarts } from "@/libs/fetch/checkouts";
+import toast, { Toaster } from "react-hot-toast";
 
 export default function Cart() {
   const [cartList, setCartList] = useState([]); // Daftar carts
@@ -75,10 +76,17 @@ export default function Cart() {
   const handleCheckouts = async () => {
     try {
       setDisableCheckout(true);
-      const data = await storeCarts(); // fungsi fetch untuk menyimpan checkouts
-      if (data && data.lasCheckColection.id) {
+      const carts = await storeCarts(); // fungsi fetch untuk menyimpan checkouts
+      // console.log(carts.data);
+
+      if (carts.res.status === 400) {
+        toast.error("Please add address on your bio!");
+        return setDisableCheckout(false);
+      }
+
+      if (carts.data && carts.data.lasCheckColection.id) {
         const idURI = encodeURIComponent(
-          JSON.stringify(data.lasCheckColection.id)
+          JSON.stringify(carts.data.lasCheckColection.id)
         );
         router.push(`/checkout/${idURI}`);
       }
@@ -104,6 +112,11 @@ export default function Cart() {
 
   return (
     <main className="xl:max-w-6xl mx-auto px-4 pt-24 xl:px-0 min-h-screen">
+      <Toaster
+        position="top-center"
+        reverseOrder={false}
+        containerStyle={{ top: 70 }}
+      />
       <h1 className="lg:text-3xl font-bold pb-8 text-2xl">My Cart</h1>
       {/* Mobile */}
       <div className="flex flex-col gap-6 md:hidden mb-20">
@@ -230,7 +243,7 @@ export default function Cart() {
       </div>
 
       {/* Total price */}
-      <div className="shadow-t w-full right-0 px-4 py-3 flex mt-4 fixed bg-white bottom-0">
+      <div className="shadow-t w-full right-0 px-4 py-3 rounded-md sticky flex mt-4 bg-white bottom-0">
         <div className="xl:max-w-6xl flex items-center justify-between gap-12 text-sm md:text-base w-full mx-auto">
           <p className="font-bold">Total Price</p>
           <div className="flex gap-16 items-center">
