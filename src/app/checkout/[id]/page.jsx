@@ -200,10 +200,12 @@ export default function Checkout({ params: { id } }) {
       <Toaster
         position="top-center"
         reverseOrder={false}
-        containerStyle={{ marginTop: '65px' }}
+        containerStyle={{ marginTop: "65px" }}
       />
       {/* Modal Edit Address */}
-      <dialog id="my_modal_1" className="modal">
+      <dialog
+        id="my_modal_1"
+        className="modal">
         <div className="modal-box">
           <form>
             <div className="flex items-center justify-between mb-4 text-sm">
@@ -213,12 +215,13 @@ export default function Checkout({ params: { id } }) {
                   id="city"
                   name="city"
                   onChange={handleCityChange}
-                  className="block w-full p-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500 focus:ring-1 sm:text-sm"
-                >
+                  className="block w-full p-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500 focus:ring-1 sm:text-sm">
                   {citiesList
                     .sort((a, b) => a.name.localeCompare(b.name)) // Mengurutkan berdasarkan nama kota
-                    .map((city) => (
-                      <option key={city.id} value={city.id}>
+                    .map(city => (
+                      <option
+                        key={city.id}
+                        value={city.id}>
                         {city.name}
                       </option>
                     ))}
@@ -236,8 +239,7 @@ export default function Checkout({ params: { id } }) {
               <button
                 onClick={handleSubmitAddress}
                 type="submit"
-                className="btn text-sm w-full hover:opacity-70 shadow-md duration-300 bg-gradient-to-b from-orange-700 to-orange-600 text-white px-3 py-1 min-h-0 h-10 rounded-md"
-              >
+                className="btn text-sm w-full hover:opacity-70 shadow-md duration-300 bg-gradient-to-b from-orange-700 to-orange-600 text-white px-3 py-1 min-h-0 h-10 rounded-md">
                 Simpan
               </button>
             </div>
@@ -255,8 +257,7 @@ export default function Checkout({ params: { id } }) {
         </div>
         <button
           onClick={openEditAddress}
-          className="text-sm hover:font-bold duration-300"
-        >
+          className="text-sm hover:font-bold duration-300">
           Edit
         </button>
       </div>
@@ -265,10 +266,12 @@ export default function Checkout({ params: { id } }) {
       <div className="flex flex-col gap-3 mb-36 md:hidden">
         {checkoutList &&
           checkoutList.checkout.length > 0 &&
-          checkoutList.checkout.map((listing) => (
+          checkoutList.checkout.map(listing => (
             // List product checkout
-            <div key={listing.id} className="p-3 bg-white rounded-md shadow-md">
-              {listing.checkout_item.map((item) => (
+            <div
+              key={listing.id}
+              className="p-3 bg-white rounded-md shadow-md">
+              {listing.checkout_item.map(item => (
                 <div key={item.id}>
                   <div className="flex text-sm gap-3 mb-2">
                     <img
@@ -284,7 +287,7 @@ export default function Checkout({ params: { id } }) {
                       <div className="flex flex-col gap-1">
                         <p className="text-orange-700 font-semibold">
                           <span>Rp </span>
-                          {item.product.price.toLocaleString('id-ID', {
+                          {item.product.price.toLocaleString("id-ID", {
                             minimumFractionDigits: 0,
                             maximumFractionDigits: 0,
                           })}
@@ -299,9 +302,9 @@ export default function Checkout({ params: { id } }) {
                     <h1 className="font-semibold">Shiping Service</h1>
                     <div className="flex items-center min-w-36 gap-2">
                       <p className="font-semibold w-full">
-                        Rp{' '}
+                        Rp{" "}
                         {listing.shippingCheckout.price.toLocaleString(
-                          'id-ID',
+                          "id-ID",
                           {
                             minimumFractionDigits: 0,
                             maximumFractionDigits: 0,
@@ -318,15 +321,15 @@ export default function Checkout({ params: { id } }) {
                     {item.total_specific_price !== item.original_price ? (
                       <div className="flex gap-2 items-end">
                         <p className="text-xs line-through">
-                          Rp{' '}
-                          {item.original_price.toLocaleString('id-ID', {
+                          Rp{" "}
+                          {item.original_price.toLocaleString("id-ID", {
                             minimumFractionDigits: 0,
                             maximumFractionDigits: 0,
                           })}
                         </p>
                         <p>
-                          Rp{' '}
-                          {item.total_specific_price.toLocaleString('id-ID', {
+                          Rp{" "}
+                          {item.total_specific_price.toLocaleString("id-ID", {
                             minimumFractionDigits: 0,
                             maximumFractionDigits: 0,
                           })}
@@ -334,8 +337,8 @@ export default function Checkout({ params: { id } }) {
                       </div>
                     ) : (
                       <p>
-                        Rp{' '}
-                        {item.total_specific_price.toLocaleString('id-ID', {
+                        Rp{" "}
+                        {item.total_specific_price.toLocaleString("id-ID", {
                           minimumFractionDigits: 0,
                           maximumFractionDigits: 0,
                         })}
@@ -359,14 +362,15 @@ export default function Checkout({ params: { id } }) {
         <div className="flex items-start mt-3 gap-3 flex-col mb-36">
           {checkoutList &&
             checkoutList.checkout.length > 0 &&
-            checkoutList.checkout.map((listing) => (
+            checkoutList.checkout.map(listing => (
               // List product checkout
               <div
                 key={listing.id}
-                className="w-full bg-white p-2 rounded-md shadow-md border-b border-slate-400"
-              >
-                {listing.checkout_item.map((item) => (
-                  <div key={item.id} className="flex text-black w-full">
+                className="w-full bg-white p-2 rounded-md shadow-md border-b border-slate-400">
+                {listing.checkout_item.map(item => (
+                  <div
+                    key={item.id}
+                    className="flex text-black w-full">
                     <div className="flex w-[40%] gap-4">
                       <img
                         src={item.product.product_image}
@@ -378,8 +382,8 @@ export default function Checkout({ params: { id } }) {
                       </p>
                     </div>
                     <p className="w-1/5 text-center">
-                      Rp{' '}
-                      {item.product.price.toLocaleString('id-ID', {
+                      Rp{" "}
+                      {item.product.price.toLocaleString("id-ID", {
                         minimumFractionDigits: 0,
                         maximumFractionDigits: 0,
                       })}
@@ -388,15 +392,15 @@ export default function Checkout({ params: { id } }) {
                     {item.total_specific_price !== item.original_price ? (
                       <div className="flex flex-col gap-2 flex-1 items-center w-1/5 text-center text-orange-700 ">
                         <p className="text-xs line-through">
-                          Rp{' '}
-                          {item.original_price.toLocaleString('id-ID', {
+                          Rp{" "}
+                          {item.original_price.toLocaleString("id-ID", {
                             minimumFractionDigits: 0,
                             maximumFractionDigits: 0,
                           })}
                         </p>
                         <p className="font-extrabold">
-                          Rp{' '}
-                          {item.total_specific_price.toLocaleString('id-ID', {
+                          Rp{" "}
+                          {item.total_specific_price.toLocaleString("id-ID", {
                             minimumFractionDigits: 0,
                             maximumFractionDigits: 0,
                           })}
@@ -404,8 +408,8 @@ export default function Checkout({ params: { id } }) {
                       </div>
                     ) : (
                       <p className="w-1/5 text-center text-orange-700 font-semibold">
-                        Rp{' '}
-                        {item.total_specific_price.toLocaleString('id-ID', {
+                        Rp{" "}
+                        {item.total_specific_price.toLocaleString("id-ID", {
                           minimumFractionDigits: 0,
                           maximumFractionDigits: 0,
                         })}
@@ -417,8 +421,8 @@ export default function Checkout({ params: { id } }) {
                   <h1 className="font-semibold">Shiping Service</h1>
                   <div className="flex min-w-44 items-center">
                     <p className="font-semibold w-full">
-                      Rp{' '}
-                      {listing.shippingCheckout.price.toLocaleString('id-ID', {
+                      Rp{" "}
+                      {listing.shippingCheckout.price.toLocaleString("id-ID", {
                         minimumFractionDigits: 0,
                         maximumFractionDigits: 0,
                       })}
@@ -443,7 +447,7 @@ export default function Checkout({ params: { id } }) {
             <input
               name="codeVoucher"
               value={voucher}
-              onChange={(e) => setVoucher(e.target.value)}
+              onChange={e => setVoucher(e.target.value)}
               type="text"
               className="border-2 border-green-200 border-dashed px-2 rounded-md py-1 text-sm w-full max-w-96 focus:outline-green-400"
             />
@@ -451,14 +455,12 @@ export default function Checkout({ params: { id } }) {
               <div
                 tabIndex={0}
                 role="button"
-                className="btn min-w-16 min-h-0 h-8 bg-green-100 text-black"
-              >
+                className="btn min-w-16 min-h-0 h-8 bg-green-100 text-black">
                 Code
               </div>
               <ul
                 tabIndex={0}
-                className="dropdown-content mb-1 z-[1] menu p-2 shadow bg-base-100 rounded-box w-36"
-              >
+                className="dropdown-content mb-1 z-[1] menu p-2 shadow bg-base-100 rounded-box w-36">
                 {arrDiscount.length <= 1 ? (
                   <li>
                     <p className="hover:bg-white !cursor-text active:!bg-white active:!text-black font-semibold px-1">
@@ -466,21 +468,22 @@ export default function Checkout({ params: { id } }) {
                     </p>
                   </li>
                 ) : (
-                  arrDiscount.slice(1).map((discount, index) => (
-                    <li key={index}>
-                      <p className="hover:bg-white !cursor-text active:!bg-white active:!text-black font-semibold px-1">
-                        {discount.name}
-                      </p>
-                    </li>
-                  ))
+                  arrDiscount
+                    .filter(promo => promo.name !== "SPECIAL_USER")
+                    .map((discount, index) => (
+                      <li key={index}>
+                        <p className="hover:bg-white !cursor-text active:!bg-white active:!text-black font-semibold px-1">
+                          {discount.name}
+                        </p>
+                      </li>
+                    ))
                 )}
               </ul>
             </div>
           </div>
           <button
             onClick={handleApplyVoucher}
-            className="text-white text-center py-2 sm:px-4 min-w-16 rounded-md shadow-md hover:opacity-80 duration-300 font-bold bg-gradient-to-l from-orange-600 to-orange-500"
-          >
+            className="text-white text-center py-2 sm:px-4 min-w-16 rounded-md shadow-md hover:opacity-80 duration-300 font-bold bg-gradient-to-l from-orange-600 to-orange-500">
             Apply
           </button>
         </div>
@@ -493,10 +496,10 @@ export default function Checkout({ params: { id } }) {
                 : null}
             </p>
             <p className="font-extrabold text-orange-700">
-              Rp{' '}
+              Rp{" "}
               {checkoutList.total_price
                 // checkoutList.CheckoutDiscount[0].discount_price
-                .toLocaleString('id-ID', {
+                .toLocaleString("id-ID", {
                   minimumFractionDigits: 0,
                   maximumFractionDigits: 0,
                 })}
@@ -504,8 +507,7 @@ export default function Checkout({ params: { id } }) {
             <button
               onClick={handleOrder}
               disabled={disableOrder}
-              className="text-white text-center sm:px-4 py-2 flex-1  rounded-md min-w-16 shadow-md hover:opacity-80 duration-300 font-bold bg-gradient-to-l from-orange-600 to-orange-500 disabled:cursor-progress disabled:opacity-50"
-            >
+              className="text-white text-center sm:px-4 py-2 flex-1  rounded-md min-w-16 shadow-md hover:opacity-80 duration-300 font-bold bg-gradient-to-l from-orange-600 to-orange-500 disabled:cursor-progress disabled:opacity-50">
               Order
             </button>
           </div>

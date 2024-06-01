@@ -12,6 +12,7 @@ import { RiDiscountPercentFill } from "react-icons/ri";
 export default function Home() {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [productPromo, setProductsPromo] = useState([]);
   // console.log(products);
 
   // fetching disini
@@ -22,22 +23,32 @@ export default function Home() {
     setLoading(true);
     const fetchProducts = async () => {
       try {
-        const res = await fetch('http://localhost:5000/api/products');
+        const res = await fetch("http://localhost:5000/api/products");
         if (!res.ok) {
-          throw new Error('Network response was not ok');
+          throw new Error("Network response was not ok");
         }
         const data = await res.json();
         const products = data.products || [];
         setProducts(products);
+        productFilterByPromo(products);
         setLoading(false);
       } catch (error) {
-        console.error('Error fetching products:', error);
+        console.error("Error fetching products:", error);
         setLoading(false);
       }
     };
 
     fetchProducts();
   }, []);
+
+  const productFilterByPromo = products => {
+    const filteredProduct = products.filter(
+      product => product.PromoProduct.length > 0
+    );
+
+    console.log(filteredProduct);
+    setProductsPromo(filteredProduct);
+  };
 
   if (loading)
     return (
@@ -54,14 +65,14 @@ export default function Home() {
           <Carousel style={"md:rounded-r-none"} />
         </div>
         <div className="md:w-1/3 hidden md:flex flex-col h-full justify-between">
-          <Link href={'/category'}>
+          <Link href={"/category"}>
             <img
               className="object-cover w-full max-h-32 h-1/2 pb-1 rounded-tr-md"
               src="https://img.freepik.com/free-photo/paper-style-black-friday-assortment_23-2149074084.jpg?t=st=1716817263~exp=1716820863~hmac=24df03a9b92a60eb72bd7c1c8eb6960356cf56edd113f7d1871b906e50985e2c&w=1060"
               alt="Promo 1"
             />
           </Link>
-          <Link href={'/category'}>
+          <Link href={"/category"}>
             <img
               className="object-cover w-full max-h-32 h-1/2 pt-1 rounded-br-md"
               src="https://img.freepik.com/premium-photo/happy-kid-celebration-halloween-party-child-backgroud-with-copy-space_916191-122640.jpg?w=1380"
@@ -83,7 +94,7 @@ export default function Home() {
           </div>
         </div>
         <div className="grid xl:grid-flow-row grid-cols-2 auto-cols-max gap-3 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
-          {products.map(product => (
+          {productPromo.map(product => (
             // contoh penggunaan component CardProduct
             <CardProduct
               promo={"Special Promo"} // opsional kalo product promo
