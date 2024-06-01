@@ -1,10 +1,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @next/next/no-img-element */
-'use client';
+"use client";
 
-import { fetchBio } from '@/libs/fetch/checkouts';
-import Image from 'next/image';
-import { useEffect, useState } from 'react';
+import { fetchBio } from "@/libs/fetch/checkouts";
+import Image from "next/image";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { BiLoaderCircle } from "react-icons/bi";
 
@@ -121,7 +121,7 @@ export default function PaymentPage({ params: { id } }) {
     };
 
     uploadPaymentProof();
-    document.getElementById("my_modal_2").showModal();
+    document.getElementById("my_modal_1").showModal();
   };
 
   const handlePushOrderRoute = () => {
@@ -369,18 +369,21 @@ export default function PaymentPage({ params: { id } }) {
       </div>
 
       <dialog
-        id="my_modal_2"
+        id="my_modal_1"
         className="modal">
         <div className="modal-box">
           <h3 className="font-bold text-lg">Your order is placed!</h3>
           <p className="py-4">Thanks for shopping with us</p>
+          <div className="modal-action">
+            <form
+              onClick={handlePushOrderRoute}
+              method="dialog">
+              <button className="bg-slate-800 text-white rounded-md shadow-md px-3 py-2">
+                Close
+              </button>
+            </form>
+          </div>
         </div>
-        <form
-          onClick={handlePushOrderRoute}
-          method="dialog"
-          className="modal-backdrop">
-          <button>close</button>
-        </form>
       </dialog>
     </main>
   );

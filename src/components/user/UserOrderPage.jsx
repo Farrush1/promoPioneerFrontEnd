@@ -220,11 +220,11 @@ export default function UserOrderPage() {
       ))}
 
       <div className="pagination flex justify-center mt-3 gap-2">
-        <button className="btn btn-primary">
+        <button className="text-orange-600 font-semibold px-2 py-1 rounded-md">
           <GrFormPrevious />
         </button>
-        <button className="btn btn-primary">1</button>
-        <button className="btn btn-primary">
+        <p className="">1</p>
+        <button className="text-orange-600 font-semibold px-2 py-1 rounded-md">
           <GrFormNext />
         </button>
       </div>
