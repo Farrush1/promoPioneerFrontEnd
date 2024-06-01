@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
@@ -61,9 +61,7 @@ const UserTable = () => {
             <th className="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">
               View
             </th>
-            <th className="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">
-              Action
-            </th>
+            
           </tr>
         </thead>
         <tbody className="divide-y divide-gray-200 text-center">
@@ -83,24 +81,14 @@ const UserTable = () => {
                   {user.email}
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                  <button
-                    className="btn bg-[#ea580c] text-white ml-2"
-                    onClick={() => handleViewUser(user.id)}
-                  >
-                    View
-                  </button>
+                  <button className="btn bg-[#ea580c] text-white ml-2" onClick={() => handleViewUser(user.id)}>View</button>
                 </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                  <input type="checkbox" className="checkbox" />
-                </td>
+                
               </tr>
             ))
           ) : (
             <tr>
-              <td
-                colSpan="6"
-                className="px-6 py-4 whitespace-nowrap text-sm text-gray-900"
-              >
+              <td colSpan="6" className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                 No users found
               </td>
             </tr>
