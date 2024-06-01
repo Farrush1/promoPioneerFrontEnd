@@ -117,11 +117,13 @@ export default function UpdateBioForm() {
   });
 
   return (
-    <div className="ml-3 w-full bg-orange-300 shadow-md rounded p-6 h-[800px]">
+    <div className="w-full bg-gray-50 shadow-md rounded p-6 h-fit">
       <h2 className="text-2xl font-bold mb-4">Update Bio</h2>
       <form onSubmit={handleSubmit}>
         <div className="mb-4">
-          <label htmlFor="name" className="block text-gray-700 font-bold mb-2">
+          <label
+            htmlFor="name"
+            className="block text-gray-700 font-bold mb-2">
             Name
           </label>
           <input
@@ -137,8 +139,7 @@ export default function UpdateBioForm() {
         <div className="mb-4">
           <label
             htmlFor="fullAddress"
-            className="block text-gray-700 font-bold mb-2"
-          >
+            className="block text-gray-700 font-bold mb-2">
             Full Address
           </label>
           <input
@@ -152,7 +153,9 @@ export default function UpdateBioForm() {
           />
         </div>
         <div className="mb-4">
-          <label htmlFor="age" className="block text-gray-700 font-bold mb-2">
+          <label
+            htmlFor="age"
+            className="block text-gray-700 font-bold mb-2">
             Age
           </label>
           <input
@@ -168,8 +171,7 @@ export default function UpdateBioForm() {
         <div className="mb-4">
           <label
             htmlFor="gender"
-            className="block text-gray-700 font-bold mb-2"
-          >
+            className="block text-gray-700 font-bold mb-2">
             Gender
           </label>
           <select
@@ -178,8 +180,7 @@ export default function UpdateBioForm() {
             value={formData.gender}
             onChange={handleChange}
             className="w-full p-2 border border-gray-300 rounded"
-            required
-          >
+            required>
             <option value="">Select Gender</option>
             <option value="MALE">Male</option>
             <option value="FEMALE">Female</option>
@@ -188,8 +189,7 @@ export default function UpdateBioForm() {
         <div className="mb-4">
           <label
             htmlFor="userCityId"
-            className="block text-gray-700 font-bold mb-2"
-          >
+            className="block text-gray-700 font-bold mb-2">
             City
           </label>
           <select
@@ -198,11 +198,12 @@ export default function UpdateBioForm() {
             value={formData.userCityId}
             onChange={handleChange}
             className="w-full p-2 border border-gray-300 rounded"
-            required
-          >
+            required>
             <option value="">Select City</option>
-            {cities.map((city) => (
-              <option key={city.id} value={city.id}>
+            {cities.map(city => (
+              <option
+                key={city.id}
+                value={city.id}>
                 {city.name}
               </option>
             ))}
@@ -211,8 +212,7 @@ export default function UpdateBioForm() {
         <div className="mb-4">
           <label
             htmlFor="phoneNumber"
-            className="block text-gray-700 font-bold mb-2"
-          >
+            className="block text-gray-700 font-bold mb-2">
             Phone Number
           </label>
           <input
@@ -228,16 +228,14 @@ export default function UpdateBioForm() {
         <div className="mb-4">
           <label
             htmlFor="avatar"
-            className="block text-gray-700 font-bold mb-2"
-          >
+            className="block text-gray-700 font-bold mb-2">
             Avatar
           </label>
           <div
             {...getRootProps()}
             className={`w-full p-4 border-2 border-dashed rounded ${
-              isDragActive ? 'border-blue-500' : 'border-gray-300'
-            }`}
-          >
+              isDragActive ? "border-blue-500" : "border-gray-300"
+            }`}>
             <input {...getInputProps()} />
             {isDragActive ? (
               <p className="text-center text-blue-500">
@@ -260,8 +258,7 @@ export default function UpdateBioForm() {
         </div>
         <button
           type="submit"
-          className="w-full bg-blue-500 text-white font-bold py-2 px-4 rounded hover:bg-blue-700"
-        >
+          className="w-full bg-orange-500 text-white font-bold py-2 px-4 rounded hover:opacity-70 duration-300">
           Update Bio
         </button>
       </form>
