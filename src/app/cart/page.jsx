@@ -79,7 +79,7 @@ export default function Cart() {
       const carts = await storeCarts(); // fungsi fetch untuk menyimpan checkouts
       // console.log(carts.data);
 
-      if (carts.res.status === 400) {
+      if (carts.res.status === 404) {
         toast.error("Please add address on your bio!");
         return setDisableCheckout(false);
       }
@@ -111,15 +111,15 @@ export default function Cart() {
     );
 
   return (
-    <main className="xl:max-w-6xl mx-auto px-4 pt-24 xl:px-0 min-h-screen">
+    <main className="xl:max-w-6xl mx-auto relative flex flex-col px-4 pt-24 xl:px-0 min-h-screen h-fit">
       <Toaster
         position="top-center"
         reverseOrder={false}
-        containerStyle={{ top: 70 }}
+        containerStyle={{ top: 73 }}
       />
       <h1 className="lg:text-3xl font-bold pb-8 text-2xl">My Cart</h1>
       {/* Mobile */}
-      <div className="flex flex-col gap-6 md:hidden mb-20">
+      <div className="flex flex-1 flex-col gap-6 md:hidden mb-8">
         {cartList.length > 0 ? (
           cartList.map((item, index) => {
             return (
@@ -164,7 +164,7 @@ export default function Cart() {
       </div>
 
       {/* Desktop */}
-      <div className="hidden md:block mb-24">
+      <div className="hidden flex-1 h-full md:block mb-8">
         <div className="flex items-center w-full bg-gradient-to-l from-orange-600 to-orange-500 px-4 text-white font-semibold py-3 rounded-md shadow-lg">
           <h1 className="w-[40%] flex-1 flex">Product</h1>
           <h1 className="w-1/5 text-center">Unit Price</h1>
