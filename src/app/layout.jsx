@@ -10,6 +10,9 @@ export const metadata = {
   title: "Homepage Promo Pioneer",
   description: "Find your product mom and baby with big disount here!",
   keywords: ["promo", "pioneer", "baby", "mom", "baby", "discount"],
+  icons: {
+    icon: "/logo-orange.svg",
+  },
 };
 
 export default function RootLayout({ children }) {
